@@ -1,0 +1,171 @@
+---
+title: "Options"
+---
+
+### RequestOptions
+Glide中的大部分设置项都可以通过[``RequestOptions``][1]类和[``apply()``][2]方法来应用到程序中。
+
+使用`request options`可以实现（包括但不限于）：
+
+* 占位符(`Placeholders`)
+* 转换(`Transformations`)
+* 缓存策略(`Caching Strategies`)
+* 组件特有的设置项，例如编码质量，或``Bitmap``的解码配置等。
+
+例如，要应用一个[``CenterCrop``][3] [转换][4]，你可以使用以下代码：
+
+```java
+import static com.bumptech.glide.request.RequestOptions.centerCropTransform;
+
+Glide.with(fragment)
+    .load(url)
+    .apply(centerCropTransform(context))
+    .into(imageView);
+```
+
+在这个例子中使用了对``RequestOptions``类里的方法的静态import，这会让代码看起来更简洁流畅。
+
+如果你想让你的应用的不同部分之间共享相同的加载选项，你也可以初始化一个新的``RequestOptions``对象，并在每次加载时传入这个对象：
+
+```java
+RequestOptions cropOptions = new RequestOptions().centerCrop(context);
+...
+Glide.with(fragment)
+    .load(url)
+    .apply(cropOptions)
+    .into(imageView);
+```
+
+[``apply()``][2] 方法可以被调用多次，因此``RequestOption``可以被组合使用。如果``RequestOptions``对象之间存在相互冲突的设置，那么只有最后一个被应用的 ``RequestOptions``会生效。
+
+### TransitionOptions
+
+[TransitionOptions][5]用于决定你的加载完成时会发生什么。
+
+使用``TransitionOption``可以应用以下变换：
+
+* View淡入
+* 与占位符交叉淡入
+* 或者什么都不发生
+
+如果不使用变换，你的图像将会“跳入”其显示位置，直接替换掉之前的图像。为了避免这种突然的改变，你可以淡入view，或者让多个Drawable交叉淡入，而这些都需要使用``TransitionOptions``完成。
+
+例如，要应用一个交叉淡入变换：
+
+```java
+import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
+
+Glide.with(fragment)
+    .load(url)
+    .transition(withCrossFade())
+    .into(view);
+```
+
+不同于``RequestOptions``，``TransitionOptions``是特定资源类型独有的，你能使用的变换取决于你让Glide加载哪种类型的资源。
+
+这样的结果是，假如你请求加载一个``Bitmap``，你需要使用[BitmapTransitionOptions][6]，而不是[DrawableTransitionOptions][7]。同样，当你请求加载``Bitmap``时，你只需要做简单的淡入，而不需要做复杂的交叉淡入。
+
+### RequestBuilder
+
+[RequestBuilder][8]是Glide中请求的骨架，负责携带请求的url和你的设置项来开始一个新的加载过程。
+
+使用``RequestBuilder``可以指定：
+
+* 你想加载的资源类型(Bitmap, Drawable, 或其他)
+* 你要加载的资源地址(url/model)
+* 你想最终加载到的View
+* 任何你想应用的（一个或多个）``RequestOption``对象
+* 任何你想应用的（一个或多个）``TransitionOption``对象
+* 任何你想加载的缩略图 [``thumbnail()``][9]
+
+你可以通过调用``Glide.with()``来构造一个``RequestBuilder``对象：
+
+```java
+RequestBuilder<Drawable> requestBuilder = Glide.with(fragment);
+```
+
+#### Picking a resource type
+
+``RequestBuilders``是特定于它们将要加载的资源类型的。默认情况下你会得到一个Drawable RequestBuilder，但你可以使用``as...``系列方法来改变请求类型。例如，如果你调用了``asBitmap()``，你就将获得一个``Bitmap````RequestBuilder``对象，而不是默认的Drawable RequestBuilder。
+
+```java
+RequestBuilder<Bitmap> requestBuilder = Glide.with(fragment).asBitmap();
+```
+
+#### Applying RequestOptions
+
+前面提到，可以使用[``apply()``][2] 方法应用``RequestOptions``，使用[``transition()``][10]方法应用``TransitionOptions``。
+
+```java
+RequestBuilder<Drawable> requestBuilder = Glide.with(fragment);
+requestBuilder.apply(requestOptions);
+requestBuilder.transition(transitionOptions);
+```
+
+RequestBuilder也可以被复用于开始多个请求：
+
+```java
+RequestBuilder<Drawable> requestBuilder =
+        Glide.with(fragment)
+            .asDrawable()
+            .apply(requestOptions);
+
+for (int i = 0; i < numViews; i++) {
+   ImageView view = viewGroup.getChildAt(i);
+   String url = urls.get(i);
+   requestBuilder.load(url).into(view);
+}
+```
+
+### Component Options
+
+[``Option``][11]类是给Glide的组件添加参数的通用办法，包括[``ModelLoaders``][12], [``ResourceDecoders``][13], [``ResourceEncoders``][14], [``Encoders``][15]等等。一些Glide的内置组件提供了设置项，自定义的组件也可以添加设置项。
+
+``Option``通过``RequestOptions``类应用到请求上：
+
+```java
+import static com.bumptech.glide.request.RequestOptions.option;
+
+Glide.with(context)
+  .load(url)
+  .apply(option(MyCustomModelLoader.TIMEOUT_MS, 1000L))
+  .into(imageView);
+```
+
+你也可以创建一个全新的RequestOptions对象：
+
+```java
+RequestOptions options = new RequestOptions()
+  .set(MyCustomModelLoader.TIMEOUT_MS, 1000L);
+
+Glide.with(context)
+  .load(url)
+  .apply(options)
+  .into(imageView);
+```
+
+或者使用[生成的API][16]：
+
+```java
+GlideApp.with(context)
+  .load(url)
+  .set(MyCustomModelLoader.TIMEOUT_MS, 1000L)
+  .into(imageView);
+```
+
+[1]: {{ site.url }}/glide/javadocs/400/com/bumptech/glide/request/RequestOptions.html
+[2]: {{ site.url }}/glide/javadocs/400/com/bumptech/glide/RequestBuilder.html#apply-com.bumptech.glide.request.RequestOptions-
+[3]: {{ site.url }}/glide/javadocs/400/com/bumptech/glide/load/resource/bitmap/CenterCrop.html
+[4]: {{ site.url }}/glide/javadocs/400/com/bumptech/glide/load/Transformation.html
+[5]: {{ site.url }}/glide/javadocs/400/com/bumptech/glide/TransitionOptions.html
+[6]: {{ site.url }}/glide/javadocs/400/com/bumptech/glide/load/resource/bitmap/BitmapTransitionOptions.html
+[7]: {{ site.url }}/glide/javadocs/400/com/bumptech/glide/load/resource/drawable/DrawableTransitionOptions.html
+[8]: {{ site.url }}/glide/javadocs/400/com/bumptech/glide/RequestBuilder.html
+[9]: {{ site.url }}/glide/javadocs/400/com/bumptech/glide/RequestBuilder.html#thumbnail-com.bumptech.glide.RequestBuilder-
+[10]: {{ site.url }}/glide/javadocs/400/com/bumptech/glide/RequestBuilder.html#transition-com.bumptech.glide.TransitionOptions-
+[11]: {{ site.url }}/glide/javadocs/400/com/bumptech/glide/load/Option.html
+[12]: {{ site.url }}/glide/javadocs/400/com/bumptech/glide/load/model/ModelLoader.html
+[13]: {{ site.url }}/glide/javadocs/400/com/bumptech/glide/load/ResourceDecoder.html
+[14]: {{ site.url }}/glide/javadocs/400/com/bumptech/glide/load/ResourceEncoder.html
+[15]: {{ site.url }}/glide/javadocs/400/com/bumptech/glide/load/Encoder.html
+[16]: {{ site.url }}/glide/doc/generatedapi.html

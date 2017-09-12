@@ -1,14 +1,7 @@
 ---
-
-title: "Transformations"
-category: doc
-date: 2015-05-21 20:04:53
-order: 6
-disqus: 1
+title: "变换"
 ---
-* TOC
-{:toc}
-
+原文链接：[点击查看](http://bumptech.github.io/glide/doc/transformations.html)
 ### About
 
 在Glide中，[Transformations][1]可以获取资源并修改它，然后返回被修改后的资源。通常变换操作是用来完成剪裁或对位图应用过滤器，但它也可以用于转换GIF动画，甚至自定义的资源类型。

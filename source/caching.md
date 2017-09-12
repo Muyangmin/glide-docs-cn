@@ -1,6 +1,7 @@
 ---
-title: "Caching"
+title: "缓存"
 ---
+原文链接：[点击查看](http://bumptech.github.io/glide/doc/caching.html)
 
 ### Glide里的缓存
 

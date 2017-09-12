@@ -1,6 +1,7 @@
 ---
-title: "Contributing"
+title: "贡献代码或文档"
 ---
+原文链接：[点击查看](http://bumptech.github.io/glide/dev/contributing.html)
 
 ### Source
 

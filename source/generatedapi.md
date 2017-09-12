@@ -1,6 +1,7 @@
 ---
-title: "Generated API"
+title: "生成的API"
 ---
+原文链接：[点击查看](http://bumptech.github.io/glide/doc/generatedapi.html)
 
 ### About
 

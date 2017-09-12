@@ -1,6 +1,7 @@
 ---
-title: "Configuration"
+title: "配置"
 ---
+原文链接：[点击查看](http://bumptech.github.io/glide/doc/configuration.html)
 
 ### Setup
 为了让Glide正常工作，库和应用程序需要做一些固定的步骤。不过，假如你的库不希望注册额外的组件，则这些初始化不是必须的。

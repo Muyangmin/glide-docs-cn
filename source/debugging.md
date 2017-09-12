@@ -1,6 +1,7 @@
 ---
-title: "Debugging"
+title: "调试"
 ---
+原文链接：[点击查看](http://bumptech.github.io/glide/doc/debugging.html)
 
 ### 本地日志(Local Logs)
 如果你拥有设备的访问权限，你可以使用``adb logcat``或你的IDE查看一些日志。你可以使用``adb shell setprop log.tag.<tag_name> <VERBOSE|DEBUG>``操作为任何下面提到的标签(`tag`))开启日志。VERBOSE级别的日志会显得更加冗余但包含更多有用的信息。根据你要查看的标签的不同，你可以把VERBOSE和DEBUG级别的信息都尝试一下，以决定哪个级别的信息是你最需要的。

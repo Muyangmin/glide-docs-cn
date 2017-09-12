@@ -1,6 +1,7 @@
 ---
-title: "Getting Started"
+title: "开始使用"
 ---
+原文链接：[点击查看](http://bumptech.github.io/glide/doc/getting-started.html)
 
 ### Basic Usage
 

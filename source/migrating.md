@@ -1,6 +1,7 @@
 ---
-title: "Migrating from v3 to v4"
+title: "从v3迁移到v4"
 ---
+原文链接：[点击查看](http://bumptech.github.io/glide/doc/migrating.html)
 
 ## 选项(Options)
 Glide v4 中的一个比较大的改动是Glide库处理选项(``centerCrop()``, ``placeholder()`` 等)的方式。在v3版本中，选项由一系列复杂的异构建造者(multityped builders)单独处理。在新版本中，由一个单一类型的唯一一个建造者接管一系列选项对象。Glide的[自生成API][11]进一步简化了这个操作：它会合并传入建造者的选项对象和任何已包含的集成库里的选项，以生成一个流畅的API。

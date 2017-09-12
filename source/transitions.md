@@ -1,6 +1,7 @@
 ---
-title: "Transitions"
+title: "过渡"
 ---
+原文链接：[点击查看](http://bumptech.github.io/glide/doc/transitions.html)
 
 ### About
 在Glide中，[``Transitions``(直译为"过渡")][1]允许你定义Glide如何从占位符到新加载的图片，或从缩略图到全尺寸图像过渡。Transition在单一请求的上下文中工作，而不会跨多个请求。因此，[``Transitions``][1]并不能让你定义从一个请求到另一个请求的动画（比如，交叉淡入效果）。

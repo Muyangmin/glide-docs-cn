@@ -1,9 +1,12 @@
 ---
-title: "Snapshots"
+title: "快照版本"
 ---
+原文链接：[点击查看](http://bumptech.github.io/glide/dev/snapshots.html)
 
 ## 关于快照(Snapshots)
-对于那些等不了Glide的下一个稳定版的，喜欢在刀尖上跳舞的*(原文"willing to live on the bleeding edge"，请自行感受一下血腥的幽默 --译者注`)*用户，我们在[Sonatype's snapshot repo][2]部署了Glide库的快照版本。
+对于那些等不了Glide的下一个稳定版的，喜欢在刀尖上跳舞的用户【注】，我们在[Sonatype's snapshot repo][2]部署了Glide库的快照版本。  
+> 原文"willing to live on the bleeding edge"，请自行感受…… --译者注
+
 
 在每次push到GitHub的master分支上后，Glide会通过[travis-ci][1]构建。如果构建成功，我们将自动部署最新版本的库到Sonatype上。
 

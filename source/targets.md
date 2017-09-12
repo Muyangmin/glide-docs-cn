@@ -1,6 +1,7 @@
 ---
-title: "Targets"
+title: "目标"
 ---
+原文链接：[点击查看](http://bumptech.github.io/glide/doc/targets.html)
 
 ### About
 在Glide中，[Target]是介于请求和请求者之间的中介者的角色。Target负责展示占位符，加载资源，并为每个请求决定合适的尺寸。被使用得最频繁的是[ImageViewTargets][2]，它用于在ImageView上展示占位符，Drawable和Bitmap。用户还可以实现自己的Target，或者从任何可用的基类派生子类。

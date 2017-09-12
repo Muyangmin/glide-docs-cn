@@ -1,6 +1,7 @@
 ---
-title: "Fast and efficient image loading for Android"
+title: "Glide：快速高效的Android图片加载库"
 ---
+原文链接：[点击查看](http://bumptech.github.io/glide/)
 
 ### 关于 Glide
 

@@ -1,6 +1,7 @@
 ---
-title: "Download & Setup"
+title: "下载和初始化"
 ---
+原文链接：[点击查看](http://bumptech.github.io/glide/doc/download-setup.html)
 
 ### Download
 

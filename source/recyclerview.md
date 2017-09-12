@@ -1,6 +1,7 @@
 ---
 title: "RecyclerView"
 ---
+原文链接：[点击查看](http://bumptech.github.io/glide/int/recyclerview.html)
 
 ### RecyclerView
 The RecyclerView library adds a class that will automatically load images just ahead of where a user is scrolling in a RecyclerView. Combined with the right image size and an effective disk cache strategy, this library can dramatically decrease the number of loading tiles/indicators users see when scrolling through lists of images.

@@ -1,6 +1,7 @@
 ---
-title: "Placeholders"
+title: "占位符"
 ---
+原文链接：[点击查看](http://bumptech.github.io/glide/doc/placeholders.html)
 
 ### Types
 Glide允许用户指定三种不同类型的占位符，分别在三种不同场景使用：

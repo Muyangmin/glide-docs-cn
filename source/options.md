@@ -1,6 +1,7 @@
 ---
-title: "Options"
+title: "选项"
 ---
+原文链接：[点击查看](http://bumptech.github.io/glide/doc/options.html)
 
 ### RequestOptions
 Glide中的大部分设置项都可以通过[``RequestOptions``][1]类和[``apply()``][2]方法来应用到程序中。

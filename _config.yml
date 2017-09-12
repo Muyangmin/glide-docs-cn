@@ -13,7 +13,7 @@ timezone: Asia/Shanghai
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
 url: https://muyangmin.github.io/glide-docs-cn
-root: /glide-docs-cn
+root: /glide-docs-cn/
 permalink: :year/:month/:day/:title/
 permalink_defaults:
 

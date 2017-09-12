@@ -1,6 +1,7 @@
 ---
-title: "Samples"
+title: "示例项目"
 ---
+原文链接：[点击查看](http://bumptech.github.io/glide/ref/samples.html)
 
 #### Sample Apps
 Glide 包含一些示例项目，位于[samples/]目录下，用于演示如何使用Glide在多种场景下加载图片。

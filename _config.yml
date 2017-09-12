@@ -80,3 +80,5 @@ deploy:
   type: git
   repo: https://github.com/Muyangmin/glide-docs-cn.git
   branch: gh-pages
+
+github: Muyangmin/glide-docs-cn

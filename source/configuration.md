@@ -183,38 +183,37 @@ public class YourAppGlideModule extends AppGlideModule {
 
 在一个``GlideModule``里可以注册很多组件。[``ModelLoader``][23]和[``ResourceDecoder``][24]对于同样的参数类型还可以有多种实现。
 
-The set of registered components, including both those registered by default in Glide and those registered in Modules are used to define a set of load paths. Each load path is a step by step progression from the the Model provided to [``load()``][29] to the Resource type specified by [``as()``][30]. A load path consists (roughly) of the following steps
+被注册组件的集合（包括默认被Glide注册的和在Moduke中被注册的），会被用于定义一个加载路径集合。每个加载路径都是从提供给[``load``][29]方法的数据模型到[``as``][30]方法指定的资源类型的一个逐步演进的过程。一个加载路径（粗略地）由下列步骤组成:
 
+1. 模型(Model) -> 数据(Data) (由``模型加载器(ModelLoader)``处理)
+2. 数据(Data)  -> 资源(Resource) (由``资源解析器(ResourceDecoder)``处理)
+3. 资源(Resource) -> 转码后的资源(Transcoded Resource) (可选；由``资源转码器(ResourceTranscoder)``处理)
 
-1. Model - Data (handled by ``ModelLoader``s)
-2. Data - Resource (handled by ``ResourceDecoder``s)
-3. Resource - Transcoded Resource (optional, handled by ``ResourceTranscoder``s).
+``编码器(Encoder)``可以在步骤2之前往Glide的磁盘缓存中写入数据。
+ ``资源编码器(ResourceEncoder)``可以在步骤3之前网Glide的磁盘缓存写入资源。
+  
+当一个请求开始后，Glide将尝试所有从数据模型到请求的资源类型的可用路径。如果任何一个加载路径成功，这个请求就将成功。只有所有可用加载路径都失败时，这个请求才会失败。
 
-``Encoder``s can write Data to Glide's disk cache cache before step 2.
-``ResourceEncoder``s can write Resource's to Glide's disk cache before step 3. 
-
-When a request is started, Glide will attempt all available paths from the Model to the requested Resource type. A request will succeed if any load path succeeds. A request will fail only if all available load paths fail.  
-
-The ``prepend()``, ``append()``, and ``replace()`` methods in [``Registry``][28] can be used to set the order in which Glide will attempt each ``ModelLoader`` and ``ResourceDecoder``. Requests can be made somewhat more efficient by making sure the ``ModelLoader``s and ``ResourceDecoder``s that handle the most common types are registered first. Ordering components can also allow you to register components that handle specific subsets of models or data (ie only certain types of Uris, or only certain image formats) while also having an appended catch-all component to handle the rest.
+在[``Registry``][28]类中定义了``prepend()``, ``append()`` 和``replace()``方法，它们可以用于设置Glide尝试每个``ModelLoader``和``ResourceDecoder``之间的顺序。通过确保优先注册处理最常见类型的``ModelLoader``和``ResourceDecoder``，可以使请求更高效。对组件进行排序还意味着允许你注册一些只处理特定树模型的子集的组件（即只处理特定类型的Uri，或仅仅特定类型的图像格式），但还能在后面追加一个捕获所有类型的组件以处理其他情况。
 
 ### 模块类和注解
-Glide v4 relies on two classes, [``AppGlideModule``][1] and [``LibraryGlideModule``][2], to configure the Glide singleton. Both classes are allowed to register additional components, like [``ModelLoaders``][3], [``ResourceDecoders``][4] etc. Only the [``AppGlideModules``][1] are allowed to configure application specific settings, like cache implementations and sizes. 
+Glide v4 依赖于两种类，[``AppGlideModule``][1]与[``LibraryGlideModule``][2]，以配置Glide单例。这两种类都允许用于注册额外的组件，例如[``ModelLoaders``][3], [``ResourceDecoders``][4]等。但只有[``AppGlideModule``][1]被允许配置应用特定的设置项，比如缓存实现和缓存大小。
 
 #### AppGlideModule
-All applications must add a [``AppGlideModule``][1] implementation, even if the Application is not changing any additional settings or implementing any methods in [``AppGlideModule``][1]. The [``AppGlideModule``][1] implementation acts as a signal that allows Glide's annotation processor to generate a single combined class with with all discovered [``LibraryGlideModules``][2].
-
-There can be only one [``AppGlideModule``][1] implementation in a given application (having more than one produce errors at compile time). As a result, libraries must never provide a [``AppGlideModule``][1] implementation. 
+所有应用都必须添加一个[``AppGlideModule``][1]实现，即使应用并没有改变任何附加设置项，也没有实现[``AppGlideModule``][1]中的任何方法。 [``AppGlideModule``][1]实现是一个信号，它会让Glide的注解解析器生成一个单一的所有已发现的[``LibraryGlideModules``][2]的联合类。
+ 
+对于一个特定的应用，只能存在一个[``AppGlideModule``][1]实现（超过一个会在编译时报错）。因此，程序库不能提供[``AppGlideModule``][1]实现。
 
 #### @GlideModule
-In order for Glide to properly discover [``AppGlideModule``][1] and [``LibraryGlideModule``][2] implementations, all implementations of both classes must be annotated with the [``@GlideModule``][5] annotation. The annotation will allow Glide's [annotation processor][6] to discover all implementations at compile time. 
+为了让Glide正确地发现[``AppGlideModule``][1]和[``LibraryGlideModule``][2]的实现类，它们的所有实现都必须使用[``@GlideModule``][5]注解来标记。这个注解将允许Glide的[注解解析器][6]在编译时去发现所有的实现类。
 
-#### 注解处理器
-In addition, to enable discovery of the [``AppGlideModule``][1] and [``LibraryGlideModules``][2] all libraries and applications must also include a dependency on Glide's annotation processor. 
+#### 注解处理器 
+另外，为了发现[``AppGlideModule``][1] 和 [``LibraryGlideModules``][2]，所有的库和应用还必须包含一个Glide的注解解析器的依赖。
 
 ### 冲突
-Applications may depend on multiple libraries, each of which may contain one or more [``LibraryGlideModules``][2]. In rare cases, these [``LibraryGlideModules``][2] may define conflicting options or otherwise include behavior the application would like to avoid. Applications can resolve these conflicts or avoid unwanted dependencies by adding an [``@Excludes``][20] annotation to their [``AppGlideModule``][1].
+应用程序可能依赖多个程序库，而它们每一个都可能包含一个或更多的[``LibraryGlideModules``][2]。在极端情况下，这些[``LibraryGlideModules``][2]可能定义了相互冲突的选项，或者包含了应用程序希望避免的行为。应用程序可以通过给他们的[``AppGlideModule``][1]添加一个[``@Excludes``][20]注解来解决这种冲突，或避免不需要的依赖。
 
-For example if you depend on a library that has a [``LibraryGlideModule``][2] that you'd like to avoid, say ``com.example.unwanted.GlideModule``
+例如，如果你依赖了一个库，它有一个[``LibraryGlideModule``][2]叫做``com.example.unwanted.GlideModule``，而你不想要它：
 
 ```java
 @Excludes(com.example.unwanted.GlideModule)
@@ -222,7 +221,7 @@ For example if you depend on a library that has a [``LibraryGlideModule``][2] th
 public final class MyAppGlideModule extends AppGlideModule { }
 ```
 
-You can also excludes multiple modules
+你也可以排除多个模块：
 
 ```java
 @Excludes({com.example.unwanted.GlideModule, com.example.conflicing.GlideModule})
@@ -230,13 +229,13 @@ You can also excludes multiple modules
 public final class MyAppGlideModule extends AppGlideModule { }
 ```
 
-[``@Excludes``][20] can be used to exclude both [``LibraryGlideModules``][2] and legacy, deprecated [``GlideModule``][21] implementations if you're still in the process of migrating from Glide v3.
+``@Excludes``][20]注解不仅可用于排除[``LibraryGlideModules``][2]。如果你还在从Glide v3到新版本的迁移过程中，你还可以用它来排除旧的，废弃的[``GlideModule``][21]实现。
 
 
-### Manifest Parsing
-To maintain backward compatibility with Glide v3's [``GlideModules``][21], Glide still parses ``AndroidManifest.xml`` files from both the application and any included libraries and will include any legacy [``GlideModules``][21] listed in the manifest. Although this functionality will be removed in a future version, we've retained the behavior for now to ease the transition.
+### 清单解析
+为了维持对Glide v3的[``GlideModules``][21]的向后兼容性，Glide仍然会解析应用程序和所有被包含的库中的``AndroidManifest.xml``文件，并包含在这些清单中列出的旧 [``GlideModules``][21]模块类。
 
-If you've already migrated to the Glide v4 [``AppGlideModule``][1] and [``LibraryGlideModule``][2], you can disable manifest parsing entirely. Doing so can improve the initial startup time of Glide and avoid some potential problems with trying to parse metadata. To disable manifest parsing, override the [``isManifestParsingEnabled()``][22] method in your [``AppGlideModule``][1] implemenation
+如果你已经迁移到Glide v4的[``AppGlideModule``][1] 和 [``LibraryGlideModule``][2]，你可以完全禁用清单解析。这样可以改善Glide的初始启动时间，并避免尝试解析元数据时的一些潜在问题。要禁用清单解析，请在你的[``AppGlideModule``][1]实现中复写[``isManifestParsingEnabled()``][22]方法：
 
 ```java
 @GlideModule

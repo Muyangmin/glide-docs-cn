@@ -12,8 +12,8 @@ timezone: Asia/Shanghai
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: http://yoursite.com
-root: /
+url: https://muyangmin.github.io/glide-docs-cn
+root: /glide-docs-cn
 permalink: :year/:month/:day/:title/
 permalink_defaults:
 
@@ -77,4 +77,6 @@ theme: navy
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
-  type:
+  type: git
+  repo: https://github.com/Muyangmin/glide-docs-cn.git
+  branch: gh-pages

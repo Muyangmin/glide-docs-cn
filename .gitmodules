@@ -1,0 +1,3 @@
+[submodule "themes/navy"]
+	path = themes/navy
+	url = https://github.com/Muyangmin/hexo-theme-navy.git

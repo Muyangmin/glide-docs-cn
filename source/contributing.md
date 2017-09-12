@@ -3,7 +3,7 @@ title: "贡献代码或文档"
 ---
 原文链接：[点击查看](http://bumptech.github.io/glide/dev/contributing.html)
 
-### Source
+### 贡献代码
 
 非常欢迎你为Glide源码做贡献！
 
@@ -67,7 +67,7 @@ Glide使用[Google Java 风格指南][3]。
 
 如有疑问，请给我们一个单一的pull request，我们可以为你提供帮助。
 
-### 文档
+### 贡献文档
 
 #### 上传一个修改
 

@@ -3,7 +3,7 @@ title: "开始使用"
 ---
 原文链接：[点击查看](http://bumptech.github.io/glide/doc/getting-started.html)
 
-### Basic Usage
+### 基本用法
 
 很多情况下，使用Glide加载图片非常简单，简单到只用一行代码：
 
@@ -21,7 +21,7 @@ Glide.with(fragment).clear(imageView);
 
 尽管及时取消不必要的加载是很好的实践，但是你并不需要做这样的辛苦活。实际上，当你通过 [``Glide.with()``][1] 方法传入Glide的Activity或Fragment被销毁的时候，Glide会自动取消加载并回收资源。
 
-### Applications
+### 应用程序
 
 应用可以添加一个合适的被标记为 [``AppGlideModule``][6] 的实现类来生成一个内联了大部分选项的API，包括那些已经在集成库中定义过的：
 
@@ -47,7 +47,7 @@ GlideApp.with(fragment)
 
 可以访问Glide的 [generated API][7] 页面来获得更多信息。 
 
-### ListView and RecyclerView
+### ListView 和 RecyclerView
 
 在ListView或RecyclerView中加载图片的代码和在单独的View中完全一样。Glide已经自动处理了View的重用和请求的取消操作：
 

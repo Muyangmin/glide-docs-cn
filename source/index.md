@@ -22,7 +22,7 @@ Glide.with(fragment)
     .into(imageView);
 ```
 
-#### Performance 性能
+#### 性能
 
 Glide 充分考虑了Android图片加载性能的两个关键方面：
 
@@ -37,11 +37,11 @@ Glide使用了多个步骤来确保在Android上加载图片尽可能的快速�
 * 积极的资源重用，例如字节数组和Bitmap，以最小化昂贵的垃圾回收和堆碎片影响；
 * 深度的生命周期集成，以确保仅优先处理活跃的Fragment和Activity的请求，并有利于应用在必要时释放资源以避免在后台时被杀掉。
 
-### Getting Started 开始使用
+### 开始使用
 
 请访问[下载和设置][1]页面，学习如何集成Glide到你的应用中。然后可以从[入门使用][2]页面学习基础用法。如需更多的帮助和例子，请继续阅读文档的剩余章节，或者可以看看[示例应用][3].
 
-### Requirements 配置要求
+### 配置要求
 
 Glide v4最低支持Android [Ice Cream Sandwich][4] (API level 14).
 

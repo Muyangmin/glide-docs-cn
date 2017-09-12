@@ -3,7 +3,7 @@ title: "生成的API"
 ---
 原文链接：[点击查看](http://bumptech.github.io/glide/doc/generatedapi.html)
 
-### About
+### 关于生成的API
 
 Glide v4 使用了[annotation processor][1] 技术来生成API。这个API允许应用统一而流畅地访问 [``RequestBuilder``][2], [``RequestOptions``][3]里的所有选项和引入的任何集成库。
 
@@ -13,7 +13,7 @@ Glide v4 使用了[annotation processor][1] 技术来生成API。这个API允许
 
 虽然这些任务可以通过编写定制的[``RequestOptions``][3]子类，但这么做是非常具有挑战性的，并且降低了API的流畅性。
 
-### Getting Started
+### 开始使用
 
 #### Java
 
@@ -62,7 +62,7 @@ Glide v4 使用了[annotation processor][1] 技术来生成API。这个API允许
    
    关于``kapt``的使用，请查看[官方文档][14]。
 
-### Using the generated API
+### 使用生成的API
  
 API会在应用提供的[``AppGlideModule``][4]实现类的相同包下，默认命名为``GlideApp``。将开始加载的代码从 ``Glide.with()``改成``GlideApp.with()``，应用就可以使用新的API啦：
  
@@ -76,7 +76,7 @@ GlideApp.with(fragment)
  
 与``Glide.with()``不同，其他诸如 ``fitCenter()``和``placeholder()``的选项在Builder中直接可用，并不需要额外传入单独的[``RequestOptions``][3]对象。
     
-### GlideExtension Glide扩展
+### Glide扩展
 
 Glide生成的API可以被应用和库扩展。扩展使用被注解的静态方法来添加新的选项，或修改现有选项，甚至添加额外的类型支持。
 
@@ -92,7 +92,7 @@ Glide生成的API可以被应用和库扩展。扩展使用被注解的静态方
 2. [``GlideType``][8] - 添加对新的资源类型的支持(GIF，SVG, 等等)。
 
 
-#### GlideOption
+#### Glide选项
 
 [``GlideOption``][7] 注解用于标记扩展[``RequestOptions``][3]的静态方法。``GlideOption``可以：
 
@@ -160,7 +160,7 @@ GlideApp.with(fragment)
 
 使用``GlideOption``标记的方法应该为静态的(static)并且返回值为空(void)。注意，生成的方法在标准的``Glide``和``RequestOptions``类里不可用。
 
-#### GlideType
+#### Glide类型
 
 [``GlideType``][8]注解用于标记扩展[``RequestManager``][11]的静态方法。``GlideType``标记的方法允许你添加对新的资源类型的支持，包括指定默认选项。
 

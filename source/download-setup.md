@@ -3,7 +3,7 @@ title: "下载和初始化"
 ---
 原文链接：[点击查看](http://bumptech.github.io/glide/doc/download-setup.html)
 
-### Download
+### 下载
 
 可以使用多种方法访问Glide的公开发行版。
 
@@ -45,7 +45,7 @@ dependencies {
 </dependency>
 ```
 
-### Setup
+### 设置
 
 你可能需要做一些额外的设置步骤，这取决于你的构建配置。
 

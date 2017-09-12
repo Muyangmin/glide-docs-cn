@@ -3,7 +3,7 @@ title: "选项"
 ---
 原文链接：[点击查看](http://bumptech.github.io/glide/doc/options.html)
 
-### RequestOptions
+### 请求选项
 Glide中的大部分设置项都可以通过[``RequestOptions``][1]类和[``apply()``][2]方法来应用到程序中。
 
 使用`request options`可以实现（包括但不限于）：
@@ -39,7 +39,7 @@ Glide.with(fragment)
 
 [``apply()``][2] 方法可以被调用多次，因此``RequestOption``可以被组合使用。如果``RequestOptions``对象之间存在相互冲突的设置，那么只有最后一个被应用的 ``RequestOptions``会生效。
 
-### TransitionOptions
+### 过渡选项
 
 [TransitionOptions][5]用于决定你的加载完成时会发生什么。
 
@@ -85,7 +85,7 @@ Glide.with(fragment)
 RequestBuilder<Drawable> requestBuilder = Glide.with(fragment);
 ```
 
-#### Picking a resource type
+#### 选择资源类型
 
 ``RequestBuilders``是特定于它们将要加载的资源类型的。默认情况下你会得到一个Drawable RequestBuilder，但你可以使用``as...``系列方法来改变请求类型。例如，如果你调用了``asBitmap()``，你就将获得一个``Bitmap````RequestBuilder``对象，而不是默认的Drawable RequestBuilder。
 
@@ -93,7 +93,7 @@ RequestBuilder<Drawable> requestBuilder = Glide.with(fragment);
 RequestBuilder<Bitmap> requestBuilder = Glide.with(fragment).asBitmap();
 ```
 
-#### Applying RequestOptions
+#### 应用 RequestOptions
 
 前面提到，可以使用[``apply()``][2] 方法应用``RequestOptions``，使用[``transition()``][10]方法应用``TransitionOptions``。
 
@@ -118,7 +118,7 @@ for (int i = 0; i < numViews; i++) {
 }
 ```
 
-### Component Options
+### 组件选项
 
 [``Option``][11]类是给Glide的组件添加参数的通用办法，包括[``ModelLoaders``][12], [``ResourceDecoders``][13], [``ResourceEncoders``][14], [``Encoders``][15]等等。一些Glide的内置组件提供了设置项，自定义的组件也可以添加设置项。
 

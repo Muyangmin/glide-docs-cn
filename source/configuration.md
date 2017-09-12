@@ -3,10 +3,10 @@ title: "配置"
 ---
 原文链接：[点击查看](http://bumptech.github.io/glide/doc/configuration.html)
 
-### Setup
+### 设置
 为了让Glide正常工作，库和应用程序需要做一些固定的步骤。不过，假如你的库不希望注册额外的组件，则这些初始化不是必须的。
 
-#### Libraries
+#### 程序库
 程序库(Libraries)需要：
 1. 添加一个或多个[``LibraryGlideModule``][2]实现。
 2. 为每一个[``LibraryGlideModule``][2]实现添加[``@GlideModule``][5]注解。
@@ -29,7 +29,7 @@ public final class OkHttpLibraryGlideModule extends LibraryGlideModule {
 compile 'com.github.bumptech.glide:annotations:4.0.0'
 ```
 
-#### Applications
+#### 应用程序
 应用程序(Applications)需要：
 1. 恰当地添加一个[``AppGlideModule``][1]实现。
 2. (可选)添加一个或多个[``LibraryGlideModule``][2]实现。
@@ -60,10 +60,10 @@ annotationProcessor 'com.github.bumptech.glidecompiler4.0.0'
 -keep class com.bumptech.glide.GeneratedAppGlideModuleImpl
 ```
 
-### Application Options
+### 应用程序选项
 Glide允许应用通过[``AppGlideModule``][1]实现来完全控制Glide的内存和磁盘缓存使用。Glide试图提供对大部分应用程序合理的默认选项，但对于部分应用，可能就需要定制这些值。在你做任何改变时，请注意测量其结果，避免出现性能的倒退。
 
-#### Memory cache
+#### 内存缓存
 默认情况下，Glide使用[``LruResourceCache``][10]，这是[``MemoryCache``][9]接口的一个缺省实现，使用固定大小的内存和LRU算法。[``LruResourceCache``][10]的大小由Glide的[``MemorySizeCalculator``][11]类来决定，这个类主要关注设备的内存类型，设备RAM大小，以及屏幕分辨率。
 
 应用程序可以自定义[``MemoryCache``][9]的大小，具体是在它们的[``AppGlideModule``][1]中使用[``applyOptions(Context, GlideBuilder)``][12]方法配置[``MemorySizeCalculator``][11]：
@@ -104,7 +104,7 @@ public class YourAppGlideModule extends AppGlideModule {
 }
 ```
 
-#### Disk Cache
+#### 磁盘缓存
 Glide使用[``DiskLruCacheWrapper``][13]作为默认的[``磁盘缓存``][14]。[``DiskLruCacheWrapper``][13]是一个使用LRU算法的固定大小的磁盘缓存。默认磁盘大小为[250 MB][15]，位置是在应用的[缓存文件夹][17]中的一个[特定目录][16]。
 
 假如应用程序展示的媒体内容是公开的（从无授权机制的网站上加载，或搜索引擎等），那么应用可以将这个缓存位置改到外部存储：
@@ -159,7 +159,7 @@ public class YourAppGlideModule extends AppGlideModule {
 }
 ```
 
-### Registering Components
+### 注册组件
 
 应用程序和库都可以注册很多组件来扩展Glide的功能。可用的组件包括：
 
@@ -197,7 +197,7 @@ When a request is started, Glide will attempt all available paths from the Model
 
 The ``prepend()``, ``append()``, and ``replace()`` methods in [``Registry``][28] can be used to set the order in which Glide will attempt each ``ModelLoader`` and ``ResourceDecoder``. Requests can be made somewhat more efficient by making sure the ``ModelLoader``s and ``ResourceDecoder``s that handle the most common types are registered first. Ordering components can also allow you to register components that handle specific subsets of models or data (ie only certain types of Uris, or only certain image formats) while also having an appended catch-all component to handle the rest.
 
-### Module classes and annotations.
+### 模块类和注解
 Glide v4 relies on two classes, [``AppGlideModule``][1] and [``LibraryGlideModule``][2], to configure the Glide singleton. Both classes are allowed to register additional components, like [``ModelLoaders``][3], [``ResourceDecoders``][4] etc. Only the [``AppGlideModules``][1] are allowed to configure application specific settings, like cache implementations and sizes. 
 
 #### AppGlideModule
@@ -208,10 +208,10 @@ There can be only one [``AppGlideModule``][1] implementation in a given applicat
 #### @GlideModule
 In order for Glide to properly discover [``AppGlideModule``][1] and [``LibraryGlideModule``][2] implementations, all implementations of both classes must be annotated with the [``@GlideModule``][5] annotation. The annotation will allow Glide's [annotation processor][6] to discover all implementations at compile time. 
 
-#### Annotation Processor
+#### 注解处理器
 In addition, to enable discovery of the [``AppGlideModule``][1] and [``LibraryGlideModules``][2] all libraries and applications must also include a dependency on Glide's annotation processor. 
 
-### Conflicts
+### 冲突
 Applications may depend on multiple libraries, each of which may contain one or more [``LibraryGlideModules``][2]. In rare cases, these [``LibraryGlideModules``][2] may define conflicting options or otherwise include behavior the application would like to avoid. Applications can resolve these conflicts or avoid unwanted dependencies by adding an [``@Excludes``][20] annotation to their [``AppGlideModule``][1].
 
 For example if you depend on a library that has a [``LibraryGlideModule``][2] that you'd like to avoid, say ``com.example.unwanted.GlideModule``

@@ -29,7 +29,7 @@ requestBuilder
     .into(imageView);
 ```
 
-### RequestOptions
+### 请求选项
 
 对于这类方法：
 ```java
@@ -70,7 +70,7 @@ Glide.with(fragment)
 ```
     
 
-### TransitionOptions
+### 过渡选项
 
 对于这类方法：
 ```java
@@ -96,7 +96,7 @@ Glide.with(fragment)
     .transition(withCrossFade(R.anim.fade_in, 300));
 ```
 
-### Generated API
+### 生成的 API
 
 为了让使用Glide v4更简单轻松，Glide现在也提供了一套可以为应用定制化生成的API。应用可以通过包含一个标记了[``AppGlideModule``][[2]的实现来访问生成的API。如果你不了解这是怎么工作的，可以查看[Generated API][11]。
 
@@ -128,9 +128,9 @@ GlideApp.with(fragment)
 
 你仍然可以使用生成的``RequestOptions``子类来应用相同的选项到多次加载中；但生成的``RequestBuilder``子类可能在多数情况下更为方便。
 
-## Types and Targets
+## 类型(Type)与目标(Target)
 
-### Picking Resource Types
+### 选择资源类型
 
 Glide允许你指定你想加载的资源类型。如果你指定了一个超类型，Glide会尝试加载任何可用的子类型。比如，如果你请求的是Drawable，Glide可能会加载一个 BitmapDrawable 或一个 GifDrawable。而如果你请求的是一个GifDrawable，要么会加载出一个GifDrawable，要么报错--只要图片不是GIF的话（即使它凑巧是一个完全有效的图片也是如此）。
 
@@ -199,7 +199,7 @@ If you need more information about the errors that caused the load to fail, you 
 如果你想要获得更多导致加载失败的错误信息，你可以使用[``RequestListener``][21]。
 
 
-#### Cancellation
+#### 取消请求
 
 ``Glide.clear(Target)``方法被移动到了[``RequestManager``][22]中:
 
@@ -210,12 +210,12 @@ Glide.with(fragment).clear(target)
 使用``RequestManager``清除之前由它启动的加载过程，通常能提高性能，虽然这并不是强制要求的。Glide v4会为每一个Activity和Fragment跟踪请求，所以你需要在合适的层级去清除请求。
 
 
-## Configuration
+## 配置
 在Glide v3中，配置使用一个或多个[``GlideModule``][1]来完成。而在Glide v4中，配置改为使用一个类似但稍微复杂的系统来完成。
 
 关于这个新系统的细节，可以查看[配置][4]页面。
 
-### Applications
+### 应用程序
 
 在早期版本中使用了一个[``GlideModule``][1]的应用，可以将它转换为一个[``AppGlideModule``][2]。
 
@@ -256,7 +256,7 @@ public class GiphyGlideModule extends AppGlideModule {
  
 如果你的应用拥有多个``GlideModule``，你需要把其中一个转换成``AppGlideModule``，剩下的转换成[``LibraryGlideModule``][3]。除非存在``AppGlideModule``，否则程序不会发现``LibraryGlideModule``，因此您不能仅使用``LibraryGlideModule``。
 
-### Libraries
+### 程序库
 
 拥有一个或多个``GlideModule``的程序库应该使用[``LibraryGlideModule``][3]。程序库不应该使用[``AppGlideModule``][2]，因为它在一个应用里只能有一个。因此，如果你试图在程序库里使用它，将不仅会妨碍这个库的用户设置自己的选项，还会在多个程序库都这么做时造成冲突。
 
@@ -288,7 +288,7 @@ public class VolleyLibraryGlideModule extends LibraryGlideModule {
 }
 ```
 
-### Manifest parsing
+### 清单解析
 
 为了简化迁移过程，尽管清单解析和旧的[``GlideModule``][1]接口已被废弃，但它们在v4版本中仍被支持。``AppGlideModule``，``LibraryGlideModule``，与已废弃的``GlideModule``可以在一个应用中共存。
 

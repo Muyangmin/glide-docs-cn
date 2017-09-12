@@ -3,10 +3,10 @@ title: "目标"
 ---
 原文链接：[点击查看](http://bumptech.github.io/glide/doc/targets.html)
 
-### About
+### 关于Target
 在Glide中，[Target]是介于请求和请求者之间的中介者的角色。Target负责展示占位符，加载资源，并为每个请求决定合适的尺寸。被使用得最频繁的是[ImageViewTargets][2]，它用于在ImageView上展示占位符，Drawable和Bitmap。用户还可以实现自己的Target，或者从任何可用的基类派生子类。
 
-### Specifying Targets
+### 指定目标
 [into(Target)][3]方法不仅仅用于开启每个请求，它同时也指定了接收请求结果的Target。Glide提供了一个辅助方法[into(ImageView)][4]，它接受一个``ImageView``参数并为请求的资源类型指定了合适的``Target``。
 
 为了让使用自定义的Target更方便，``into()``方法返回了提供给它的参数：
@@ -21,11 +21,11 @@ Target<Bitmap> target = Glide.with(fragment)
 Glide.with(fragment).clear(target);
 ```
 
-### Targets and Automatic Cancellation
+### 目标和自动取消
 Target可以（并且通常应当）被复用于会在同一个地方展示的一连串加载过程。 复用Target允许Glide在新的加载开始时自动取消或复用旧的加载过程的资源。 Target复用失败可能导致旧的请求资源替换掉稍新请求的资源。
 
 
-#### Custom Targets
+#### 定制目标
 复用自定义Target的一个简单方案，保持它们的实例引用就行了：
 
 ```java
@@ -48,7 +48,7 @@ private class WidgetHolder {
 
 Glide可以使用[``getRequest()``][6] 和 [``setRequest()``][7]方法来查找Target，或取消Target上的请求。这意味着所有的自定义Target都必须实现这些方法。最简单的办法莫过于直接继承[``BaseTarget``][10].
 
-#### ViewTargets
+#### View目标
 一些自定义的Target能为``getRequest()`` 和 ``setRequest()``方法提供更为智能的实现，以避免复用Target的一些严格要求。例如[ViewTarget][5]，它利用了Android 框架的[getTag()][8]和[setTag()][9]方法来完成这些工作。
 
 ```java
@@ -76,12 +76,12 @@ public void onBindViewHolder(ViewHolder vh, int position) {
       .into(new CustomViewTarget(vh.imageView));
 ```
 
-### Sizing
+### 尺寸测量
 默认情况下，Glide使用Target通过[``getSize()``][11]方法提供的尺寸作为请求的目标尺寸。这种设计允许Glide可以选取合适的url，降低采样率，剪裁和转换图像，从而最小化内存的使用，并确保加载尽可能快。
 
 最简单的实现``getSize()``的方法可能是直接调用库提供的回调：
 
-#### Custom Targets
+#### 定制目标
 ```java
 @Override
 public void getSize(SizeReadyCallback cb) {
@@ -110,7 +110,7 @@ public class CustomTarget<T> implements Target<T> {
 }
 ```
 
-#### View Targets
+#### View目标
 ViewTarget通过检查View的属性和/或使用一个[``OnPreDrawListener``][12]在View绘制之前直接测量尺寸来实现``getSize()``方法。我们使用以下逻辑：
 
 1. 如果View的的宽或高被设置为 > 0，则使用这个尺寸
@@ -124,10 +124,10 @@ ViewTarget通过检查View的属性和/或使用一个[``OnPreDrawListener``][12
 
 使用屏幕尺寸，至少允许我们缩小超大的图片，而又不完全忽略用户的原始请求意图。
 
-##### Performant View Sizes
+##### 尺寸与性能
 一般来说，在加载图片的View被设置了显式的dp尺寸的情况下，Glide提供了最快、最可预测的结果。在不可能获得明确的dp尺寸时，Glide也通过使用``OnPreDrawListeners``为 `layout weight`, `MATCH_PARENT`以及其他相对尺寸提供了相当鲁棒的支持。如果这些都不奏效，Glide也应该为`WRAP_CONTENT`提供了较为合理的行为。
 
-##### Alternatives
+##### 其他情况
 在任何情况下，如果Glide看起来获取了错误的View尺寸，你都可以手动覆盖来纠正它。你可以选择扩展[``ViewTarget``][5]并实现你自己的逻辑，或者使用``RequestOption``里的方法。
 
 [1]: {{ site.url }}/glide/javadocs/400/com/bumptech/glide/request/target/Target.html

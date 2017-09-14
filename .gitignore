@@ -6,3 +6,17 @@ node_modules/
 public/
 .deploy*/
 .idea
+
+*.idea
+library/
+samples/
+*.iml
+*.DS_Store
+local.properties
+*.bak
+_site/*
+
+.gradle
+build
+
+*.swp

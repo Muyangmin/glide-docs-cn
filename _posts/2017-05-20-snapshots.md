@@ -1,28 +1,32 @@
 ---
 layout: page
-title: "Snapshots"
+title: "快照版本"
 category: dev
 date: 2017-05-20 12:37:05
 disqus: 1
 order: 1
 ---
 
-## About Snapshots
-For users who don't want to wait for the next version of Glide and are willing to live on the bleeding edge, we deploy snapshot versions of the library to [Sonatype's snapshot repo][2].
+原文链接：[点击查看](http://bumptech.github.io/glide/dev/snapshots.html)
 
-After each push to the master branch on GitHub, Glide is built by [travis-ci][1]. If the build succeeds, we automatically deploy the latest version of the library to Sonatype.
+## 关于快照(Snapshots)
+对于那些等不了Glide的下一个稳定版的，喜欢在刀尖上跳舞的用户【注】，我们在[Sonatype's snapshot repo][2]部署了Glide库的快照版本。  
+> 原文"willing to live on the bleeding edge"，请自行感受…… --译者注
 
-Each integration library will have its own snapshot, as will the main Glide library. If you use a snapshot version of the Glide library you must also use the snapshot versions of any integration libraries you use as well, and vice versa.
 
-## Obtaining Snapshots
-Sonatype's snapshot repo functions as any other maven repo would, so snapshots are accessible as a jar, in maven, or in gradle.
+在每次push到GitHub的master分支上后，Glide会通过[travis-ci][1]构建。如果构建成功，我们将自动部署最新版本的库到Sonatype上。
+
+每个集成库都有它自己的快照，与主Glide库一样。如果你使用了Glide库的快照版本，你使用的任何集成库也要使用快照版本，反之亦然。
+
+## 获取快照
+Sonatype 的快照仓库的工作原理与其他maven仓库一样，所以快照可以多种方式访问：jar, maven，或者gradle。
 
 ### Jar
-Jars can be downloaded [directly from Sonatype][3]. Double check the date to make sure you're getting the latest version.
+你可以直接从[Sonatype][3]下载。请务必检查日期以确保你正在获取的是最新的版本。
 
 ### Gradle
 
-Add the snapshot repo to your list of repositories:
+首先你需要把快照仓库添加到你的仓库列表：
 
 ```gradle
 repositories {
@@ -34,19 +38,19 @@ repositories {
 }
 ```
 
-And then change your dependencies to the snapshot version:
+然后修改你的依赖为快照版本：
 
 ```gradle
 dependencies {
-  compile 'com.github.bumptech.glide:glide:4.2.0-SNAPSHOT'
-  compile 'com.github.bumptech.glide:okhttp-integration:4.2.0-SNAPSHOT'
+  compile 'com.github.bumptech.glide:glide:4.0.0-SNAPSHOT'
+  compile 'com.github.bumptech.glide:okhttp-integration:4.0.0-SNAPSHOT'
 }
 ```
 
 ### Maven
-*This is untested and taken from a [Stack Overflow][4] question. Suggestions on improving this section are particularly welcome!*
+*请注意，这种方法未经测试，是从[Stack Overflow][4]的这个问题而来的。关于本节有任何建议，欢迎提出！*
 
-Add the following to your `~/.m2/settings.xml`:
+请将下列代码添加到你的`~/.m2/settings.xml`:
 
 ```xml
 <profiles>
@@ -65,34 +69,34 @@ Add the following to your `~/.m2/settings.xml`:
 </profiles>
 ```
 
-Then change your dependencies to the snapshot version:
+然后修改你的依赖为快照版本：
 
 ```xml
 <dependency>
   <groupId>com.github.bumptech.glide</groupId>
   <artifactId>glide</artifactId>
-  <version>4.2.0-SNAPSHOT</version>
+  <version>4.0.0-SNAPSHOT</version>
 </dependency>
 <dependency>
   <groupId>com.github.bumptech.glide</groupId>
   <artifactId>okhttp-integration</artifactId>
-  <version>4.2.0-SNAPSHOT</version>
+  <version>4.0.0-SNAPSHOT</version>
 </dependency>
 ```
 
-### Building snapshots locally
-If you want to get the same files that would be released execute this command:
+### 本地构建快照
+如果你想获取将发布的相同文件以本地编译，请执行下面这个命令：
 ```shell
 gradlew clean buildArchives uploadArchives --stacktrace --info -PSNAPSHOT_REPOSITORY_URL=file://p:\path\to\repo -PRELEASE_REPOSITORY_URL=file://p:\path\to\repo
 ```
-This will create a m2 repository folder that you can consume with Gradle in a project to test your change:
+这将创建一个m2仓库文件夹，你可以用Gradle在一个工程里测试你的修改：
 ```gradle
 repositories {
-  // make sure this is declared before glide-snapshot so it's queried first
+  //确保这行在 glide-snapshot之前，使它成为首先被查询的仓库
   maven { name 'glide-local'; url 'p:\\path\\to\\repo' }
 }
 dependencies {
-  // enable this to make sure changes are picked up immediately
+  //开启这个选项，确保所有变更生效
   //configurations.compile.resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
   compile 'com.github.bumptech.glide:glide:x.y.z-SNAPSHOT'
 }

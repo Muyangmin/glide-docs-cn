@@ -1,68 +1,64 @@
 ---
 layout: page
-title: "Transitions"
+title: "过渡"
 category: doc
 date: 2017-02-13 19:40:27
 order: 8
 disqus: 1
 ---
+
+原文链接：[点击查看](http://bumptech.github.io/glide/doc/transitions.html)
+
 * TOC
 {:toc}
 
-### About
-[``Transitions``][1] in Glide allow you to define how Glide should transition from a placeholder to a newly loaded image or from a thumbnail to a full size image. Transitions act within the context of a single request, not across multiple requests. As a result, [``Transitions``][1] do **NOT** allow you to define an animation (like a cross fade) from one request to another request. 
+### 关于过渡
+在Glide中，[``Transitions``(直译为"过渡")][1]允许你定义Glide如何从占位符到新加载的图片，或从缩略图到全尺寸图像过渡。Transition在单一请求的上下文中工作，而不会跨多个请求。因此，[``Transitions``][1]并不能让你定义从一个请求到另一个请求的动画（比如，交叉淡入效果）。
 
+### 默认行为
+在Glide中，图像可能从四个地方中的任何一个位置加载出来：
 
-### Default transition
-Unlike Glide v3, Glide v4 does **NOT** apply a cross fade or any other transition by default. Transitions must be applied manually per request.
+1. Glide的内存缓存
+2. Glide的磁盘缓存
+3. 设备本地可用的一个源文件或Uri
+4. 仅远程可用的一个源Url或Uri
 
-### Standard behavior
-Glide provides a number of transitions that users can manually apply per request. Glide's built in transitions behave in a consistent manner and will avoid running in certain circumstances depending on where images are loaded from.
+如果图像从Glide的内存缓存中加载出来，Glide的默认过渡将不会执行。然而，在另外三种场景下，Glide的默认过渡都会被执行。
 
-Images can be loaded from one of four places in Glide:
+要改变这种默认的过渡行为，请查看接下来的[custom transitions][20]章节。
 
-1. Glide's in memory cache
-2. Glide's disk cache
-3. A source File or Uri available locally on the device
-4. A source Url or Uri available only remotely.
+### 指定过渡
 
-Glide's built in transitions do not run if data is loaded from Glide's in memory cache. However, Glide's built in transitions do run if data is loaded from Glide's disk cache, a local source File or Uri or a remote source Url or Uri. 
+你可以查看[Options documentation][18]以获取概览和示例代码。
 
-To change this behavior and write your own custom transition, see the [custom transitions][20] section below.
+[``TransitionOptions``][12]用于给一个特定的请求指定transition。 每个请求可以使用[``RequestBuilder``][14]中的[``transition()``][13]方法来设定[``TransitionOptions``][12]。还可以通过使用[``BitmapTransitionOptions``][15] 或 [``DrawableTransitionOptions``][16]来指定类型特定的过渡动画。对于Bitmap和Drawable之外的资源类型，可以使用[``GenericTransitionOptions``][17]。
 
-### Specifying Transitions
-For an overview and code sample, see the [Options documentation][18].
+### 性能提示
+Android中的动画代价是比较大的，尤其是同时开始大量动画的时候。 交叉淡入和其他涉及alpha变化的动画显得尤其昂贵。 此外，动画通常比图片解码本身还要耗时。在列表和网格中滥用动画可能会让图像的加载显得缓慢而卡顿。为了提升性能，请在使用Glide向ListView, GridView, 或RecyclerView加载图片时考虑避免使用动画，尤其是大多数情况下，你希望图片被尽快缓存和加载的时候。作为替代方案，请考虑预加载，这样当用户滑动到具体的item的时候，图片已经在内存中了。
 
-[``TransitionOptions``][12] are used to specify the transitions for a particular request. [``TransitionOptions``][12] are set for a request using the [``transition()``][13] method in [``RequestBuilder``][14]. Type specific transitions can be specified using [``BitmapTransitionOptions``][15] or [``DrawableTransitionOptions``][16]. For types other than ``Bitmaps`` and ``Drawables`` [``GenericTransitionOptions``][17] can be used. 
+### 常见错误
 
-### Performance Tips
-Animations in Android can be expensive, particularly if a large number are started at once. Cross fades and other animations involving changes in alpha can be especially expensive. In addition, animations often take substantially longer to run than images take to decode. Gratuitous use of animations in lists and grids can make image loading feel slow and janky. To maximize performance, consider avoiding animations when using Glide to load images into ListViews, GridViews, or RecyclerViews, especially when you expect images to be cached or fast to load most of the time. Instead consider pre-loading so that images are in memory when users scroll to them. 
+#### 对占位符和透明图片交叉淡入
+Glide 的默认交叉淡入(cross fade)效果使用了[``TransitionDrawable``][8]。它提供两种动画模式，由[``setCrossFadeEnabled()``][9]控制。当交叉淡入被禁用时，正在过渡的图片会在原先显示的图像上面淡入。当交叉淡入被启用时，原先显示的图片会从不透明过渡到透明，而正在过渡的图片则会从透明变为不透明。
 
-### Common Errors
+在Glide中，我们默认禁用了交叉淡入，这样通常看起来要好看一些。实际的交叉淡入，如上所述对两个图片同时改变alpha值，通常会在过渡的中间造成一个短暂的白色闪屏，这个时候两个图片都是部分不透明的。
 
-#### Cross fading with placeholders and transparent images
-Glide's default cross fade animation leverages [``TransitionDrawable``][8]. [``TransitionDrawable``][8] offers two animation modes, controlled by [``setCrossFadeEnabled()``][9]. When cross fades are disabled, the image that is transitioned to is faded in on top of the image that was already showing. When cross fades are enabled, the image that is being transitioned from is animated from opaque to transparent and the image that is being transitioned to is animated from transparent to opaque. 
+不幸的是，虽然禁用交叉淡入通常是一个比较好的默认行为，当待加载的图片包含透明像素时仍然可能造成问题。当占位符比实际加载的图片要大，或者图片部分为透明时，禁用交叉淡入会导致动画完成后占位符在图片后面仍然可见。 如果你在加载透明图片时使用了占位符，你可以启用交叉淡入，具体办法是调整[``DrawableCrossFadeFactory``][10]里的参数并将结果传到[``transition()``][11]中。
 
-In Glide, we default to disabling cross fades because it typically provides a much nicer looking animation. An actual cross fade where the alpha of both images is changing at once often produces a white flash in the middle of the animation where both images are partially opaque. 
+#### 在多个请求间交叉淡入
+[``Transitions``][1]并不能让你在不同请求中加载的两个图像之间做过渡。当新的加载被应用到View或Target(查看[Target的文档][19])上时，Glide默认会取消任何已经存在的请求。因此，如果你想加载连个个不同的图片并在它们之间做动画，你无法直接通过Glide来完成。等待第一个加载完成并在View外持有这个Bitmap或Drawable，然后开始新的加载并手动在这两者之间做动画，诸如此类的策略看起来有效，但是实际上不安全，并可能导致程序崩溃或图像错误。
 
-Unfortunately although disabling cross fades is typically a better default, it can also lead to problems when the image that is being loaded contains transparent pixels. When the placeholder is larger than the image that is being loaded or the image is partially transparent, disabling cross fades results in the placeholder being visible behind the image after the animation finishes. If you are loading transparent images with placeholders, you can enable cross fades by adjusting the options in [``DrawableCrossFadeFactory``][10] and passing the result into [``transition()``][11].
+相反，最简单的办法是使用包含两个[``ImageView``][3]的[``ViewSwitcher``][2]来完成。将第一张图片加载到[``getNextView()``][4]的返回值里面，然后将第二张图片加载到[``getNextView()``][4]的下一个返回值中，并使用一个[``RequestListener``][5]在第二张图片加载完成时调用[``showNext()``][6]。为了更好地控制，你也可以使用[developer documentation][7]指出的策略。但要记住与[``ViewSwitcher``] [2]一样，仅在第二次图像加载完成后才开始交叉淡入淡出。
 
-#### Cross fading across requests.
-[``Transitions``][1] do not allow you to cross fade between two different images that are loaded with different requests. Glide by default will cancel any existing requests when you start a new load into an existing View or Target (See [Targets documentation][19] for more details). As a result, if you want to load two different images and cross fade between them, you cannot do so with Glide directly. Strategies like waiting for the first load to finish, grabbing a Bitmap or Drawable out of the View, starting a second load, and then manually animating between the Drawale or Bitmap and the new image are unsafe and may result in crashes or graphical corruption. 
+### 定制过渡
+如果要定义一个自定义的过渡动画，你需要完成以下两个步骤：
 
-Instead, the easiest way to cross fade across two different images loaded in two separate requests is to use [``ViewSwitcher``][2] containing two [``ImageViews``][3]. Load the first image into the result of [``getNextView()``][4]. Then load the second image into the next result of [``getNextView()``][4] and use a [``RequestListener``][5] to call [``showNext()``][6] when the second image load finishes. For better control, you can also follow the strategy outlined in the [developer documentation][7]. As with the [``ViewSwitcher``][2], only start the cross fade after the second image load finishes.
+1. 实现[``TransitionFactory``][21].
+2. 使用[``DrawableTransitionOptions#with``][22]来将你自定义的``TransitionFactory``应用到加载中。
 
-### Custom Transitions
-To define a custom transition:
+如果要改变你的transition的默认行为，以更好地控制它在不同的加载源（内存缓存，磁盘缓存，或uri）下是否被应用，你可以检查一下你的[``TransitionFactory``][21]中传递给[``build()``][24]方法的那个[``DataSource``][23]。
 
-1. Implement [``TransitionFactory``][21].
-2. Apply your custom ``TransitionFactory`` to loads with [``DrawableTransitionOptions#with``][22].
-
-
-To change the default behavior of your transition so that you can control whether or not it's applied when your image is loaded from the memory cache, disk cache or from source, 
-you can inspect the [``DataSource``][23] passed in to the [``build()``][24] method in your [``TransitionFactory``][21],  
-
-For an example, see [``DrawableCrossFadeFactory``][25].
+如需示例代码，请查看[``DrawableCrossFadeFactory``][25].
 
 [1]: {{ site.url }}/glide/javadocs/400/com/bumptech/glide/request/transition/Transition.html
 [2]: https://developer.android.com/reference/android/widget/ViewSwitcher.html
@@ -89,3 +85,4 @@ For an example, see [``DrawableCrossFadeFactory``][25].
 [23]: {{ site.url }}/glide/javadocs/400/com/bumptech/glide/load/DataSource.html
 [24]: {{ site.url }}/glide/javadocs/400/com/bumptech/glide/request/transition/TransitionFactory.html#build-com.bumptech.glide.load.DataSource-boolean-
 [25]: https://github.com/bumptech/glide/blob/8f22bd9b82349bf748e335b4a31e70c9383fb15a/library/src/main/java/com/bumptech/glide/request/transition/DrawableCrossFadeFactory.java#L35 
+

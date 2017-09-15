@@ -1,20 +1,22 @@
 ---
 layout: page
-title: "Migrating from v3 to v4"
+title: "从v3迁移到v4"
 category: doc
 date: 2017-04-20 07:13:46
 order: 12
 disqus: 1
 ---
+
+原文链接：[点击查看](http://bumptech.github.io/glide/doc/migrating.html)
+
 * TOC
 {:toc}
 
-## Options
-One of the larger changes in Glide v4 is the way the library handles options (``centerCrop()``, ``placeholder()`` etc). In Glide v3, options were handled individually by a series of complicated multityped builders. In Glide v4 these have been replaced by a single builder with a single type and a series of options objects that can be provided to the builder. Glide's [generated API][11] simplifies this further by merging options from the options objects and from any included integration libraries with the builder to create a single fluent API.
+## 选项(Options)
+Glide v4 中的一个比较大的改动是Glide库处理选项(``centerCrop()``, ``placeholder()`` 等)的方式。在v3版本中，选项由一系列复杂的异构建造者(multityped builders)单独处理。在新版本中，由一个单一类型的唯一一个建造者接管一系列选项对象。Glide的[自生成API][11]进一步简化了这个操作：它会合并传入建造者的选项对象和任何已包含的集成库里的选项，以生成一个流畅的API。
 
 ### RequestBuilder
-
-Includes methods like:
+对于这类方法：
 ```java
 listener()
 thumbnail()
@@ -22,7 +24,7 @@ load()
 into()
 ```
 
-In Glide v4 there is only a single [``RequestBuilder``][5] with a single type that indicates the type of item you're attempting to load (``Bitmap``, ``Drawable``, ``GifDrawable`` etc). The ``RequestBuilder`` provides direct access to options that affect the load process itself, including the model (url, uri etc) you want to load, any [``thumbnail()``][6] requests and any [``RequestListener``s][7]. The ``RequestBuilder`` also is the place where you start the load using [``into()``][8] or [``preload()``][9]:
+在Glide v4 版本中，只存在一个[``RequestBuilder``][5]对应一个你正在试图加载的类型(``Bitmap``, ``Drawable``, ``GifDrawable`` 等)。 ``RequestBuilder``可以直接访问对这个加载过程有影响的选项，包括你想加载的数据模型（url, uri等），可能存在的[``缩略图``][6]请求，以及任何的[``监听器``][7]。``RequestBuilder``也是你使用[``into()``][8] 或者 [``preload()``][9]方法开始加载的地方：
 
 ```java
 RequestBuilder<Drawable> requestBuilder = Glide.with(fragment)
@@ -36,9 +38,9 @@ requestBuilder
     .into(imageView);
 ```
 
-### RequestOptions
+### 请求选项
 
-Includes methods like:
+对于这类方法：
 ```java
 centerCrop()
 placeholder()
@@ -47,7 +49,7 @@ priority()
 diskCacheStrategy()
 ```
 
-Most options have moved into a separate object called [``RequestOptions``][10]:
+大部分选项被移动到了一个单独的称为[``RequestOptions``][10]的对象中，
 
 ```
 RequestOptions options = new RequestOptions()
@@ -57,7 +59,7 @@ RequestOptions options = new RequestOptions()
     .priority(Priority.HIGH);
 ```
 
-``RequestOptions`` are applied to ``RequestBuilders`` to allow you to specify a set of options once and then use them for multiple loads:
+``RequestOptions``允许你一次指定一系列的选项，然后对多个加载重用它们：
 
 ```java
 RequestOptions myOptions = new RequestOptions()
@@ -75,63 +77,27 @@ Glide.with(fragment)
     .load(url)
     .into(bitmapView);
 ```
+    
 
-### Transformations
-[``Transformations``][28] in Glide v4 now replace any previously set transformations. If you want to apply more than one [``Transformation``][28] in Glide v4, use the [``transforms()``][29] method:
+### 过渡选项
 
-```java
-Glide.with(fragment)
-  .load(url)
-  .apply(new RequestOptions().transforms(new CenterCrop(), new RoundedCorners(20)))
-  .into(target);
-```
-
-Or with the [generated API][24]:
-
-```java
-GlideApp.with(fragment)
-  .load(url)
-  .transforms(new CenterCrop(), new RoundedCorners(20))
-  .into(target);
-```
-
-### DecodeFormat
-
-In Glide v3, the default [``DecodeFormat``][30] was [``DecodeFormat.PREFER_RGB_565``][31], which used [``Bitmap.Config.RGB_565``][32] unless the image contained or might have contained transparent pixels. ``RGB_565`` uses half the memory of [``Bitmap.Config.ARGB_8888``][33] for a given image size, but it has noticeable quality issues for certain images, including banding and tinting. To avoid the quality issues with ``RGB_565``, Glide defaults to ``ARGB_8888``. As a result, image quality is higher, but memory usage my increase.
-
-To change Glide's default [``DecodeFormat``][30] back to [``DecodeFormat.PREFER_RGB_565``][31] in Glide v4, apply the ``RequestOption`` in an [``AppGlideModule``][2]:
-
-```java
-@GlideModule
-public final class YourAppGlideModule extends GlideModule {
-  @Override
-  public void applyOptions(Context context, GlideBuilder builder) {
-    builder.setDefaultRequestOptions(new RequestOptions().format(DecodeFormat.PREFER_RGB_565));
-  }
-}
-```
-
-For more on using [``AppGlideModuless``][2], see the [configuration page][4]. Note that you will have to make sure to add a dependency on Glide's annotation processor to ensure that Glide picks up your [``AppGlideModule``][2] implementation. For more information on how to set up the library, see the [download and setup page][34].
-
-### TransitionOptions
-
-Includes methods like:
+对于这类方法：
 ```java
 crossFade()
 animate()
 ```
 
-Options that control transitions from placeholders to images and/or between thumbnails and the full image have been moved into [``TransitionOptions``][13].
+控制从占位符到图片和/或缩略图到全图的变换的选项，被移动到了[``TransitionOptions``][13]中。
 
-To apply transitions (formerly animations), use one of the transition options that matches the type of resource you're requesting:
+要应用过渡（之前的动画），请使用下列选项中符合你请求的资源类型的一个：
 
 * [``GenericTransitionOptions``][14]
 * [``DrawableTransitionOptions``][15]
 * [``BitmapTransitionOptions``][16]
 
-To remove any default transition, use [``TransitionOptions.dontTransition()``][17].
+如果你想移除任何默认的过渡，可以使用``TransitionOptions.dontTransition()``][17]。
 
-Transitions are applied to a request using [``RequestBuilder``][5]:
+过渡动画通过[``RequestBuilder``][5]应用到请求上：
 
 ```java
 Glide.with(fragment)
@@ -139,17 +105,13 @@ Glide.with(fragment)
     .transition(withCrossFade(R.anim.fade_in, 300));
 ```
 
-#### Default transition
+### 生成的 API
 
-Unlike Glide v3, Glide v4 does **NOT** apply a cross fade or any other transition by default to requests. Transitions must be applied manually.
+为了让使用Glide v4更简单轻松，Glide现在也提供了一套可以为应用定制化生成的API。应用可以通过包含一个标记了[``AppGlideModule``][[2]的实现来访问生成的API。如果你不了解这是怎么工作的，可以查看[Generated API][11]。
 
-### Generated API
+生成的API添加了一个``GlideApp``类，该类提供了对``RequestBuilder``和``RequestOptions``子类的访问。``RequestOptions``的子类包含了所有``RequestOptions``中的方法，以及[``GlideExtensions``][12]中定义的方法。``RequestBuilder``的子类则提供了生成的``RequestOptions``中所有方法的访问，而不需要你再手动调用``apply``。举个例子：
 
-To make it even easier to use Glide v4, Glide now also offers a generated API for Applications. Applications can access the generated API by including an appropriately annotated [``AppGlideModule``][2] implementation. See the [Generated API][11] page for details on how this works.
-
-The generated API adds a ``GlideApp`` class, that provides access to ``RequestBuilder`` and ``RequestOptions`` subclasses. The ``RequestOptions`` subclass contains all methods in ``RequestOptions`` and any methods defined in [``GlideExtensions``][12]. The ``RequestBuilder`` subclass provides access to all methods in the generated ``RequestOptions`` subclass without having to use ``apply``:
-
-A request without the generated API might look like this:
+在没有使用生成API时，请求大概长这样：
 
 ```java
 Glide.with(fragment)
@@ -161,7 +123,7 @@ Glide.with(fragment)
     .into(imageView);
 ```
 
-With the generated API, the ``RequestOptions`` calls can be inlined:
+使用生成的API，``RequestOptions``的调用可以被内联：
 
 ```java
 GlideApp.with(fragment)
@@ -173,33 +135,33 @@ GlideApp.with(fragment)
     .into(imageView);
 ```
 
-You can still use the generated ``RequestOptions`` subclass to apply the same set of options to multiple loads, but generated ``RequestBuilder`` subclass may be more convenient in most cases.
+你仍然可以使用生成的``RequestOptions``子类来应用相同的选项到多次加载中；但生成的``RequestBuilder``子类可能在多数情况下更为方便。
 
-## Types and Targets
+## 类型(Type)与目标(Target)
 
-### Picking Resource Types
+### 选择资源类型
 
-Glide allows you to specify what type of resource you want to load. If you specify a super type, Glide will attempt to load any available subtypes. For example, if you request a Drawable, Glide may load either a BitmapDrawable or a GifDrawable. If you request a GifDrawable, Glide will either load a GifDrawable or error if the image isn't a GIF (even if it happens to be a perfectly valid image).
+Glide允许你指定你想加载的资源类型。如果你指定了一个超类型，Glide会尝试加载任何可用的子类型。比如，如果你请求的是Drawable，Glide可能会加载一个 BitmapDrawable 或一个 GifDrawable。而如果你请求的是一个GifDrawable，要么会加载出一个GifDrawable，要么报错--只要图片不是GIF的话（即使它凑巧是一个完全有效的图片也是如此）。
 
-Drawables are requested by default:
+默认请求的类型是Drawable：
 
 ```java
 Glide.with(fragment).load(url)
 ```
   
-To request a Bitmap:
+如果要明确指定请求Bitmap：
 
 ```java
 Glide.with(fragment).asBitmap()
 ```
 
-To obtain a filepath (best for local images):
+如果要创建一个文件路径（本地图片的最佳选项）：
 
 ```java
 Glide.with(fragment).asFile()
 ```
 
-To download a remote file into cache and obtain a file path:
+如果要下载一个远程文件到缓存然后创建文件路径：
 
 ```java
 Glide.with(fragment).downloadOnly()
@@ -209,62 +171,64 @@ Glide.with(fragment).download(url);
 
 ### Drawables
 
-``GlideDrawable`` in Glide v3 has been removed in favor of the standard Android [``Drawable``][18]. ``GlideBitmapDrawable`` has been removed in favor of [``BitmapDrawable``][19].
+Glide v3版本中的``GlideDrawable``类已经被移除，支持标准的Android [``Drawable``][18]。 ``GlideBitmapDrawable``也已经被删除，由[``BitmapDrawable``][19]代替之。
 
-If you want to know if a Drawable is animated, you can check if it is an instance of [``Animatable``][20]:
+如果你想知道某个Drawable是否是动画(animated)，可以检查它是否为[``Animatable``][20]的实例。
 
 ```java
-boolean isAnimated = drawable instanceof Animatable
+boolean isAnimated = drawable instanceof Animatable;
 ```
 
 ### Targets
 
-The signature of ``onResourceReady`` has changed. For example, for ``Drawables``:
+``onResourceReady``方法的签名做了一些修改。例如，对于 ``Drawables``:
 
 ```java
 onResourceReady(GlideDrawable drawable, GlideAnimation<? super GlideDrawable> anim) 
 ```
 
-is now:
+现在改为:
 
 ```java
 onResourceReady(Drawable drawable, Transition<? super Drawable> transition);
 ```
 
-Similarly the signature of ``onLoadFailed`` has also changed:
+类似地, ``onLoadFailed``的签名也有一些变动：
 ```java
 onLoadFailed(Exception e, Drawable errorDrawable)
 ```
 
-is now:
+改为：
 
 ```java
 onLoadFailed(Drawable errorDrawable)
 ```
 
 If you need more information about the errors that caused the load to fail, you can use [``RequestListener``][21].
+如果你想要获得更多导致加载失败的错误信息，你可以使用[``RequestListener``][21]。
 
 
-#### Cancellation
+#### 取消请求
 
-``Glide.clear(Target)`` has moved into [``RequestManager``][22]:
+``Glide.clear(Target)``方法被移动到了[``RequestManager``][22]中:
 
 ```java
 Glide.with(fragment).clear(target)
 ```
 
-Although it's not required, it's most performant to use the ``RequestManager`` that started the load to also clear the load. Glide v4 keeps track of requests per Activity and Fragment so clearing needs to remove the request at the appropriate level.
+使用``RequestManager``清除之前由它启动的加载过程，通常能提高性能，虽然这并不是强制要求的。Glide v4会为每一个Activity和Fragment跟踪请求，所以你需要在合适的层级去清除请求。
 
-## Configuration
-In Glide v3, configuration is performed via one or more [``GlideModules``][1]. In Glide v4, configuration is done via a similar but slightly more sophisticated system.
 
-For details on the new system, see the [Configuration][4] page.
+## 配置
+在Glide v3中，配置使用一个或多个[``GlideModule``][1]来完成。而在Glide v4中，配置改为使用一个类似但稍微复杂的系统来完成。
 
-### Applications
+关于这个新系统的细节，可以查看[配置][4]页面。
 
-Applications that have a single [``GlideModule``][1] can convert their ``GlideModule`` into a [``AppGlideModule``][2].
+### 应用程序
 
-In Glide v3, you might have a ``GlideModule`` like this:
+在早期版本中使用了一个[``GlideModule``][1]的应用，可以将它转换为一个[``AppGlideModule``][2]。
+
+在Glide v3中，你可能会有一个像这样的``GlideModule``：
 
 ```java
 public class GiphyGlideModule implements GlideModule {
@@ -274,13 +238,13 @@ public class GiphyGlideModule implements GlideModule {
   }
 
   @Override
-  public void registerComponents(Context context, Glide glide) {
-    glide.register(Api.GifResult.class, InputStream.class, new GiphyModelLoader.Factory());
+  public void registerComponents(Context context, Registry registry) {
+    registry.append(Api.GifResult.class, InputStream.class, new GiphyModelLoader.Factory());
   }
 }
 ```
 
-In Glide v4, you would convert it into a ``AppGlideModule`` that looks like this:
+在Glide v4中，你需要将其转换成一个``AppGlideModule``，它看起来像这样：
 
 ```java
 @GlideModule
@@ -291,21 +255,21 @@ public class GiphyGlideModule extends AppGlideModule {
   }
 
   @Override
-  public void registerComponents(Context context, Glide glide, Registry registry) {
+  public void registerComponents(Context context, Registry registry) {
     registry.append(Api.GifResult.class, InputStream.class, new GiphyModelLoader.Factory());
   }
 }
 ```
 
-Note that the ``@GlideModule`` annotation is required.
+请注意，``@GlideModule``注解不能省略。
+ 
+如果你的应用拥有多个``GlideModule``，你需要把其中一个转换成``AppGlideModule``，剩下的转换成[``LibraryGlideModule``][3]。除非存在``AppGlideModule``，否则程序不会发现``LibraryGlideModule``，因此您不能仅使用``LibraryGlideModule``。
 
-If your application has multiple ``GlideModule``s, convert one of them to a ``AppGlideModule`` and the others to [``LibraryGlideModule``s][3]. ``LibraryGlideModule``s will not be discovered unless a ``AppGlideModule`` is present, so you cannot use only ``LibraryGlideModule``s. 
+### 程序库
 
-### Libraries
+拥有一个或多个``GlideModule``的程序库应该使用[``LibraryGlideModule``][3]。程序库不应该使用[``AppGlideModule``][2]，因为它在一个应用里只能有一个。因此，如果你试图在程序库里使用它，将不仅会妨碍这个库的用户设置自己的选项，还会在多个程序库都这么做时造成冲突。
 
-Libraries that have one or more ``GlideModule``s should use [``LibraryGlideModule``][3] instead of [``AppGlideModule``][2]. Libraries should not use [``AppGlideModule``s][2] because there can only be one per Application, so including it in a library would not only prevent users of the library from setting their own options, but it would also cause conflicts if multiple libraries included a ``AppGlideModule``. 
-
-For example, the Volley ``GlideModule`` in v3:
+例如，v3版本中Volley集成库的``GlideModule``：
 
 ```java
 public class VolleyGlideModule implements GlideModule {
@@ -315,29 +279,30 @@ public class VolleyGlideModule implements GlideModule {
   }
 
   @Override
-  public void registerComponents(Context context, Glide glide) {
-    glide.register(GlideUrl.class, InputStream.class, new VolleyUrlLoader.Factory(context));
-  }
-}
-```
-
-Can be converted to a ``LibraryGlideModule`` in v4:
-
-```java
-@GlideModule
-public class VolleyLibraryGlideModule extends LibraryGlideModule {
-  @Override
-  public void registerComponents(Context context, Glide glide, Registry registry) {
+  public void registerComponents(Context context, Registry registry) {
     registry.replace(GlideUrl.class, InputStream.class, new VolleyUrlLoader.Factory(context));
   }
 }
 ```
 
-### Manifest parsing
+在v4版本中可以转换成为一个``LibraryGlideModule``：
 
-To ease the migration, manifest parsing and the older [``GlideModule``][1] interface are deprecated, but still supported in v4. ``AppGlideModule``s, ``LibraryGlideModule``s and the deprecated ``GlideModule``s can all coexist in an application.
+```java
+@GlideModule
+public class VolleyLibraryGlideModule extends LibraryGlideModule {
+  @Override
+  public void registerComponents(Context context, Registry registry) {
+    registry.replace(GlideUrl.class, InputStream.class, new VolleyUrlLoader.Factory(context));
+  }
+}
+```
 
-However, to avoid the performance overhead of checking metadata (and associated bugs), you can disable manifest parsing once your migration is complete by overriding a method in your ``AppGlideModule``:
+### 清单解析
+
+为了简化迁移过程，尽管清单解析和旧的[``GlideModule``][1]接口已被废弃，但它们在v4版本中仍被支持。``AppGlideModule``，``LibraryGlideModule``，与已废弃的``GlideModule``可以在一个应用中共存。
+
+然而，为了避免检查元数据的性能天花板（以及相关的bugs），你可以在迁移完成后禁用掉清单解析，
+具体办法是在你的``AppGlideModule``中复写一个方法：
 
 ```java
 @GlideModule
@@ -355,15 +320,16 @@ public class GiphyGlideModule extends AppGlideModule {
 
 #### ModelLoader
 
-The [``ModelLoader``][26] API exists in Glide v4 and serves the same purpose that it did in Glide v3, but a few of the specifics have changed.
+[``ModelLoader``][26]API在v4版本中仍然存在，并且它的设计目标仍然和它在v3中一样，但有一些细节变化。
 
-First specific subtypes of ``ModelLoader``, like ``StreamModelLoader`` are now unnecessary and users can implement ``ModelLoader`` directly. For example, a ``StreamModelLoader<File>`` would now be implemented and referred to as a ``ModelLoader<File, InputStream>``.
+第一个细节，``ModelLoader``的子类型如``StreamModelLoader``，现在已没有存在的必要，用户可以直接实现``ModelLoader``。例如，一个``StreamModelLoader<File>``类现在可以通过``ModelLoader<File, InputStream>``的方式来实现和引用。
 
-Second, instead of returning a ``DataFetcher`` directly, ``ModelLoader``s now return [``LoadData``][27]. ``LoadData`` is a very simple wrapper that contains a disk cache key and a ``DataFetcher``.
 
-Third, ``ModelLoaders`` have a ``handles()`` method, so that you can register more than one ModelLoader with the same type parameters.
+第二，``ModelLoader``现在并不直接返回``DataFetcher``，而是返回[``LoadData``][27]。[``LoadData``]是一个非常简单的封装，包含一个磁盘缓存键和一个``DataFetcher``。
 
-Converting a ``ModelLoader`` from the v3 API to the v4 API is almost always straight forward. If you just return a ``DataFetcher`` in your v3 ``ModelLoader``:
+第三，``ModelLoaders``有一个``handles()``方法，这使你可以为同一个类型参数注册超过一个的ModelLoader。
+
+将一个 ``ModelLoader`` 从 v3 API转换到 v4 API，通常是很简单直接的。如果你在你的v3  ``ModelLoader``中只是简单滴返回一个``DataFetcher``：
 
 ```java
 public final class MyModelLoader implements StreamModelLoader<File> {
@@ -375,7 +341,7 @@ public final class MyModelLoader implements StreamModelLoader<File> {
 }
 ```
 
-Then all you need to do in your v4 equivalent is wrap the data fetcher:
+那么你在v4替代类上需要做的仅仅只是封装一下这个data fetcher：
 
 ```java
 public final class MyModelLoader implements ModelLoader<File, InputStream> {
@@ -393,11 +359,11 @@ public final class MyModelLoader implements ModelLoader<File, InputStream> {
 }
 ```
 
-Note that the model is passed in to the ``LoadData`` to act as part of the cache key, in addition to the ``DataFetcher``. This pattern provides more control over the disk cache key in some specialized circumstances. Most implementations can just pass their model directly into ``LoadData`` as is done above. For this to work correctly your model needs to correctly implements ``hashCode()`` and ``equals()``
+请注意，除了“DataFetcher”之外，模型也被传递给“LoadData”作为缓存键的一部分。这个规则为某些特殊场景提供了更多对磁盘缓存键的控制。大部分实现可以直接将model传入``LoadData``，就像上面这样。
 
-If you'd only like to use your ModelLoader for some models you can use the ``handles()`` method to inspect the model before you try to load it. If you return ``false`` from ``handles()`` your ``ModelLoader`` will not be to load the given model, even if the types of your ``ModelLoader`` (``File`` and ``InputStream`` in this example) match.
+如果你仅仅是想为某些model（而不是所有）使用你的ModelLoader，你可以在你尝试加载model之前使用``handles()``方法来检查它。如果你从``handles``方法中返回了``false``，那么你的``ModelLoader``将不能加载指定的model，即使你的``ModelLoader``类型(在这个例子里是``File``和``InputStream``)与之匹配。
 
-For example, if you're writing encrypted images to disk in a specific folder, you could use the ``handles()`` method to implement a ``ModelLoader`` that decrypted images from that specific folder but wasn't used when loading ``File``s from other folders:
+举个例子，如果你在某个指定文件夹下写入了加密的图片，你可以使用``handles``方法来实现一个``ModelLoader``以从那个特定的文件夹下解密图片，但是并不用于加载其他文件夹下的``File``：
 
 ```java
 public final class MyModelLoader implements ModelLoader<File, InputStream> {
@@ -419,9 +385,9 @@ public final class MyModelLoader implements ModelLoader<File, InputStream> {
 
 #### ``using()``
 
-The [``using()``][23] API was removed in Glide 4 to encourage users to [register][24] their components once with a [``AppGlideModule``][2] to avoid object re-use. Rather than creating a new ``ModelLoader`` each time you load an image, you register it once in an [``AppGlideModule``][2] and let Glide inspect your model (the object you pass to [``load()``][25]) to figure out when to use your registered ``ModelLoader``.
+``using`` API在 Glide v4 中被删除了，这是为了鼓励用户使用[``AppGlideModule``][2]一次性地[注册][24]所有组件，避免对象重用(re-use, 原文如此 --译者注)。你无需每次加载图片时都创建一个新的``ModelLoader``；你应该在[``AppGlideModule``][2]中注册一次，然后交给Glide在每次加载时检查model(即你传入[``load()``][25]方法的对象)来决定什么时候使用你注册的``ModelLoader`。
 
-To make sure you only use your ``ModelLoader`` for certain models, implement ``handles()`` as shown above to inspect each model and return true only if your ``ModelLoader`` should be used.
+为了确保你仅为特定的model使用你的``ModelLoader``，请像上面展示的那样实现``handles``方法：检查每个model，但仅在应当使用你的``ModelLoader``时才返回true。
 
 [1]: {{ site.url }}/glide/javadocs/360/com/bumptech/glide/module/GlideModule.html
 [2]: {{ site.url }}/glide/javadocs/400/com/bumptech/glide/module/AppGlideModule.html
@@ -450,10 +416,3 @@ To make sure you only use your ``ModelLoader`` for certain models, implement ``h
 [25]: {{ site.url }}/glide/javadocs/400/com/bumptech/glide/RequestBuilder.html#load-java.lang.Object-
 [26]: {{ site.url }}/glide/javadocs/400/com/bumptech/glide/load/model/ModelLoader.html
 [27]: {{ site.url }}/glide/javadocs/400/com/bumptech/glide/load/model/ModelLoader.LoadData.html
-[28]: {{ site.url }}/glide/javadocs/410/com/bumptech/glide/load/Transformation.html
-[29]: {{ site.url }}/glide/javadocs/410/com/bumptech/glide/request/RequestOptions.html#transforms-com.bumptech.glide.load.Transformation...-
-[30]: {{ site.url }}/glide/javadocs/410/com/bumptech/glide/load/DecodeFormat.html
-[31]: {{ site.url }}/glide/javadocs/410/com/bumptech/glide/load/DecodeFormat.html#PREFER_RGB_565
-[32]: https://developer.android.com/reference/android/graphics/Bitmap.Config.html#RGB_565
-[33]: https://developer.android.com/reference/android/graphics/Bitmap.Config.html#ARGB_8888
-[34]: download-setup.html

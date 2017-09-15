@@ -1,47 +1,50 @@
 ---
 layout: page
-title: "Download & Setup"
+title: "下载和初始化"
 category: doc
 date: 2015-05-15 21:08:05
 order: 1
 disqus: 1
 ---
+
+原文链接：[点击查看](http://bumptech.github.io/glide/doc/download-setup.html)
+
 * TOC
 {:toc}
 
-### Download
+### 下载
 
-Glide's public releases are accessible in a number of ways.
+可以使用多种方法访问Glide的公开发行版。
 
 #### Jar
 
-You can download [the latest jar][1] from GitHub directly. Note that you will also need to include a jar for Android's [v4 support library][2].
+你可以直接从GitHub下载[最新的jar包][1]。请注意，你还需要包含Android的[v4支持库][2]。
 
 #### Gradle
 
-If you use Gradle you can add a dependency on Glide using either Maven Central or JCenter. You will also need to include a dependency on the support library.
+如果你使用Gradle，那么你可以添加对Glide的依赖，从Maven Central或者JCenter都可以。同样，你还需要包含对支持库的依赖。
 
 ```groovy
 repositories {
   mavenCentral()
-  maven { url 'https://maven.google.com' }
 }
 
 dependencies {
-    compile 'com.github.bumptech.glide:glide:4.1.1'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.1.1'
+    compile 'com.github.bumptech.glide:glide:4.0.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.0.0'
+    compile 'com.android.support:support-v4:25.3.1'
 }
 ```
 
 #### Maven
 
-If you use Maven you can add a dependency on Glide as well. Again, you will also need to include a dependency on the support library.
+如果你使用Maven，你也可以添加对Glide的依赖。再说一遍，你需要包含对支持库的依赖。
 
 ```xml
 <dependency>
   <groupId>com.github.bumptech.glide</groupId>
   <artifactId>glide</artifactId>
-  <version>4.1.1</version>
+  <version>4.0.0</version>
   <type>aar</type>
 </dependency>
 <dependency>
@@ -49,22 +52,15 @@ If you use Maven you can add a dependency on Glide as well. Again, you will also
   <artifactId>support-v4</artifactId>
   <version>r7</version>
 </dependency>
-<dependency>
-  <groupId>com.github.bumptech.glide</groupId>
-  <artifactId>compiler</artifactId>
-  <version>4.1.1</version>
-  <optional>true</optional>
-</dependency>
 ```
 
-### Setup
+### 设置
 
-Depending on your build configuration you may also need to do some additional setup.
+你可能需要做一些额外的设置步骤，这取决于你的构建配置。
 
 #### Proguard
 
-If you use proguard, you may need to add the following lines to your ``proguard.cfg``:
-
+如果你使用proguard，那么请把以下代码添加到你的``proguard.cfg``：
 ```
 -keep public class * implements com.bumptech.glide.module.GlideModule
 -keep public class * extends com.bumptech.glide.AppGlideModule
@@ -75,22 +71,24 @@ If you use proguard, you may need to add the following lines to your ``proguard.
 ```
 
 #### Jack
-Glide's build configuration requires features that [Jack][3] does not currently support. Jack was recently [deprecated][4] and it's unlikely that the features Glide requires will ever be added.
+
+Glide的构建配置需要使用一些[Jack][3]目前还不能支持的特性。并且由于Jack最近已经被标记为[deprecated][4]，Glide需要使用的特性可能在未来也不会被加入了。
 
 #### Java 8
-There is not yet (as of 6/2017) a stable release of the Android tool chain that will allow you to use Glide with Java 8 features. If you'd like to use Java 8 and are ok with less stability, there is at least an alpha version of the android gradle plugin that supports Java 8. The alpha version of the plugin has not yet been tested with Glide. See Android's [Java 8 support page][5] for more details.
+
+目前(2017年6月)还没有一个稳定的Android工具链能允许你将Glide和Java 8特性一起使用。如果你希望使用Java 8，并且允许牺牲一定的稳定性，那么，至少目前已经有一个alpha版本的Android Gradle插件可以支持Java 8. 但是，Alpha版本的插件目前还未经Glide测试过。如果你对此感兴趣，可以查看Android的[Java 8支持页][5]。
 
 #### Kotlin
 
-If you use Glide's annotations on classes implemented in Kotlin, you need to include a ``kapt`` dependency on Glide's annotation processor instead of a ``annotationProcessor`` dependency:
+如果你在使用Kotlin实现的类上使用Glide的注解，你需要引入一个``kapt``依赖，以代替常规的``annotationProcessor`` 依赖：
 
 ```groovy
 dependencies {
-  kapt 'com.github.bumptech.glide:compiler:4.1.1'
+  kapt 'com.github.bumptech.glide:compiler:4.0.0'
 }
 ```
 
-See the [generated API][6] page for details.
+关于Kotlin的更多api，可以查看[Generated API][6]。
 
 [1]: https://github.com/bumptech/glide/releases/download/v3.6.0/glide-3.6.0.jar
 [2]: http://developer.android.com/tools/support-library/features.html#v4
@@ -98,3 +96,4 @@ See the [generated API][6] page for details.
 [4]: https://android-developers.googleblog.com/2017/03/future-of-java-8-language-feature.html
 [5]: https://developer.android.com/studio/write/java8-support.html
 [6]: {{ site.url }}/glide/doc/generatedapi.html#kotlin
+

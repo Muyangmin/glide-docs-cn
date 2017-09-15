@@ -10,21 +10,28 @@
 ```bash
 git clone --recursive https://github.com/<Your-fork>/glide-docs-cn.git
 ```
-2. 安装Node.Js，然后初始化Hexo环境（如果已经安装可以跳过）:
-```bash
-npm install 
-```
+2. 安装Jekyll
+
+   [Installation](https://jekyllrb.com/docs/installation/)
+
+   [Installation-cn](http://jekyllcn.com/docs/installation/)
+
 3. 新建一个分支:
 ```bash
 git checkout -b myTranslation
 ```
 4. 完成你的修改并commit，然后本地启动Hexo预览（**请务必本地预览后再提交PR！**）
 ```bash
-hexo s
+jekyll serve
 ```
 5. 发送PR 到本仓库的master分支。
 
 **注意：开始翻译前，请务必阅读并遵守本项目的[翻译原则](./PRINCIPLES.md)，谢谢合作！**
+
+### TODO
+
+- [] 跟进官方网站最新版本
+- [] 搭建Travis CI
 
 ### 免责声明
 **本仓库并非官方维护，翻译质量与Google或BumpTech无关。**

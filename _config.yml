@@ -1,84 +1,49 @@
-# Hexo Configuration
-## Docs: https://hexo.io/docs/configuration.html
-## Source: https://github.com/hexojs/hexo/
+# Site title and subtitle. This is used in _includes/header.html
+title: 'Glide v4'
+subtitle: 'Fast and efficient image loading for Android'
 
-# Site
-title: Glide v4 中文站
-subtitle:
-description:
-author: Muyangmin
-language: zh-cn
-timezone: Asia/Shanghai
+# if you wish to integrate disqus on pages set your shortname here
+disqus_shortname: ''
 
-# URL
-## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: https://muyangmin.github.io/glide-docs-cn
-root: /glide-docs-cn/
-permalink: :year/:month/:day/:title/
-permalink_defaults:
+# if you use google analytics, add your tracking id here
+google_analytics_id: ''
 
-# Directory
-source_dir: source
-public_dir: public
-tag_dir: tags
-archive_dir: archives
-category_dir: categories
-code_dir: downloads/code
-i18n_dir: :lang
-skip_render:
+# Enable/show navigation. There are there options:
+#   0 - always hide
+#   1 - always show
+#   2 - show only if posts are present
+navigation: 2
 
-# Writing
-new_post_name: :title.md # File name of new posts
-default_layout: page
-titlecase: false # Transform title into titlecase
-external_link: true # Open external links in new tab
-filename_case: 0
-render_drafts: false
-post_asset_folder: false
-relative_link: false
+# URL to source code, used in _includes/footer.html
+codeurl: 'https://github.com/bumptech/glide'
+
+# Default categories (in order) to appear in the navigation
+sections: [
+    ['doc', 'Documentation'],
+    ['tut', 'Tutorial'],
+    ['ref', 'Reference'],
+    ['int', 'Integration Libraries'],
+    ['dev', 'Developers'],
+    ['post', 'Posts']
+]
+
+# Keep as an empty string if served up at the root. If served up at a specific
+# path (e.g. on GitHub pages) leave off the trailing slash, e.g. /my-project
+baseurl: '/glide'
+
+# Dates are not included in permalinks
+permalink: none
+
+# Syntax highlighting
+highlighter: rouge
+
+# Since these are pages, it doesn't really matter
 future: true
-highlight:
-  enable: true
-  line_number: false
-  auto_detect: false
-  tab_replace:
-  
-# Home page setting
-# path: Root path for your blogs index page. (default = '')
-# per_page: Posts displayed per page. (0 = disable pagination)
-# order_by: Posts order. (Order by date descending by default)
-index_generator:
-  path: ''
-  per_page: 10
-  order_by: -date
-  
-# Category & Tag
-default_category: uncategorized
-category_map:
-tag_map:
 
-# Date / Time format
-## Hexo uses Moment.js to parse and display date
-## You can customize the date format as defined in
-## http://momentjs.com/docs/#/displaying/format/
-date_format: YYYY-MM-DD
-time_format: HH:mm:ss
+# Exclude non-site files
+exclude: ['bin', 'README.md', 'samples', 'testutil', 'third_party', 'library', 'build']
 
-# Pagination
-## Set per_page to 0 to disable pagination
-per_page: 0
-pagination_dir: page
-
-# Extensions
-## Plugins: https://hexo.io/plugins/
-## Themes: https://hexo.io/themes/
-theme: navy
-
-# Deployment
-## Docs: https://hexo.io/docs/deployment.html
-deploy:
-  type: git
-  repo: https://github.com/Muyangmin/glide-docs-cn.git
-  branch: gh-pages
-
-github: Muyangmin/glide-docs-cn
+# Use the kramdown Markdown renderer
+markdown: kramdown
+kramdown:
+  input: GFM

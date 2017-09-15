@@ -7,7 +7,7 @@ order: 4
 disqus: 1
 ---
 
-原文链接：[点击查看](http://bumptech.github.io/glide/doc/placeholders.html)
+原文链接：[点击查看](http://bumptech.github.io/glide/doc/placeholders.html){:target="_blank"}
 
 * TOC
 {:toc}

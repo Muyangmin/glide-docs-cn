@@ -7,7 +7,7 @@ disqus: 1
 order: 1
 ---
 
-原文链接：[点击查看](http://bumptech.github.io/glide/dev/snapshots.html)
+原文链接：[点击查看](http://bumptech.github.io/glide/dev/snapshots.html){:target="_blank"}
 
 ## 关于快照(Snapshots)
 对于那些等不了Glide的下一个稳定版的，喜欢在刀尖上跳舞的用户【注】，我们在[Sonatype's snapshot repo][2]部署了Glide库的快照版本。  

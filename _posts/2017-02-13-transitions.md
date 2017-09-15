@@ -7,7 +7,7 @@ order: 8
 disqus: 1
 ---
 
-原文链接：[点击查看](http://bumptech.github.io/glide/doc/transitions.html)
+原文链接：[点击查看](http://bumptech.github.io/glide/doc/transitions.html){:target="_blank"}
 
 * TOC
 {:toc}

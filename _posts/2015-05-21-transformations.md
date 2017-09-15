@@ -7,7 +7,7 @@ order: 6
 disqus: 1
 ---
 
-原文链接：[点击查看](http://bumptech.github.io/glide/doc/transformations.html)
+原文链接：[点击查看](http://bumptech.github.io/glide/doc/transformations.html){:target="_blank"}
 
 * TOC
 {:toc}

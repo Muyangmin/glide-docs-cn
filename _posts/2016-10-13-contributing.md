@@ -7,7 +7,7 @@ disqus: 1
 order: 2
 ---
 
-原文链接：[点击查看](http://bumptech.github.io/glide/dev/contributing.html)
+原文链接：[点击查看](http://bumptech.github.io/glide/dev/contributing.html){:target="_blank"}
 
 * TOC
 {:toc}

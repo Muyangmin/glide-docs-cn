@@ -7,7 +7,7 @@ order: 12
 disqus: 1
 ---
 
-原文链接：[点击查看](http://bumptech.github.io/glide/doc/migrating.html)
+原文链接：[点击查看](http://bumptech.github.io/glide/doc/migrating.html){:target="_blank"}
 
 * TOC
 {:toc}

@@ -7,7 +7,7 @@ order: 2
 disqus: 1
 ---
 
-原文链接：[点击查看](http://bumptech.github.io/glide/doc/getting-started.html)
+原文链接：[点击查看](http://bumptech.github.io/glide/doc/getting-started.html){:target="_blank"}
 
 ### 基本用法
 

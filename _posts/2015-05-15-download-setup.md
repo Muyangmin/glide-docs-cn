@@ -7,11 +7,11 @@ order: 1
 disqus: 1
 ---
 
-原文链接：[点击查看](http://bumptech.github.io/glide/doc/download-setup.html)
+原文链接：[点击查看](http://bumptech.github.io/glide/doc/download-setup.html){:target="_blank"}
 
 * TOC
 {:toc}
-
+s
 ### 下载
 
 可以使用多种方法访问Glide的公开发行版。

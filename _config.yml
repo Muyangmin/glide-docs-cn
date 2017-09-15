@@ -3,10 +3,10 @@ title: 'Glide v4'
 subtitle: 'Fast and efficient image loading for Android'
 
 # if you wish to integrate disqus on pages set your shortname here
-disqus_shortname: 'android-glide'
+disqus_shortname: ''
 
 # if you use google analytics, add your tracking id here
-google_analytics_id: 'UA-63288121-1'
+google_analytics_id: ''
 
 # Enable/show navigation. There are there options:
 #   0 - always hide

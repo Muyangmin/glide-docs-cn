@@ -20,9 +20,9 @@ git clone --recursive https://github.com/<Your-fork>/glide-docs-cn.git
 ```bash
 git checkout -b myTranslation
 ```
-4. 完成你的修改并commit，然后本地启动Hexo预览（**请务必本地预览后再提交PR！**）
+4. 完成你的修改并commit，然后本地启动预览（**请务必本地预览后再提交PR！**）
 ```bash
-jekyll serve
+jekyll s
 ```
 5. 发送PR 到本仓库的master分支。
 

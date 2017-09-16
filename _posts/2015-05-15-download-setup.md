@@ -95,5 +95,5 @@ dependencies {
 [3]: https://source.android.com/source/jack
 [4]: https://android-developers.googleblog.com/2017/03/future-of-java-8-language-feature.html
 [5]: https://developer.android.com/studio/write/java8-support.html
-[6]: {{ site.url }}/glide/doc/generatedapi.html#kotlin
+[6]: {{ site.baseurl }}/doc/generatedapi.html#kotlin
 

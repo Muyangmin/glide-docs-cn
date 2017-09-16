@@ -68,12 +68,12 @@ To save object allocations, you can re-use the same ``RequestListener`` for mult
 为减少对象分配起见，你可以为多个加载重用相同的``RequestListener``。
 
 
-[1]: {{ site.url }}/glide/javadocs/400/com/bumptech/glide/GlideBuilder.html#setLogLevel-int-
-[2]: {{ site.url }}/glide/javadocs/400/com/bumptech/glide/RequestBuilder.html#into-android.widget.ImageView-
-[3]: {{ site.url }}/glide/javadocs/400/com/bumptech/glide/RequestBuilder.html#submit-int-int-
-[4]: {{ site.url }}/glide/javadocs/400/com/bumptech/glide/request/target/Target.html#getSize-com.bumptech.glide.request.target.SizeReadyCallback-
-[5]: {{ site.url }}/glide/javadocs/400/com/bumptech/glide/request/target/ViewTarget.html
-[6]: {{ site.url }}/glide/javadocs/400/com/bumptech/glide/request/RequestOptions.html#override-int-int-
-[7]: {{ site.url }}/glide/javadocs/400/com/bumptech/glide/request/RequestListener.html
-[8]: {{ site.url }}/glide/javadocs/400/com/bumptech/glide/RequestBuilder.html#listener-com.bumptech.glide.request.RequestListener-
+[1]: {{ site.baseurl }}/javadocs/400/com/bumptech/glide/GlideBuilder.html#setLogLevel-int-
+[2]: {{ site.baseurl }}/javadocs/400/com/bumptech/glide/RequestBuilder.html#into-android.widget.ImageView-
+[3]: {{ site.baseurl }}/javadocs/400/com/bumptech/glide/RequestBuilder.html#submit-int-int-
+[4]: {{ site.baseurl }}/javadocs/400/com/bumptech/glide/request/target/Target.html#getSize-com.bumptech.glide.request.target.SizeReadyCallback-
+[5]: {{ site.baseurl }}/javadocs/400/com/bumptech/glide/request/target/ViewTarget.html
+[6]: {{ site.baseurl }}/javadocs/400/com/bumptech/glide/request/RequestOptions.html#override-int-int-
+[7]: {{ site.baseurl }}/javadocs/400/com/bumptech/glide/request/RequestListener.html
+[8]: {{ site.baseurl }}/javadocs/400/com/bumptech/glide/RequestBuilder.html#listener-com.bumptech.glide.request.RequestListener-
 

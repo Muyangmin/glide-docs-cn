@@ -96,21 +96,21 @@ Glide.with(fragment)
 
 Glide可以将``Bitmap`` ``Transformation``应用到``BitmapDrawable``, ``GifDrawable``, 以及``Bitmap``资源上，因此通常你只需要编写和应用``Bitmap`` ``Transformation``。然而，如果你添加了额外的资源类型，你可能需要考虑派生[``RequestOptions``][15]类，并让你的资源类型能应用Glide内置的``Bitmap`` ``Transformation``。
 
-[1]: {{ site.url }}/glide/javadocs/400/com/bumptech/glide/load/Transformation.html
-[2]: {{ site.url }}/glide/javadocs/400/com/bumptech/glide/load/resource/bitmap/FitCenter.html
+[1]: {{ site.baseurl }}/javadocs/400/com/bumptech/glide/load/Transformation.html
+[2]: {{ site.baseurl }}/javadocs/400/com/bumptech/glide/load/resource/bitmap/FitCenter.html
 [3]: options.html
-[4]: {{ site.url }}/glide/javadocs/400/com/bumptech/glide/load/resource/bitmap/CenterCrop.html
-[6]: {{ site.url }}/glide/javadocs/400/com/bumptech/glide/load/resource/bitmap/CircleCrop.html
+[4]: {{ site.baseurl }}/javadocs/400/com/bumptech/glide/load/resource/bitmap/CenterCrop.html
+[6]: {{ site.baseurl }}/javadocs/400/com/bumptech/glide/load/resource/bitmap/CircleCrop.html
 [7]: http://developer.android.com/reference/android/widget/ImageView.html
 [8]: http://developer.android.com/reference/android/widget/ImageView.ScaleType.html
-[9]: {{ site.url }}/glide/javadocs/400/com/bumptech/glide/request/RequestOptions.html
-[10]: {{ site.url }}/glide/javadocs/400/com/bumptech/glide/request/RequestOptions.html#dontTransform--
-[11]: {{ site.url }}/glide/javadocs/400/com/bumptech/glide/RequestManager.html#asDrawable--
+[9]: {{ site.baseurl }}/javadocs/400/com/bumptech/glide/request/RequestOptions.html
+[10]: {{ site.baseurl }}/javadocs/400/com/bumptech/glide/request/RequestOptions.html#dontTransform--
+[11]: {{ site.baseurl }}/javadocs/400/com/bumptech/glide/RequestManager.html#asDrawable--
 [12]: http://developer.android.com/reference/android/graphics/drawable/BitmapDrawable.html
-[13]: {{ site.url }}/glide/javadocs/400/com/bumptech/glide/load/resource/gif/GifDrawable.html
-[14]: {{ site.url }}/glide/javadocs/400/com/bumptech/glide/request/RequestOptions.html#transform-java.lang.Class-com.bumptech.glide.load.Transformation-
-[15]: {{ site.url }}/glide/javadocs/400/com/bumptech/glide/request/RequestOptions.html
-[16]: {{ site.url }}/glide/doc/generatedapi.html
-[17]: {{ site.url }}/glide/javadocs/400/com/bumptech/glide/request/RequestOptions.html#transform-java.lang.Class-com.bumptech.glide.load.Transformation-
-[18]: {{ site.url }}/glide/javadocs/400/com/bumptech/glide/load/MultiTransformation.html
+[13]: {{ site.baseurl }}/javadocs/400/com/bumptech/glide/load/resource/gif/GifDrawable.html
+[14]: {{ site.baseurl }}/javadocs/400/com/bumptech/glide/request/RequestOptions.html#transform-java.lang.Class-com.bumptech.glide.load.Transformation-
+[15]: {{ site.baseurl }}/javadocs/400/com/bumptech/glide/request/RequestOptions.html
+[16]: {{ site.baseurl }}/doc/generatedapi.html
+[17]: {{ site.baseurl }}/javadocs/400/com/bumptech/glide/request/RequestOptions.html#transform-java.lang.Class-com.bumptech.glide.load.Transformation-
+[18]: {{ site.baseurl }}/javadocs/400/com/bumptech/glide/load/MultiTransformation.html
 

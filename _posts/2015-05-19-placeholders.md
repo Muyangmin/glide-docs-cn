@@ -96,7 +96,7 @@ No。Transformation仅被应用于被请求的资源，而不会对任何占位�
 ##### 在多个不同的View上使用相同的Drawable可行么？
 通常可以，但不是绝对的。任何无状态(`non-stateful`)的Drawable（例如`BitmapDrawable`）通常都是ok的。但是有状态的Drawable不一样，在同一时间多个View上展示它们通常不是很安全，因为多个View会立刻修改(`mutate`)Drawable。对于有状态的Drawable，建议传入一个资源ID，或者使用`newDrawable()`来给每个请求传入一个新的拷贝。
 
-[1]: {{ site.url }}/glide/javadocs/400/com/bumptech/glide/request/RequestOptions.html#placeholder-int-
-[2]: {{ site.url }}/glide/javadocs/400/com/bumptech/glide/request/RequestOptions.html#error-int-
-[3]: {{ site.url }}/glide/javadocs/400/com/bumptech/glide/request/RequestOptions.html#fallback-int-
+[1]: {{ site.baseurl }}/javadocs/400/com/bumptech/glide/request/RequestOptions.html#placeholder-int-
+[2]: {{ site.baseurl }}/javadocs/400/com/bumptech/glide/request/RequestOptions.html#error-int-
+[3]: {{ site.baseurl }}/javadocs/400/com/bumptech/glide/request/RequestOptions.html#fallback-int-
 [4]: generatedapi.html

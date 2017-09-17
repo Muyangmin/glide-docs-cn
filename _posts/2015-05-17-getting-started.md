@@ -14,7 +14,7 @@ translators: [Muyangmin, vincgao]
 {:toc}
 ### 基本用法
 
-多数情况下，使用Glide加载图片非常简单，一行代码足以：
+多数情况下，使用Glide加载图片非常简单，一行代码足矣：
 
 ```java
 Glide.with(fragment)

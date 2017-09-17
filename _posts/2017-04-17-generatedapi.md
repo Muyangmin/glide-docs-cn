@@ -80,7 +80,7 @@ Generated API 目前仅可以在 Application 模块内使用。这一限制可�
 
 ### 使用 Generated API
 
-Generated API 默认名为 `GlideApp` ，与 Application 模块中 [`AppGlideModule`](http://127.0.0.1:4000/glide-docs-cn/javadocs/400/com/bumptech/glide/module/AppGlideModule.html) 的子类包名相同。在 Application 模块中将 `Glide.with()` 替换为 `GlideApp.with()`，即可使用该 API 去完成加载工作：
+Generated API 默认名为 `GlideApp` ，与 Application 模块中 [`AppGlideModule`][4]的子类包名相同。在 Application 模块中将 `Glide.with()` 替换为 `GlideApp.with()`，即可使用该 API 去完成加载工作：
 
 ```java
 GlideApp.with(fragment)

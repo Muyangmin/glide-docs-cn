@@ -89,7 +89,7 @@ public void onBindViewHolder(ViewHolder holder, int position) {
 }
 ```
 
-对 ``View`` 调用 [``clear()``][4] 或 ``into(View)``，表明在此之前的加载操作会被取消，并且在方法调用完成后，Glide 不会改变 view 的内容。如果你忘记调用 [``clear()``][4]，而又没有开启新的加载操作，那么就会出现这种情况，你已经为一个 View 设置好了一个 ``Drawable``，但之前在该位置上使用 Glide 进行过加载操作，加载完毕后可能会将这个 View 改回成原来的内容。
+对 ``View`` 调用 [``clear()``][4] 或 ``into(View)``，表明在此之前的加载操作会被取消，并且在方法调用完成后，Glide 不会改变 view 的内容。如果你忘记调用 [``clear()``][4]，而又没有开启新的加载操作，那么就会出现这种情况，你已经为一个 view 设置好了一个 ``Drawable``，但该 view 在之前的位置上使用 Glide 进行过加载图片的操作，Glide 加载完毕后可能会将这个 view 改回成原来的内容。
 
 这里的代码以 RecyclerView 的使用为例，但规则同样适用于 ListView。
 

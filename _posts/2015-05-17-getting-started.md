@@ -2,16 +2,19 @@
 layout: page
 title: "开始使用"
 category: doc
-date: 2015-05-17 17:01:02
+date: 2017-09-17 10:54:00
 order: 2
 disqus: 1
+translators: [Muyangmin, vincgao]
 ---
 
 原文链接：[点击查看](http://bumptech.github.io/glide/doc/getting-started.html){:target="_blank"}
 
+* TOC
+{:toc}
 ### 基本用法
 
-很多情况下，使用Glide加载图片非常简单，简单到只用一行代码：
+多数情况下，使用Glide加载图片非常简单，一行代码足以：
 
 ```java
 Glide.with(fragment)
@@ -25,11 +28,11 @@ Glide.with(fragment)
 Glide.with(fragment).clear(imageView);
 ```
 
-尽管及时取消不必要的加载是很好的实践，但是你并不需要做这样的辛苦活。实际上，当你通过 [``Glide.with()``][1] 方法传入Glide的Activity或Fragment被销毁的时候，Glide会自动取消加载并回收资源。
+尽管及时取消不必要的加载是很好的实践，但这并不是必须的操作。实际上，当 [``Glide.with()``][1] 中传入的 Activity 或 Fragment 实例销毁时，Glide 会自动取消加载并回收资源。
 
-### 应用程序
+### 在 Application 模块中的使用
 
-应用可以添加一个合适的被标记为 [``AppGlideModule``][6] 的实现类来生成一个内联了大部分选项的API，包括那些已经在集成库中定义过的：
+在 Application 模块中，可创建一个添加有 `@GlideModule` 注解，继承自 `AppGlideModule` 的类。此类可生成出一个流式 API，内联了多种选项，和集成库中自定义的选项：
 
 ```java
 package com.example.myapp;
@@ -41,7 +44,7 @@ import com.bumptech.glide.module.AppGlideModule;
 public final class MyAppGlideModule extends AppGlideModule {}
 ```
 
-API会在[``AppGlideModule``][6]的相同包下被生成出来，默认命名为``GlideApp``。将开始加载的代码从 ``Glide.with()``改成``GlideApp.with()``，应用就可以使用新的API啦。
+生成的 API 默认名为 `GlideApp` ，与 [``AppGlideModule``][6] 的子类包名相同。在 Application 模块中将 ``Glide.with()`` 替换为 ``GlideApp.with()``，即可使用该 API 去完成加载工作。
 
 ```java
 GlideApp.with(fragment)
@@ -51,11 +54,11 @@ GlideApp.with(fragment)
    .into(imageView);
 ```
 
-可以访问Glide的 [generated API][7] 页面来获得更多信息。 
+可以访问 Glide 的 [generated API][7] 页面来获得更多信息。 
 
-### ListView 和 RecyclerView
+### 在 ListView 和 RecyclerView 中的使用
 
-在ListView或RecyclerView中加载图片的代码和在单独的View中完全一样。Glide已经自动处理了View的重用和请求的取消操作：
+在 ListView 或 RecyclerView 中加载图片的代码和在单独的 View 中加载完全一样。Glide 已经自动处理了 View 的复用和请求的取消：
 
 ```java
 @Override
@@ -67,9 +70,9 @@ public void onBindViewHolder(ViewHolder holder, int position) {
 }
 ```
 
-你也大可不必对你的url做null检查，如果url为空，Glide会擦除View的内容，或者显示你之前设置的任何 [placeholder Drawable][2] 或 [fallback Drawable][3] 。
+对 url 进行 null 检验并不是必须的，如果 url 为 null，Glide 会清空 View 的内容，或者显示 [placeholder Drawable][2] 或 [fallback Drawable][3] 的内容。
 
-Glide唯一的要求就是，对于任何可复用的``View`` [``Target``][5], 如果你在之前的位置可能启动了一个加载请求的话，对于新的位置，要么开始一个新的加载过程，要么使用 [``clear()``][4] API来显式地清空内容。
+Glide 唯一的要求是，对于任何可复用的 ``View`` 或 [``Target``][5] ，如果它们在之前的位置上，用 Glide 进行过加载操作，那么在新的位置上要去执行一个新的加载操作，或调用 [``clear()``][4] API 停止 Glide 的工作。
 
 ```java
 @Override
@@ -86,10 +89,9 @@ public void onBindViewHolder(ViewHolder holder, int position) {
 }
 ```
 
+对 ``View`` 调用 [``clear()``][4] 或 ``into(View)``，表明在此之前的加载操作会被取消，并且在方法调用完成后，Glide 不会改变 view 的内容。如果你忘记调用 [``clear()``][4]，而又没有开启新的加载操作，那么就会出现这种情况，你已经为一个 View 设置好了一个 ``Drawable``，但之前在该位置上使用 Glide 进行过加载操作，加载完毕后可能会将这个 View 改回成原来的内容。
 
-通过对``View``执行[``clear()``][4] 或 ``into(View)``，之前的加载都会被取消，并且在方法调用完成后，Glide将保证不会改变view的内容。如果你忘记调用[``clear()``][4]，而又没有开启新的加载过程，那么你之前对同一个View执行的加载就可能在你设置了特定的``Drawable``之后完成，并将``View``的内容改成较旧的图片。
-
-虽然这里的示例代码都是针对RecyclerView, 但是同样的原则也适用于ListView。
+这里的代码以 RecyclerView 的使用为例，但规则同样适用于 ListView。
 
 [1]: {{ site.baseurl }}/javadocs/400/com/bumptech/glide/Glide.html#with-android.app.Fragment-
 [2]: {{ site.baseurl }}/javadocs/400/com/bumptech/glide/request/RequestOptions.html#placeholder-int-

@@ -20,6 +20,11 @@ codeurl: 'https://github.com/bumptech/glide'
 # URL to translation repo, used in _includes/header.html
 repourl: 'https://github.com/Muyangmin/glide-docs-cn'
 
+# Documentation for other language urls, used in _includes/header.html
+otherlang: [
+  ['English', 'http://bumptech.github.io/glide/']
+]
+
 # Default categories (in order) to appear in the navigation
 sections: [
     ['doc', 'Documentation'],

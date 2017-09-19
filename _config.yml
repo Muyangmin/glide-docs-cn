@@ -1,6 +1,6 @@
 # Site title and subtitle. This is used in _includes/header.html
 title: 'Glide v4'
-subtitle: 'Fast and efficient image loading for Android'
+subtitle: '快速高效的Android图片加载库'
 
 # if you wish to integrate disqus on pages set your shortname here
 disqus_shortname: ''

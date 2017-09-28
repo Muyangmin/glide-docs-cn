@@ -26,3 +26,6 @@ _site/
 .sass-cache/
 .jekyll-metadata
 
+### Sync robot script
+glide-docs-cn-sync.py
+

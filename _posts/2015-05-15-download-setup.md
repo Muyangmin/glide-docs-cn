@@ -14,9 +14,9 @@ translators: [Muyangmin, vincgao]
 {:toc}
 ### Android SDK 要求
 
-**使用最低要求** - 使用 Glide 要求 SDK 版本为 API 14 (Ice Cream Sandwich) 及以上。
+**Min Sdk Version** - 使用 Glide 需要 min SDK 版本 API 14 (Ice Cream Sandwich) 或更高。
 
-**编译最低要求** - 编译 Glide 要在 SDK 版本为 API 26 (Oreo) 及以上。
+**Compile Sdk Version** - Glide 必须使用 API 26 (Oreo) 或更高版本的 SDK 来编译。
 
 ### 下载
 

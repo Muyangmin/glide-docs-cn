@@ -45,7 +45,7 @@ Generated API 目前仅可以在 Application 模块内使用。这一限制可�
    }
    ```
 
-   参阅[下载和设置][12]页面了解更多。
+   参阅 [下载和设置][12] 页面了解更多。
 
 2. 在 Application 模块中包含一个 [``AppGlideModule``][4] 的实现：
 

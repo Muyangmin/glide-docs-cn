@@ -14,36 +14,38 @@ disqus: 1
 
 
 ### 本地日志(Local Logs)
-如果你拥有设备的访问权限，你可以使用``adb logcat``或你的IDE查看一些日志。你可以使用``adb shell setprop log.tag.<tag_name> <VERBOSE|DEBUG>``操作为任何下面提到的标签(`tag`))开启日志。VERBOSE级别的日志会显得更加冗余但包含更多有用的信息。根据你要查看的标签的不同，你可以把VERBOSE和DEBUG级别的信息都尝试一下，以决定哪个级别的信息是你最需要的。
+如果你拥有设备的访问权限，你可以使用 ``adb logcat`` 或你的 IDE 查看一些日志。你可以使用 ``adb shell setprop log.tag.<tag_name> <VERBOSE|DEBUG>`` 操作为任何下面提到的标签(`tag`))开启日志。VERBOSE 级别的日志会显得更加冗余但包含更多有用的信息。根据你要查看的标签的不同，你可以把 VERBOSE 和 DEBUG 级别的信息都尝试一下，以决定哪个级别的信息是你最需要的。
 
 #### 请求错误
-最高级别和最容易理解的日志都通过``Glide``标签打印。Glide标签将记录成功和失败的请求以及不同级别的详细信息，具体取决于日志级别。VERBOSE会被用于记录成功的请求，DEBUG则会打印出详细的错误信息。
+最高级别和最容易理解的日志都通过 ``Glide`` 标签打印。Glide 标签将记录成功和失败的请求以及不同级别的详细信息，具体取决于日志级别。VERBOSE 会被用于记录成功的请求，DEBUG则会打印出详细的错误信息。
 
-你也可以通过手动调用[``setLogLevel(int)``][1]方法控制Glide标签的冗余度。``setLogLevel``允许你--举个栗子--在开发构建(developer builds)时启用更加冗余的日志，而在发布(release builds)构建时则关闭它们。
+你也可以通过手动调用 [``setLogLevel(int)``][1] 方法控制Glide标签的冗余度。``setLogLevel`` 允许你--举个栗子--在开发构建(developer builds)时启用更加冗余的日志，而在发布(release builds)构建时则关闭它们。
 
 #### 预料之外的缓存丢失
-``Engine``标签会详细记录请求被填充的全过程，并包括用于存储相应资源的完整内存缓存键。如果你正在尝试调试“内存中明明有这个图片，为什么没在另一个地方用到”的问题，那么``Engine``标签可以让你直观地比较两者的缓存键的区别。
+关于 Glide 缓存如何工作，请查阅 [缓存页][13]。
 
-对于每一个开始了的请求，``Engine``标签将会记录这个请求将会从哪个地方加载完成：缓存，活动资源，已存在的加载过程，或者一个新的加载过程。缓存：意味着这个资源暂时没有被用到，但是在内存缓存中可用。活动资源：表示这个资源正在被另一个``Target``使用，一般是在一个``View``中。已存在的加载过程：表示这个资源虽然现在在内存中不可用，但是另一个``Target``已经在早先发起了对同一个资源的请求，并且这个请求还在处理中。最后，新的加载过程表示这个资源既不在内存中，也没有被其他地方请求过，那么这将触发一次新的加载。
+``Engine`` 标签会详细记录请求被填充的全过程，并包括用于存储相应资源的完整内存缓存键。如果你正在尝试调试“内存中明明有这个图片，为什么没在另一个地方用到”的问题，那么 ``Engine`` 标签可以让你直观地比较两者的缓存键的区别。
+
+对于每一个开始了的请求，``Engine`` 标签将会记录这个请求将会从哪个地方加载完成：缓存，活动资源，已存在的加载过程，或者一个新的加载过程。缓存：意味着这个资源暂时没有被用到，但是在内存缓存中可用。活动资源：表示这个资源正在被另一个 ``Target`` 使用，一般是在一个 ``View`` 中。已存在的加载过程：表示这个资源虽然现在在内存中不可用，但是另一个``Target``已经在早先发起了对同一个资源的请求，并且这个请求还在处理中。最后，新的加载过程表示这个资源既不在内存中，也没有被其他地方请求过，那么这将触发一次新的加载。
 
 #### 图片和本地日志丢失
 在某些情况下，你可能会发现某个图片永远不会加载出来，而且这个请求甚至还没有``Glide``标签和``Engine``标签的日志。这可能有以下一些原因。
 
 
 ##### 启动请求失败(Failing to start the request)
-请检查你是否为你的请求调用了[``into()``][2] 或者 [``submit()``][3]方法。很显然，如果你忘记了调用这两个方法，Glide不会认为你已经要求开始加载。
+请检查你是否为你的请求调用了 [``into()``][2] 或者 [``submit()``][3] 方法。很显然，如果你忘记了调用这两个方法，Glide 不会认为你已经要求开始加载。
 
 ##### 未指定尺寸（Missing Size）
-如果你确信你调用了[``into()``][2]、[``submit()``][3]之一，并且仍然没有看到日志，那么最可能的解释是，Glide无法决定你即将加载资源的``View``或``Target``的尺寸。
+如果你确信你调用了 [``into()``][2] 、 [``submit()``][3] 之一，并且仍然没有看到日志，那么最可能的解释是，Glide 无法决定你即将加载资源的 ``View`` 或 ``Target`` 的尺寸。
 
 ###### 自定义Target(Custom Targets)
-如果你正在使用一个自定义的``Target``，请确保你实现了[``getSize``][4]方法并使用了非零的宽高来调用指定的回调方法，或者继承自一个已经为你实现了这个方法的``Target``，例如[``ViewTarget``][5]。
+如果你正在使用一个自定义的 ``Target`` ，请确保你实现了 [``getSize``][4] 方法并使用了非零的宽高来调用指定的回调方法，或者继承自一个已经为你实现了这个方法的 ``Target`` ，例如 [``ViewTarget``][5]。
 
 ###### Views
-如果你只是在往一个``View``中加载资源，那么最大的可能是你的这个view要么还没有被布局(layout)过，要么被指定了零宽或高。View的可见性被设置为``View.GONE``或它并没有被attach，都会导致view不会被layout。如果View和/或它们的父控件被以特定方式组合`wrap_content`和`match_parent`来作为宽高，则view可能会收到一个无效的或为0的宽高值。你可以试验一下，将你的view设定为非0的尺寸，或在请求时使用[``override(int, int)`` API][6]来为Glide传入一个特定的尺寸。
+如果你只是在往一个 ``View`` 中加载资源，那么最大的可能是你的这个view要么还没有被布局(layout)过，要么被指定了零宽或高。View 的可见性被设置为 ``View.GONE`` 或它并没有被 attach ，都会导致 view 不会被 layout 。如果 View 和/或它们的父控件被以特定方式组合 `wrap_content` 和 `match_parent` 来作为宽高，则 view 可能会收到一个无效的或为 0 的宽高值。你可以试验一下，将你的 view 设定为非0的尺寸，或在请求时使用 [``override(int, int)`` API][6] 来为 Glide 传入一个特定的尺寸。
 
 #### 请求监听器与定制日志
-如果你想使用编程的办法跟踪成功和失败信息、跟踪应用中的整体缓存命中率，或增加对本地日志的控制，你可以使用[``RequestListener``][7] 接口。``RequestListener``可以通过[``RequestBuilder#listener()``][8]方法来添加到单独的加载请求中。下面是一个使用示例：
+如果你想使用编程的办法跟踪成功和失败信息、跟踪应用中的整体缓存命中率，或增加对本地日志的控制，你可以使用 [``RequestListener``][7] 接口。 ``RequestListener`` 可以通过 [``RequestBuilder#listener()``][8] 方法来添加到单独的加载请求中。下面是一个使用示例：
 
 ```java
 Glide.with(fragment)
@@ -64,16 +66,40 @@ Glide.with(fragment)
     .into(imageView);
 ```
 
-To save object allocations, you can re-use the same ``RequestListener`` for multiple loads.
 为减少对象分配起见，你可以为多个加载重用相同的``RequestListener``。
 
+### Out of memory 错误
+几乎所有的 OOM 错误都是因为宿主应用出了问题，而不是 Glide 本身。
+应用里两种常见的 OOM 错误分别是：
+1. 过大的内存分配 (Excessively large allocations)
+2. 内存泄露(Memory leaks, 被分配的内存没有被释放)
 
-[1]: {{ site.baseurl }}/javadocs/400/com/bumptech/glide/GlideBuilder.html#setLogLevel-int-
-[2]: {{ site.baseurl }}/javadocs/400/com/bumptech/glide/RequestBuilder.html#into-android.widget.ImageView-
-[3]: {{ site.baseurl }}/javadocs/400/com/bumptech/glide/RequestBuilder.html#submit-int-int-
-[4]: {{ site.baseurl }}/javadocs/400/com/bumptech/glide/request/target/Target.html#getSize-com.bumptech.glide.request.target.SizeReadyCallback-
-[5]: {{ site.baseurl }}/javadocs/400/com/bumptech/glide/request/target/ViewTarget.html
-[6]: {{ site.baseurl }}/javadocs/400/com/bumptech/glide/request/RequestOptions.html#override-int-int-
-[7]: {{ site.baseurl }}/javadocs/400/com/bumptech/glide/request/RequestListener.html
-[8]: {{ site.baseurl }}/javadocs/400/com/bumptech/glide/RequestBuilder.html#listener-com.bumptech.glide.request.RequestListener-
+#### 过大的内存分配
+如果在打开一个单独页面或加载一个单独图片导致了 OOM , 那么你的应用可能在加载一个不必要的大图。
 
+使用 Bitmap 显示一张图片所需的内存数量为 宽(width) * 高(height) * 每像素字节数(bytes per pixel)。 每像素字节数取决于显示图片所使用的 ``Bitmap.Config``，但通常对于 ``ARGB_8888`` 的位图来说，每个像素即为四个字节。因此，即使是一张普通的 1080P 图片也需要 8MB 内存。图片越大，所需要的内存就越多，因此一个 12M 像素的图片会要求相当庞大的 48MB 内存。
+
+Glide 会将图片自动下采样 (downsample)，这是基于 ``Target``，``ImageView`` 或 ``override()`` 提供的尺寸。 如果你在 Glide 中看到了特别大的内存分配，通常意味着你的 ``Target`` 或 ``override()`` 提供的尺寸太大，或你使用了 ``Target.SIZE_ORIGINAL`` 而又恰好碰上了一个大图。
+
+要解决这种过大的内存分配，请避免使用 ``Target.SIZE_ORIGINAL`` 并确保你的 ``ImageView`` 尺寸或你通过 ``override()`` 方法提供给 Glide 的尺寸是合理的。
+
+#### 内存泄露
+如果在你的应用中持续重复特定步骤会逐步增加你应用的内存使用并最终导致 OOM ，你可能有内存泄露。
+
+[Android 官方文档][10] 中有很多关于追踪和调试内存使用的有用信息。为了调查内存泄露，你几乎肯定需要 [捕捉一个 heap dump][11] 并查看 Fragments, Activities 和以及其他不再被使用但却仍被持有的对象。
+
+要修复内存泄露，你需要对已销毁的 ``Fragment`` 或 ``Activity`` 在生命周期的合适时机移除对它们的引用，以避免持有过多的对象。使用 heap dump 来帮助查找你应用中持有其他内存的方式并在找到后移除不必要的引用。通常你可以从列出对 Bitmap 对象（使用 [MAT][12] 或其他内存分析器)的最短路径（不含弱引用）开始，然后寻找可疑的引用链。你还可以在你的内存分析器中搜索 ``Activity`` 和 ``Fragment``，以确保每个 ``Activity`` 不超过一个实例，并且 ``Fragment`` 的实例数目也在期望范围内。
+
+[1]: {{ site.baseurl }}/javadocs/400/com/bumptech/glide/GlideBuilder.html#setLogLevel-int-  
+[2]: {{ site.baseurl }}/javadocs/400/com/bumptech/glide/RequestBuilder.html#into-android.widget.ImageView-  
+[3]: {{ site.baseurl }}/javadocs/400/com/bumptech/glide/RequestBuilder.html#submit-int-int-  
+[4]: {{ site.baseurl }}/javadocs/400/com/bumptech/glide/request/target/Target.html#getSize-com.bumptech.glide.request.target.SizeReadyCallback-  
+[5]: {{ site.baseurl }}/javadocs/400/com/bumptech/glide/request/target/ViewTarget.html  
+[6]: {{ site.baseurl }}/javadocs/400/com/bumptech/glide/request/RequestOptions.html#override-int-int-  
+[7]: {{ site.baseurl }}/javadocs/400/com/bumptech/glide/request/RequestListener.html  
+[8]: {{ site.baseurl }}/javadocs/400/com/bumptech/glide/RequestBuilder.html#listener-com.bumptech.glide.request.RequestListener-  
+[9]: https://github.com/bumptech/glide/blob/6b137c2b1d4b2ab187ea2aa56834dea039daa090/library/src/main/java/com/bumptech/glide/load/engine/Engine.java#L33  
+[10]: https://developer.android.com/studio/profile/investigate-ram.html  
+[11]: https://developer.android.com/studio/profile/investigate-ram.html#HeapDump  
+[12]: http://www.eclipse.org/mat/  
+[13]: {{ site.baseurl }}/doc/caching.html  

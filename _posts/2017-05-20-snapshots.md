@@ -10,19 +10,19 @@ order: 1
 原文链接：[点击查看](http://bumptech.github.io/glide/dev/snapshots.html){:target="_blank"}
 
 ## 关于快照(Snapshots)
-对于那些等不了Glide的下一个稳定版的，喜欢在刀尖上跳舞的用户【注】，我们在[Sonatype's snapshot repo][2]部署了Glide库的快照版本。  
+对于那些等不了 Glide 的下一个稳定版的，喜欢在刀尖上跳舞的用户【注】，我们在[Sonatype's snapshot repo][2]部署了 Glide 库的快照版本。  
 > 原文"willing to live on the bleeding edge"，请自行感受…… --译者注
 
 
-在每次push到GitHub的master分支上后，Glide会通过[travis-ci][1]构建。如果构建成功，我们将自动部署最新版本的库到Sonatype上。
+在每次 push 到 GitHub 的 master 分支上后，Glide 会通过[travis-ci][1]构建。如果构建成功，我们将自动部署最新版本的库到 Sonatype 上。
 
-每个集成库都有它自己的快照，与主Glide库一样。如果你使用了Glide库的快照版本，你使用的任何集成库也要使用快照版本，反之亦然。
+每个集成库都有它自己的快照，与主 Glide 库一样。如果你使用了 Glide 库的快照版本，你使用的任何集成库也要使用快照版本，反之亦然。
 
 ## 获取快照
-Sonatype 的快照仓库的工作原理与其他maven仓库一样，所以快照可以多种方式访问：jar, maven，或者gradle。
+Sonatype 的快照仓库的工作原理与其他maven仓库一样，所以快照可以多种方式访问：jar, maven，或者 gradle。
 
 ### Jar
-你可以直接从[Sonatype][3]下载。请务必检查日期以确保你正在获取的是最新的版本。
+你可以直接从 [Sonatype][3] 下载。请务必检查日期以确保你正在获取的是最新的版本。
 
 ### Gradle
 
@@ -48,7 +48,7 @@ dependencies {
 ```
 
 ### Maven
-*请注意，这种方法未经测试，是从[Stack Overflow][4]的这个问题而来的。关于本节有任何建议，欢迎提出！*
+*请注意，这种方法未经测试，是从 [Stack Overflow][4] 的这个问题而来的。关于本节有任何建议，欢迎提出！*
 
 请将下列代码添加到你的`~/.m2/settings.xml`:
 
@@ -89,7 +89,7 @@ dependencies {
 ```shell
 gradlew clean buildArchives uploadArchives --stacktrace --info -PSNAPSHOT_REPOSITORY_URL=file://p:\path\to\repo -PRELEASE_REPOSITORY_URL=file://p:\path\to\repo
 ```
-这将创建一个m2仓库文件夹，你可以用Gradle在一个工程里测试你的修改：
+这将创建一个 m2 仓库文件夹，你可以用 Gradle 在一个工程里测试你的修改：
 ```gradle
 repositories {
   //确保这行在 glide-snapshot之前，使它成为首先被查询的仓库

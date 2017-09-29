@@ -1,18 +1,20 @@
 <h4><a class=brand href="{{ site.baseurl }}/">{{ site.title }}</a>
     {% if site.subtitle %}<small>{{ site.subtitle }}</small>{% endif %}
-    <!-- extra description; this is NOT origin file content BEGIN -->
-    {% if site.repourl %}
-    <small>
-        &nbsp;&nbsp;/* Tip: 如果您认为本翻译有用，请点击&nbsp;<a href="{{ site.repourl }}">Star</a>&nbsp;支持我们，让更多人看到它！*/&nbsp;
-    </small>
-    {% endif %}
 
     {% if site.otherlang %}
     {% for language in site.otherlang %}
-    &nbsp;&nbsp;
-    <small><a href="{{ language[1] }}">{{ language[0] }}</a></small>
+    &nbsp;&nbsp;<small><a href="{{ language[1] }}">{{ language[0] }}</a></small>
     {% endfor %}
     {% endif %}
-    <!-- extra description; this is NOT origin file content END -->
+
+    &nbsp;&nbsp;<a href="https://github.com/Muyangmin/glide-docs-cn/issues/6"><img
+            src="https://img.shields.io/badge/最后同步时间-2017--09--29-brightgreen.svg"/></a>
+
+    {% if site.repourl %}
+    <small>
+        &nbsp;&nbsp/* Tip: 如果您认为本翻译有用，请点击&nbsp;<a href="{{ site.repourl }}"><img
+            src="https://img.shields.io/github/stars/Muyangmin/glide-docs-cn.svg?style=social&label=Star"/></a>&nbsp;支持我们，让更多人看到它！*/&nbsp;
+    </small>
+    {% endif %}
 </h4>
 

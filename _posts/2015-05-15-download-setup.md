@@ -37,8 +37,8 @@ repositories {
 }
 
 dependencies {
-    compile 'com.github.bumptech.glide:glide:4.1.1'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.1.1'
+    compile 'com.github.bumptech.glide:glide:4.2.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.2.0'
 }
 ```
 
@@ -50,7 +50,7 @@ dependencies {
 <dependency>
   <groupId>com.github.bumptech.glide</groupId>
   <artifactId>glide</artifactId>
-  <version>4.1.1</version>
+  <version>4.2.0</version>
   <type>aar</type>
 </dependency>
 <dependency>
@@ -61,7 +61,7 @@ dependencies {
 <dependency>
   <groupId>com.github.bumptech.glide</groupId>
   <artifactId>compiler</artifactId>
-  <version>4.1.1</version>
+  <version>4.2.0</version>
   <optional>true</optional>
 </dependency>
 ```
@@ -96,8 +96,14 @@ Glide 的构建配置需要使用一些 [Jack][3] 目前还不能支持的特性
 
 ```groovy
 dependencies {
-  kapt 'com.github.bumptech.glide:compiler:4.1.1'
+  kapt 'com.github.bumptech.glide:compiler:4.2.0'
 }
+```
+
+请注意，你还需要在你的 `build.gradle` 文件中包含 `kotlin-kapt`插件：
+
+```groovy
+apply plugin: 'kotlin-kapt'
 ```
 
 关于 Kotlin 的更多 api，可以查看 [Generated API][6]。

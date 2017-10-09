@@ -17,7 +17,7 @@ RecyclerView 集成库使你在你的应用中能够使用 [``RecyclerViewPreloa
 ### Gradle 依赖
 要使用 RecyclerView 集成库，在你的 ``build.gradle`` 文件中添加一个依赖：
 ```groovy
-compile ("com.github.bumptech.glide:recyclerview-integration:4.0.0") {
+compile ("com.github.bumptech.glide:recyclerview-integration:4.2.0") {
   // Excludes the support library because it's already included by Glide.
   transitive = false
 }
@@ -144,7 +144,7 @@ RecyclerViewPreloader<Photo> preloader =
 
 ```java
 RecyclerView myRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-myRecyclerView.addOnScrolLListener(preloader);
+myRecyclerView.addOnScrollListener(preloader);
 ```
 
 将 [``RecyclerViewPreloader``][2] 添加为一个滑动监听器，将允许 [``RecyclerViewPreloader``][2] 自动提前加载用户滑动方向上的图片，并监听滑动方向和加速度的改变。
@@ -176,7 +176,7 @@ public final class ImagesFragment extends Fragment {
             Glide.with(this), modelProvider, sizeProvider, 10 /*maxPreload*/);
 
     RecyclerView myRecyclerView = (RecyclerView) result.findViewById(R.id.recycler_view);
-    myRecyclerView.addOnScrolLListener(preloader);
+    myRecyclerView.addOnScrollListener(preloader);
    
     // Finish setting up your RecyclerView etc.
     myRecylerView.setLayoutManager(...);

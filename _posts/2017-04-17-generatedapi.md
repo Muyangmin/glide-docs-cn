@@ -41,7 +41,7 @@ Generated API 目前仅可以在 Application 模块内使用。这一限制可�
    }
 
    dependencies {
-     annotationProcessor 'com.github.bumptech.glide:compiler:4.1.1'
+     annotationProcessor 'com.github.bumptech.glide:compiler:4.2.0'
    }
    ```
 
@@ -72,7 +72,7 @@ Generated API 目前仅可以在 Application 模块内使用。这一限制可�
 
    ```groovy
    dependencies {
-     kapt 'com.github.bumptech.glide:compiler:4.1.1'
+     kapt 'com.github.bumptech.glide:compiler:4.2.0'
    }
    ```
 

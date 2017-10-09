@@ -31,7 +31,7 @@ public final class OkHttpLibraryGlideModule extends LibraryGlideModule {
 
 Using the [``@GlideModule``][5] annotation requires a dependency on Glide's annotations:
 ```groovy
-compile 'com.github.bumptech.glide:annotations:4.1.1'
+compile 'com.github.bumptech.glide:annotations:4.2.0'
 ```
 
 #### Applications
@@ -55,8 +55,8 @@ public class FlickrGlideModule extends AppGlideModule {
 
 Including Glide's annotation processor requires dependencies on Glide's annotations and the annotation processor:
 ```groovy
-compile 'com.github.bumptech.glide:annotations:4.1.1'
-annotationProcessor 'com.github.bumptech.glide:compiler:4.1.1'
+compile 'com.github.bumptech.glide:annotations:4.2.0'
+annotationProcessor 'com.github.bumptech.glide:compiler:4.2.0'
 ```
 
 Finally, you should keep AppGlideModule implementations in your ``proguard.cfg``:
@@ -193,7 +193,7 @@ Glide.with(fragment)
           .disallowHardwareBitmaps());
 ```
 
-[``RequestManager``][34] also has a [``setDefaultRequestOptions``][36] that will completely replace any default [``RequestOptions``][33] previously set either via the ``GlideBuilder`` in an [``AppGlideModule``][1] or via the [``RequestManager``][34]. Use caution with [``setDefaultRequestOptions``][36] because it's easy to accidentally override important defaults you've set elsewhere. Typically [``applyDefaultRequstOptions``][35] is safer and more intuitive to use.
+[``RequestManager``][34] also has a [``setDefaultRequestOptions``][36] that will completely replace any default [``RequestOptions``][33] previously set either via the ``GlideBuilder`` in an [``AppGlideModule``][1] or via the [``RequestManager``][34]. Use caution with [``setDefaultRequestOptions``][36] because it's easy to accidentally override important defaults you've set elsewhere. Typically [``applyDefaultRequestOptions``][35] is safer and more intuitive to use.
 
 #### UncaughtThrowableStrategy
 

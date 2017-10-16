@@ -402,3 +402,5 @@ public final class MyAppGlideModule extends AppGlideModule {
 [34]: {{ site.baseurl }}/javadocs/410/com/bumptech/glide/RequestManager.html
 [35]: {{ site.baseurl }}/javadocs/410/com/bumptech/glide/RequestManager.html#applyDefaultRequestOptions-com.bumptech.glide.request.RequestOptions-
 [36]: {{ site.baseurl }}/javadocs/410/com/bumptech/glide/RequestManager.html#setDefaultRequestOptions-com.bumptech.glide.request.RequestOptions-
+[37]: {{ site.baseurl }}/javadocs/420/com/bumptech/glide/GlideBuilder.html#setLogLevel-int-
+[38]: https://developer.android.com/reference/android/util/Log.html

@@ -213,6 +213,20 @@ public class YourAppGlideModule extends AppGlideModule {
 }
 ```
 
+#### 日志级别
+
+你可以使用 [``setLogLevel``][37] (结合 Android 的 [``Log``][38] 定义的值) 来获取格式化日志的子集，包括请求失败时的日志行。通常来说 ``Log.VERBOSE`` 将使日志变得更冗杂，``Log.ERROR`` 会让日志更趋向静默，详细可见 [javadoc][37] 。
+
+```java
+@GlideModule
+public class YourAppGlideModule extends AppGlideModule {
+  @Override
+  public void applyOptions(Context context, GlideBuilder builder) {
+    builder.setLogLevel(Log.DEBUG);
+  }
+}
+```
+
 ### 注册组件
 
 应用程序和库都可以注册很多组件来扩展 Glide 的功能。可用的组件包括：

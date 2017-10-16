@@ -75,6 +75,11 @@ Generated API 目前仅可以在 Application 模块内使用。这一限制可�
      kapt 'com.github.bumptech.glide:compiler:4.2.0'
    }
    ```
+   注意，你还需要在你的 ``build.gradle`` 文件中包含 ``kotlin-kapt`` 插件：
+   
+   ```groovy
+   apply plugin: 'kotlin-kapt'
+   ```
 
    关于``kapt``的使用，请查看[官方文档][14]。
 

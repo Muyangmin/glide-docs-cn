@@ -83,6 +83,12 @@ Generated API 目前仅可以在 Application 模块内使用。这一限制可�
 
    关于``kapt``的使用，请查看[官方文档][14]。
 
+#### Android Studio
+
+Android Studio 在大多数时候都可以正确地处理注解处理器 (annotation processor) 和 generated API。然而，当你第一次添加你的 ``AppGlideModule`` 或做了某些类型的修改后，你可能需要重新构建 (rebuild) 你的项目。 无论何时，如果你发现 API 没有被 import ，或看起来已经过期，你可以通过以下方法重新构建：
+1. 打开 Build 菜单；
+2. 点击 Rebuild Project。
+
 ### 使用 Generated API
 
 Generated API 默认名为 `GlideApp` ，与 Application 模块中 [`AppGlideModule`][4]的子类包名相同。在 Application 模块中将 `Glide.with()` 替换为 `GlideApp.with()`，即可使用该 API 去完成加载工作：

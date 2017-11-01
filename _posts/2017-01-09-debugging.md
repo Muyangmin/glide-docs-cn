@@ -90,6 +90,49 @@ Glide 会将图片自动下采样 (downsample)，这是基于 ``Target``，``Ima
 
 要修复内存泄露，你需要对已销毁的 ``Fragment`` 或 ``Activity`` 在生命周期的合适时机移除对它们的引用，以避免持有过多的对象。使用 heap dump 来帮助查找你应用中持有其他内存的方式并在找到后移除不必要的引用。通常你可以从列出对 Bitmap 对象（使用 [MAT][12] 或其他内存分析器)的最短路径（不含弱引用）开始，然后寻找可疑的引用链。你还可以在你的内存分析器中搜索 ``Activity`` 和 ``Fragment``，以确保每个 ``Activity`` 不超过一个实例，并且 ``Fragment`` 的实例数目也在期望范围内。
 
+### 其他常见问题
+
+#### "You can't start or clear loads in RequestListener or Target callbacks"
+
+如果你尝试在一个 ``Target`` 或 ``RequestListener`` 里的 ``onResourceReady`` 或 ``onLoadFailed`` 中开始一次新的加载，Glide 将会抛出一个异常。之所以抛出这个异常，是因为要处理和回收这种在通知过程中的 (notifying) 加载对我们来说是一个巨大的挑战。
+
+好在这个问题很好解决。从 Glide 4.3.0 开始，你可以很轻松地使用 [``.error()``][14] 方法。这个方法接受一个任意的 [``RequestBuilder``][15]，它会且只会在主请求失败时开始一个新的请求：
+
+```java
+Glide.with(fragment)
+  .load(url)
+  .error(Glide.with(fragment)
+     .load(fallbackUrl))
+  .into(imageView);
+```
+
+对于 Glide 4.3.0 以前的版本，你也可以使用一个 Android [``Handler``][16] 来 post 一个 Runnable 给你的请求：
+
+```java
+private final Handler handler = new Handler();
+...
+
+Glide.with(fragment)
+  .load(url)
+  .listener(new RequestListener<Drawable>() {
+      ...
+
+      @Override
+      public boolean onLoadFailed(@Nullable GlideException e, Object model, 
+          Target<Drawable> target, boolean isFirstResource) {
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+              Glide.with(fragment)
+                .load(fallbackUrl)
+                .into(imageView);
+            }
+        });
+      }
+  )
+  .into(imageView);
+```
+
 [1]: {{ site.baseurl }}/javadocs/400/com/bumptech/glide/GlideBuilder.html#setLogLevel-int-  
 [2]: {{ site.baseurl }}/javadocs/400/com/bumptech/glide/RequestBuilder.html#into-android.widget.ImageView-  
 [3]: {{ site.baseurl }}/javadocs/400/com/bumptech/glide/RequestBuilder.html#submit-int-int-  
@@ -103,3 +146,7 @@ Glide 会将图片自动下采样 (downsample)，这是基于 ``Target``，``Ima
 [11]: https://developer.android.com/studio/profile/investigate-ram.html#HeapDump  
 [12]: http://www.eclipse.org/mat/  
 [13]: {{ site.baseurl }}/doc/caching.html  
+[14]: http://bumptech.github.io/glide/javadocs/430/com/bumptech/glide/RequestBuilder.html#error-com.bumptech.glide.RequestBuilder-  
+[15]: http://bumptech.github.io/glide/javadocs/430/com/bumptech/glide/RequestBuilder.html  
+[16]: https://developer.android.com/reference/android/os/Handler.html  
+

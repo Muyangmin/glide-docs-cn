@@ -42,8 +42,8 @@ repositories {
 
 ```gradle
 dependencies {
-  compile 'com.github.bumptech.glide:glide:4.3.0-SNAPSHOT'
-  compile 'com.github.bumptech.glide:okhttp-integration:4.3.0-SNAPSHOT'
+  compile 'com.github.bumptech.glide:glide:4.4.0-SNAPSHOT'
+  compile 'com.github.bumptech.glide:okhttp-integration:4.4.0-SNAPSHOT'
 }
 ```
 
@@ -75,12 +75,12 @@ dependencies {
 <dependency>
   <groupId>com.github.bumptech.glide</groupId>
   <artifactId>glide</artifactId>
-  <version>4.3.0-SNAPSHOT</version>
+  <version>4.4.0-SNAPSHOT</version>
 </dependency>
 <dependency>
   <groupId>com.github.bumptech.glide</groupId>
   <artifactId>okhttp-integration</artifactId>
-  <version>4.3.0-SNAPSHOT</version>
+  <version>4.4.0-SNAPSHOT</version>
 </dependency>
 ```
 
@@ -115,7 +115,7 @@ dependencies {
 
 1. 打开 [Sonatype][3]；
 2. 点击你需要使用的 package 。通常你可以只使用 [glide][5]；
-3. 点击你想使用的 Glide 快照版本，例如 [4.3.0-SNAPSHOT][6]；
+3. 点击你想使用的 Glide 快照版本，例如 [4.4.0-SNAPSHOT][6]；
 4. 从列出的 artifact 中选择一个并复制粘贴版本号即可。例如你看到 ``glide-4.3.0-20171024.022211-26-javadoc.jar``, 那么它的版本号就是 ``4.3.0-20171024.022211-26``。通常你会想要使用最新可用的 artifact 。你可以检查修改日期列来确认这一点，但一般而言最近的 artifact 都展示在页面的底部。 
 
 尽管选择特定快照版本要稍微麻烦一些，但相比你在应用程序或库的生产版本中使用 Glide 的快照版本依赖的话，这通常是一个更安全的选择。
@@ -143,5 +143,5 @@ dependencies {
 [3]: https://oss.sonatype.org/content/repositories/snapshots/com/github/bumptech/glide/
 [4]: http://stackoverflow.com/questions/7715321/how-to-download-snapshot-version-from-maven-snapshot-repository
 [5]: https://oss.sonatype.org/content/repositories/snapshots/com/github/bumptech/glide/glide/
-[6]: https://oss.sonatype.org/content/repositories/snapshots/com/github/bumptech/glide/glide/4.3.0-SNAPSHOT/
+[6]: https://oss.sonatype.org/content/repositories/snapshots/com/github/bumptech/glide/glide/4.4.0-SNAPSHOT/
 

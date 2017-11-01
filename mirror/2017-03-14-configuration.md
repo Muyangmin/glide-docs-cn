@@ -31,7 +31,7 @@ public final class OkHttpLibraryGlideModule extends LibraryGlideModule {
 
 Using the [``@GlideModule``][5] annotation requires a dependency on Glide's annotations:
 ```groovy
-compile 'com.github.bumptech.glide:annotations:4.2.0'
+compile 'com.github.bumptech.glide:annotations:4.3.0'
 ```
 
 #### Applications
@@ -55,8 +55,8 @@ public class FlickrGlideModule extends AppGlideModule {
 
 Including Glide's annotation processor requires dependencies on Glide's annotations and the annotation processor:
 ```groovy
-compile 'com.github.bumptech.glide:annotations:4.2.0'
-annotationProcessor 'com.github.bumptech.glide:compiler:4.2.0'
+compile 'com.github.bumptech.glide:annotations:4.3.0'
+annotationProcessor 'com.github.bumptech.glide:compiler:4.3.0'
 ```
 
 Finally, you should keep AppGlideModule implementations in your ``proguard.cfg``:
@@ -197,8 +197,8 @@ Glide.with(fragment)
 
 #### UncaughtThrowableStrategy
 
-When loading a bitmap, if an exception happens (e.g. `OutOfMemoryException`), Glide will use a `GlideExecutor.UncaughtThrowableStrategy`. 
-The default strategy is to log the exception in the device logcat. The strategy is customizable since glide 4.2.0. It can be passed to a disk executor and/or a resize executor:
+When loading a bitmap, if an exception happens (e.g. `OutOfMemoryException`), Glide will use a `GlideExecutor.UncaughtThrowableStrategy`.
+The default strategy is to log the exception in the device logcat. The strategy is customizable since Glide 4.2.0. It can be passed to a disk executor and/or a resize executor:
 
 ```java
 @GlideModule

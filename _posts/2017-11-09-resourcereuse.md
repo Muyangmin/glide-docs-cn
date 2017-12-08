@@ -6,6 +6,9 @@ date: 2017-11-09 08:04:26
 order: 11
 disqus: 1
 ---
+
+原文链接：[点击查看](http://bumptech.github.io/glide/doc/resourcereuse.html){:target="_blank"}
+
 * TOC
 {:toc}
 

@@ -5,6 +5,9 @@ category: tut
 date: 2017-11-24 14:48:43
 disqus: 1
 ---
+
+原文链接：[点击查看](http://bumptech.github.io/glide/tut/failing-test-cases.html){:target="_blank"}
+
 * TOC
 {:toc}
 

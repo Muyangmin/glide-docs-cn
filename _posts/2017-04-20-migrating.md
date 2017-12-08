@@ -3,7 +3,7 @@ layout: page
 title: "从v3迁移到v4"
 category: doc
 date: 2017-04-20 07:13:46
-order: 12
+order: 13
 disqus: 1
 ---
 
@@ -121,7 +121,7 @@ crossFade()
 animate()
 ```
 
-控制从占位符到图片和/或缩略图到全图的变换的选项，被移动到了 [``TransitionOptions``][13] 中。
+控制从占位符到图片和/或缩略图到全图的交叉淡入和其他类型变换的选项，被移动到了 [``TransitionOptions``][13] 中。
 
 要应用过渡（之前的动画），请使用下列选项中符合你请求的资源类型的一个：
 
@@ -139,9 +139,30 @@ Glide.with(fragment)
     .transition(withCrossFade(R.anim.fade_in, 300));
 ```
 
-#### 默认过渡
+#### 交叉淡入  (Cross fade)
 不同于 Glide v3，Glide v4 将**不会**默认应用交叉淡入或任何其他的过渡效果。每个请求必须手动应用过渡。
 
+要为一个特定的加载应用一个交叉淡入变换效果，你可以使用：
+
+```java
+import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
+
+Glide.with(fragment)
+  .load(url)
+  .transition(withCrossFade())
+  .into(imageView);
+```
+
+或:
+
+```java
+Glide.with(fragment)
+  .load(url)
+  .transition(
+      new DrawableTransitionOptions
+        .crossFade())
+  .into(imageView);
+```
 
 ### Generated API
 

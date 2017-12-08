@@ -93,6 +93,49 @@ public void onBindViewHolder(ViewHolder holder, int position) {
 
 这里的代码以 RecyclerView 的使用为例，但规则同样适用于 ListView。
 
+### 非 View 目标
+除了将 ``Bitmap`` 和 ``Drawable`` 加载到 ``View`` 之外，你也可以开始异步加载到你的自定义 ``Target`` 中：
+
+```java
+Glide.with(context
+  .load(url)
+  .into(new SimpleTarget<Drawable>() {
+    @Override
+    public void onResourceReady(Drawable resource, Transition<Drawable> transition) {
+      // Do something with the Drawable here.
+    }
+  });
+```
+使用自定义 ``Target`` 有一些陷阱，所以请务必阅读 [目标文档页][9] 的详细内容。
+
+### 后台线程
+
+在后台线程加载图片也是直接使用 [``submit(int, int)``][8]：
+
+```java
+FutureTarget<Bitmap> futureTarget =
+  Glide.with(context)
+    .asBitmap()
+    .load(url)
+    .submit(width, height);
+
+Bitmap bitmap = futureTarget.get();
+
+// Do something with the Bitmap and then when you're done with it:
+Glide.with(context).clear(futureTarget);
+```
+
+如果你不想让 ``Bitmap`` 和 ``Drawable`` 自身在后台线程中，你也可以使用和前台线程一样的方式来开始异步加载：
+
+```java
+Glide.with(context)
+  .asBitmap()
+  .load(url)
+  .into(new Target<Bitmap>() {
+    ...
+  });
+```
+
 [1]: {{ site.baseurl }}/javadocs/400/com/bumptech/glide/Glide.html#with-android.app.Fragment-
 [2]: {{ site.baseurl }}/javadocs/400/com/bumptech/glide/request/RequestOptions.html#placeholder-int-
 [3]: {{ site.baseurl }}/javadocs/400/com/bumptech/glide/request/RequestOptions.html#fallback-int-
@@ -100,3 +143,6 @@ public void onBindViewHolder(ViewHolder holder, int position) {
 [5]: {{ site.baseurl }}/javadocs/400/com/bumptech/glide/request/target/Target.html
 [6]: {{ site.baseurl }}/javadocs/400/com/bumptech/glide/module/AppGlideModule.html
 [7]: {{ site.baseurl }}/doc/generatedapi.html
+[8]: {{ site.baseurl }}/javadocs/431/com/bumptech/glide/RequestBuilder.html#submit-int-int-
+[9]: {{ site.baseurl }}/doc/targets.html
+

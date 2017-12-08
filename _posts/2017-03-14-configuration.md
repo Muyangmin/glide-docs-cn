@@ -34,7 +34,7 @@ public final class OkHttpLibraryGlideModule extends LibraryGlideModule {
 
 要使用 [``@GlideModule``][5] 注解，需要有对 Glide 注解的依赖：
 ```groovy
-compile 'com.github.bumptech.glide:annotations:4.3.0'
+compile 'com.github.bumptech.glide:annotations:4.4.0'
 ```
 
 #### 应用程序
@@ -58,8 +58,8 @@ public class FlickrGlideModule extends AppGlideModule {
 
 请注意添加对 Glide 的注解和注解解析器的依赖：
 ```groovy
-compile 'com.github.bumptech.glide:annotations:4.3.0'
-annotationProcessor 'com.github.bumptech.glide:compiler:4.3.0'
+compile 'com.github.bumptech.glide:annotations:4.4.0'
+annotationProcessor 'com.github.bumptech.glide:compiler:4.4.0'
 ```
 
 最后，你应该在你的 ``proguard.cfg`` 中 keep 住你的 AppGlideModule 实现：
@@ -75,6 +75,7 @@ Glide 允许应用通过 [``AppGlideModule``][1] 实现来完全控制 Glide 的
 默认情况下，Glide使用 [``LruResourceCache``][10] ，这是 [``MemoryCache``][9] 接口的一个缺省实现，使用固定大小的内存和 LRU 算法。[``LruResourceCache``][10] 的大小由 Glide 的 [``MemorySizeCalculator``][11] 类来决定，这个类主要关注设备的内存类型，设备 RAM 大小，以及屏幕分辨率。
 
 应用程序可以自定义 [``MemoryCache``][9] 的大小，具体是在它们的 [``AppGlideModule``][1] 中使用 [``applyOptions(Context, GlideBuilder)``][12] 方法配置 [``MemorySizeCalculator``][11] ：
+
 ```java
 @GlideModule
 public class YourAppGlideModule extends AppGlideModule {
@@ -108,6 +109,49 @@ public class YourAppGlideModule extends AppGlideModule {
   @Override
   public void applyOptions(Context context, GlideBuilder builder) {
     builder.setMemoryCache(new YourAppMemoryCacheImpl());
+  }
+}
+```
+
+#### Bitmap 池
+Glide 使用 [``LruBitmapPool``][39] 作为默认的 [``BitmapPool``][40] 。[``LruBitmapPool``][39] 是一个内存中的固定大小的 ``BitmapPool``，使用 LRU 算法清理。默认大小基于设备的分辨率和密度，同时也考虑内存类和 [``isLowRamDevice``][41] 的返回值。具体的计算通过 Glide 的 [``MemorySizeCalculator``][11] 来完成，与 Glide 的 [``MemoryCache``][9] 的大小检测方法相似。
+ 
+ 应用可以在它们的 [``AppGlideModule``][1] 中定制 [``BitmapPool``] 的尺寸，使用 [``applyOptions(Context, GlideBuilder)``][12] 方法并配置 [``MemorySizeCalculator``][11]:
+
+```java
+@GlideModule
+public class YourAppGlideModule extends AppGlideModule {
+  @Override
+  public void applyOptions(Context context, GlideBuilder builder) {
+    MemorySizeCalculator calculator = new MemorySizeCalculator.Builder(context)
+        .setBitmapPoolScreens(3)
+        .build();
+    builder.setBitmapPool(new LruBitmapPool(calculator.getBitmapPoolSize()));
+  }
+}
+```
+
+应用也可以直接复写这个池的大小：
+
+```java
+@GlideModule
+public class YourAppGlideModule extends AppGlideModule {
+  @Override
+  public void applyOptions(Context context, GlideBuilder builder) {
+    int bitmapPoolSizeBytes = 1024 * 1024 * 30; // 30mb
+    builder.setBitmapPool(new LruBitmapPool(bitmapPoolSizeBytes));
+  }
+}
+```
+
+甚至可以提供 [``BitmapPool``][40] 的完全自定义实现：
+
+```java
+@GlideModule
+public class YourAppGlideModule extends AppGlideModule {
+  @Override
+  public void applyOptions(Context context, GlideBuilder builder) {
+    builder.setBitmapPool(new YourAppBitmapPoolImpl());
   }
 }
 ```
@@ -404,3 +448,7 @@ public final class MyAppGlideModule extends AppGlideModule {
 [36]: {{ site.baseurl }}/javadocs/410/com/bumptech/glide/RequestManager.html#setDefaultRequestOptions-com.bumptech.glide.request.RequestOptions-
 [37]: {{ site.baseurl }}/javadocs/420/com/bumptech/glide/GlideBuilder.html#setLogLevel-int-
 [38]: https://developer.android.com/reference/android/util/Log.html
+[39]: {{ site.baseurl }}/javadocs/431/com/bumptech/glide/load/engine/bitmap_recycle/LruBitmapPool.html
+[40]: {{ site.baseurl }}/javadocs/431/com/bumptech/glide/load/engine/bitmap_recycle/BitmapPool.html
+[41]: https://developer.android.com/reference/android/app/ActivityManager.html#isLowRamDevice()
+

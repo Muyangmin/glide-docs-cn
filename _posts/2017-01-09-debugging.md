@@ -3,7 +3,7 @@ layout: page
 title: "调试"
 category: doc
 date: 2017-01-09 07:14:59
-order: 11 
+order: 12 
 disqus: 1
 ---
 
@@ -54,17 +54,44 @@ Glide.with(fragment)
        @Override
        boolean onLoadFailed(@Nullable GlideException e, Object model,
            Target<R> target, boolean isFirstResource) {
-         // Log errors here.
+         // Log the GlideException here (locally or with a remote logging framework):
+         Log.e(TAG, "Load failed", e);
+
+         // You can also log the individual causes:
+         for (Throwable t : e.getRootCauses()) {
+           Log.e(TAG, "Caused by", t);
+         }
+         // Or, to log all root causes locally, you can use the built in helper method:
+         e.logRootCauses(TAG);
+
+         return false; // Allow calling onLoadFailed on the Target.
        }
 
        @Override
        boolean onResourceReady(R resource, Object model, Target<R> target,
            DataSource dataSource, boolean isFirstResource) {
          // Log successes here or use DataSource to keep track of cache hits and misses.
+
+         return false; // Allow calling onResourceReady on the Target.
        }
     })
     .into(imageView);
 ```
+
+请注意，每个 GlideException 都有多个 ``Throwable`` root cause。在 Glide 中可能有有任意多的方法使得 注册组件(``ModelLoader``, ``ResourceDecoder``, ``Encoder`` 等)作用于从给定的模型（URL, File 等）加载给定的资源 (``Bitmap``, ``GifDrawable`` 等)。每个 ``Throwable`` root cause 描述了一个特定的 Glide 组件组合为什么失败。理解某个特定请求为何失败可能需要检查所有的 root cause。
+
+然而，你也可能会发现某个单一的 root cause 比其他的要重要一些。例如你正在加载 URL 并试图找出特定的 HttpException (它意味着你的加载是由于一个网络错误而失败)，你可以遍历所有的 root cause 并使用 ``instanceof`` 来检查其类型：
+
+```java
+for (Throwable t : e.getRootCauses()) {
+  if (t instanceof HttpException) {
+    Log.e(TAG, "Request failed due to HttpException!", t);
+    break;
+  }
+}
+```
+
+当然你也可以使用类似的迭代过程和 ``instanceof`` 操作符来检查 Http 错误之外其他你关心的异常类型。
 
 为减少对象分配起见，你可以为多个加载重用相同的``RequestListener``。
 

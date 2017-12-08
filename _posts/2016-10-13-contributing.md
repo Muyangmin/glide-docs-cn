@@ -16,14 +16,39 @@ order: 2
 
 非常欢迎你为 Glide 源码做贡献！
 
-#### 上传一个修改
+#### 工作流
 
 如果你想向 Glide 贡献代码，你需要：
 
-1. 从 GitHub 克隆 [Glide 仓库] 。
-2. 创建一个新分支来做修改: ``git checkout -b <branch_name>``
-3. 贡献你的代码。
-4. 在 GitHub 上发送一个 [pull request][2] 。
+1. 从 GitHub 上 [Fork][Github Fork] [Glide 仓库][1] 。
+2. [Clone][Github Clone] 你的仓库到你的电脑上：
+
+   ```sh
+   git clone https://github.com/<your_username>/glide.git
+   cd glide
+   ```
+3. 在 Android Studio 中打开 (目录为 Android Studio 3.0+ 的结构)
+    1. 打开 Android Studio 
+    2. 点击 "Import Project"
+    3. 浏览并转到你先前克隆下来的路径
+    4. 点击 'settings.gradle'
+    5. 点击 'Open'
+4. 贡献你的代码。
+5. 提交你的修改:
+
+   ```sh
+   git add . 
+   git commit -m "Describe your change here."
+   ```
+   
+6. 往你自己的 fork 推送修改：  
+
+   ```sh
+   git push origin master
+   ```
+   
+7. 在 Github 上打开你的 fork (`https://github.com/<your_username>/glide`)
+8. 在 GitHub 上发送一个 [pull request][2] 到主仓库。
 
 #### 构建项目
 
@@ -35,13 +60,28 @@ order: 2
 #### 测试你的修改
 
 ##### 测试
+Glide 拥有两种类型的测试，在你的本地机器上运行的单元测试（unit test），和在模拟器或设备上执行的仪器测试 (instrumentation test)。
 
-所有 Glide 的测试，包括单元测试和代码分析，都会在你构建工程的时候运行。
+##### 单元测试
+Glide 的单元测试是作为 Glide 的构建过程的一部分来允许的，所以你可以直接使用：
 
-你也可以单独运行测试，使用: ``./gradlew test``.
+ ``./gradlew build``
+ 
+为了加快开发周期，你也可以只运行主库的单元测试：
+
+``./gradlew :library:testDebugUnitTest``
+
+##### 仪器测试
+为了运行 Glide 的仪器测试，你需要插入一个真机，或使用 Android Studio 添加一个模拟器。现在在 Android Studio 中添加模拟器已经很容易，并且 x86 的模拟器启动和运行也相当快。因此，我通常推荐你在一个模拟器上执行 Glide 的仪器测试。
+
+要执行 Glide 的仪器测试：
+1. [在 Android Studio 中配置一个模拟器][Android Studio emulator] (我通常使用 x86 和 API 26)
+2. 执行:
+
+    ``./gradlew :instrumentation:connectedDebugAndroidTest``
 
 ##### Sample 项目
-Glide 的测试并不特别全面，它不能有效地测试性能回归。为了验证你的修改能用且不会给性能带来消极影响（或确实能提高性能！），尝试运行 Glide 的示例项目是一个好主意。
+Glide 的测试并不特别全面。为了验证你的修改能用且不会给性能带来消极影响，尝试运行 Glide 的示例项目是一个好主意。
 
 Glide 的示例项目位于 samples/ 中。示例项目可以被 gradle 构建和安装到设备或模拟器中：
 
@@ -82,11 +122,33 @@ Glide使用 [Google Java 风格指南][3]。
 
 如果你想贡献文档的话：
 
-1. 克隆 [Glide repo][1] ；
-2. 检出 gh-pages 分支: ``git checkout -t bump/gh-pages``；
-3. 贡献文本；
-4. 在 GitHub 上发送一个 [pull request][2] 。
+1. 从 GitHub 上 [Fork][Github Fork] [Glide 仓库][1] 。
+2. [Clone][Github Clone] 你的仓库到你的电脑上：
 
+   ```sh
+   git clone https://github.com/<your_username>/glide.git
+   cd glide
+   ```
+3. 检出 gh-pages 分支：
+   
+   ```sh
+   git checkout -t origin/gh-pages
+   ```
+4. 完成你的修改。
+5. 提交你的修改:
+
+   ```sh
+   git add . 
+   git commit -m "Describe your change here."
+   ```
+6. 向你的 Glide fork 推送修改：
+
+   ```sh
+   git push origin gh-pages 
+   ```
+  
+7. 在 Github 上打开你的 fork (`https://github.com/<your_username>/glide`)
+8. 在 GitHub 上发送一个 [pull request][2] 到主仓库，注意使用 ``gh-pages`` 分支。
 
 #### 修改已有的页面
 
@@ -125,3 +187,7 @@ disqus: 1
 [2]: https://help.github.com/articles/creating-a-pull-request/
 [3]: https://google.github.io/styleguide/javaguide.html
 [4]: https://raw.githubusercontent.com/google/styleguide/gh-pages/intellij-java-google-style.xml
+[Github Clone]: https://help.github.com/articles/cloning-a-repository/
+[Github Fork]: https://help.github.com/articles/fork-a-repo/
+[Android Studio Emulator]: https://developer.android.com/studio/run/managing-avds.html#createavd
+

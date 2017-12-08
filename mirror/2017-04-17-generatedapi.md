@@ -39,7 +39,7 @@ To use the generated API in your application, you need to perform two steps:
    }
 
    dependencies {
-     annotationProcessor 'com.github.bumptech.glide:compiler:4.3.0'
+     annotationProcessor 'com.github.bumptech.glide:compiler:4.4.0'
    }
    ```
 
@@ -70,7 +70,7 @@ If you're using Kotlin you can:
 
    ```groovy
    dependencies {
-     kapt 'com.github.bumptech.glide:compiler:4.3.0'
+     kapt 'com.github.bumptech.glide:compiler:4.4.0'
    }
    ```
   Note that you must also include the ``kotlin-kapt`` plugin in your ``build.gradle`` file:
@@ -78,8 +78,17 @@ If you're using Kotlin you can:
    ```groovy
    apply plugin: 'kotlin-kapt'
    ```
+  In addition, if you have any other annotation processors, all of them must be converted from ``annotationProcessor`` to ``kapt``:
 
-   To use ``kapt``, see the [official documentation][14].
+   ```groovy
+   dependencies {
+     kapt "android.arch.lifecycle:compiler:1.0.0"
+     kapt 'com.github.bumptech.glide:compiler:4.4.0'
+   }
+   ```
+
+   For more details on ``kapt``, see the [official documentation][14].
+
 
 #### Android Studio
 

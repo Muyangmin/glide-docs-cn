@@ -41,7 +41,7 @@ Generated API 目前仅可以在 Application 模块内使用。这一限制可�
    }
 
    dependencies {
-     annotationProcessor 'com.github.bumptech.glide:compiler:4.3.0'
+     annotationProcessor 'com.github.bumptech.glide:compiler:4.4.0'
    }
    ```
 
@@ -72,13 +72,22 @@ Generated API 目前仅可以在 Application 模块内使用。这一限制可�
 
    ```groovy
    dependencies {
-     kapt 'com.github.bumptech.glide:compiler:4.3.0'
+     kapt 'com.github.bumptech.glide:compiler:4.4.0'
    }
    ```
    注意，你还需要在你的 ``build.gradle`` 文件中包含 ``kotlin-kapt`` 插件：
    
    ```groovy
    apply plugin: 'kotlin-kapt'
+   ```
+    
+    此外，如果你有其他的注解处理器，它们都必须全部被从 ``annotationProcessor`` 转换为 ``kapt``：
+
+   ```groovy
+   dependencies {
+     kapt "android.arch.lifecycle:compiler:1.0.0"
+     kapt 'com.github.bumptech.glide:compiler:4.4.0'
+   }
    ```
 
    关于``kapt``的使用，请查看[官方文档][14]。

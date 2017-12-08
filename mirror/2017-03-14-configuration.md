@@ -31,7 +31,7 @@ public final class OkHttpLibraryGlideModule extends LibraryGlideModule {
 
 Using the [``@GlideModule``][5] annotation requires a dependency on Glide's annotations:
 ```groovy
-compile 'com.github.bumptech.glide:annotations:4.3.0'
+compile 'com.github.bumptech.glide:annotations:4.4.0'
 ```
 
 #### Applications
@@ -55,8 +55,8 @@ public class FlickrGlideModule extends AppGlideModule {
 
 Including Glide's annotation processor requires dependencies on Glide's annotations and the annotation processor:
 ```groovy
-compile 'com.github.bumptech.glide:annotations:4.3.0'
-annotationProcessor 'com.github.bumptech.glide:compiler:4.3.0'
+compile 'com.github.bumptech.glide:annotations:4.4.0'
+annotationProcessor 'com.github.bumptech.glide:compiler:4.4.0'
 ```
 
 Finally, you should keep AppGlideModule implementations in your ``proguard.cfg``:
@@ -72,6 +72,7 @@ Glide allows applications to use [``AppGlideModule``][1] implementations to comp
 By default, Glide uses [``LruResourceCache``][10], a default implementation of the [``MemoryCache``][9] interface that uses a fixed amount of memory with LRU eviction. The size of the [``LruResourceCache``][10] is determined by Glide's [``MemorySizeCalculator``][11] class, which looks at the device memory class, whether or not the device is low ram and the screen resolution. 
 
 Applications can customize the [``MemoryCache``][9] size in their [``AppGlideModule``][1] with the [``applyOptions(Context, GlideBuilder)``][12] method by configuring [``MemorySizeCalculator``][11]:
+
 ```java
 @GlideModule
 public class YourAppGlideModule extends AppGlideModule {
@@ -105,6 +106,48 @@ public class YourAppGlideModule extends AppGlideModule {
   @Override
   public void applyOptions(Context context, GlideBuilder builder) {
     builder.setMemoryCache(new YourAppMemoryCacheImpl());
+  }
+}
+```
+
+#### Bitmap pool
+Glide uses [``LruBitmapPool``][39] as the default [``BitmapPool``][40]. [``LruBitmapPool``][39] is a fixed size in memory ``BitmapPool`` that uses LRU eviction. The default size is based on the screen size and density of the device in question as well as the memory class and the return value of [``isLowRamDevice``][41]. The specific calculations are done by Glide's [``MemorySizeCalculator``][11], similar to the way sizes are determined for Glide's [``MemoryCache``][9].
+
+Applications can customize the [``BitmapPool``][40] size in their [``AppGlideModule``][1] with the [``applyOptions(Context, GlideBuilder)``][12] method by configuring [``MemorySizeCalculator``][11]:
+
+```java
+@GlideModule
+public class YourAppGlideModule extends AppGlideModule {
+  @Override
+  public void applyOptions(Context context, GlideBuilder builder) {
+    MemorySizeCalculator calculator = new MemorySizeCalculator.Builder(context)
+        .setBitmapPoolScreens(3)
+        .build();
+    builder.setBitmapPool(new LruBitmapPool(calculator.getBitmapPoolSize()));
+  }
+}
+```
+
+Applications can also directly override the pool size: 
+
+```java
+@GlideModule
+public class YourAppGlideModule extends AppGlideModule {
+  @Override
+  public void applyOptions(Context context, GlideBuilder builder) {
+    int bitmapPoolSizeBytes = 1024 * 1024 * 30; // 30mb
+    builder.setBitmapPool(new LruBitmapPool(bitmapPoolSizeBytes));
+  }
+}
+```
+
+Applications can even provide their own implementation of [``BitmapPool``][40]:
+```java
+@GlideModule
+public class YourAppGlideModule extends AppGlideModule {
+  @Override
+  public void applyOptions(Context context, GlideBuilder builder) {
+    builder.setBitmapPool(new YourAppBitmapPoolImpl());
   }
 }
 ```
@@ -419,3 +462,6 @@ public final class MyAppGlideModule extends AppGlideModule {
 [36]: {{ site.baseurl }}/javadocs/410/com/bumptech/glide/RequestManager.html#setDefaultRequestOptions-com.bumptech.glide.request.RequestOptions-
 [37]: {{ site.baseurl }}/javadocs/420/com/bumptech/glide/GlideBuilder.html#setLogLevel-int-
 [38]: https://developer.android.com/reference/android/util/Log.html
+[39]: {{ site.baseurl }}/javadocs/431/com/bumptech/glide/load/engine/bitmap_recycle/LruBitmapPool.html
+[40]: {{ site.baseurl }}/javadocs/431/com/bumptech/glide/load/engine/bitmap_recycle/BitmapPool.html
+[41]: https://developer.android.com/reference/android/app/ActivityManager.html#isLowRamDevice()

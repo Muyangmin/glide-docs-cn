@@ -121,10 +121,32 @@ dependencies {
 尽管选择特定快照版本要稍微麻烦一些，但相比你在应用程序或库的生产版本中使用 Glide 的快照版本依赖的话，这通常是一个更安全的选择。
 
 ### 本地构建快照
-如果你想获取将发布的相同文件以本地编译，请执行下面这个命令：
-```shell
-gradlew clean buildArchives uploadArchives --stacktrace --info -PSNAPSHOT_REPOSITORY_URL=file://p:\path\to\repo -PRELEASE_REPOSITORY_URL=file://p:\path\to\repo
+Maven 允许你在特定的 Maven 仓库中安装 artifact 并在其他项目中依赖这些 artifact。通常这是一个较为简单的方法来在第三方项目中测试对 Glide 的修改。你可以在两个地方：
+
+#### 在默认的本地 Maven 库中安装
+如果你只是简单地想在你的项目中测试一些你对 Glide 的修改 (或使用 Glide 的某个特定版本或提交来编译你的项目)，你可以在默认的本地 Maven 仓库中安装 Glide。
+
+为了这样做，你需要将以下代码添加到你的 ``build.gradle`` 文件的 ``repositories`` 部分中：
+
+```groovy
+repositories {
+  mavenLocal()
+}
 ```
+
+然后使用 ``-PLOCAL`` 来构建 Glide：
+
+```shell
+./gradlew uploadArchives --parallel -PLOCAL
+```
+
+#### 在特定的本地或远程仓库中安装
+如果你需要指定一个特定的本地或远程仓库来安装 Glide ，你可以使用以下命令：
+
+```shell
+./gradlew uploadArchives --stacktrace --info -PSNAPSHOT_REPOSITORY_URL=file://p:\path\to\repo -PRELEASE_REPOSITORY_URL=file://p:\path\to\repo
+```
+
 这将创建一个 m2 仓库文件夹，你可以用 Gradle 在一个工程里测试你的修改：
 ```gradle
 repositories {

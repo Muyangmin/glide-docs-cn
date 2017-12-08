@@ -87,6 +87,93 @@ GlideApp.with(fragment)
 
 请注意，你向 [``MultiTransformation``][18] 的构造器传入变换参数的顺序，决定了这些变换的应用顺序。
 
+### 定制变换
+
+尽管 Glide 提供了各种各样的内置 [``Transformation``][1] 实现，如果你需要额外的功能，你也可以实现你自己的 [``Transformation``][2]。
+
+#### BitmapTransformation
+
+如果你只需要变换 ``Bitmap``，最好是从继承 [``BitmapTransformation``][20] 开始。``BitmapTransformation`` 处理了一些基础的东西，包括提取和回收原始的 Bitmap，如果你的变换返回了一个新修改的 Bitmap 的话。
+
+一个简单的实现看起来可能像这样：
+
+```java
+public class FillSpace extends BitmapTransformation {
+    private static final String ID = "com.bumptech.glide.transformations.FillSpace";
+    private static final String ID_BYTES = ID.getBytes(STRING_CHARSET_NAME);
+
+    {@literal @Override}
+    public Bitmap transform(BitmapPool pool, Bitmap toTransform, int outWidth, int outHeight) {
+        if (toTransform.getWidth() == outWidth && toTransform.getHeight() == outHeight) {
+            return toTransform;
+        }
+
+        return Bitmap.createScaledBitmap(toTransform, outWidth, outHeight, /*filter=*/ true);
+    }
+
+    {@literal @Override}
+    public void equals(Object o) {
+      return o instanceof FillSpace;
+    }
+
+    {@literal @Override}
+    public int hashCode() {
+      return ID.hashCode();
+    }
+
+    {@literal @Override}
+    public void updateDiskCacheKey(MessageDigest messageDigest)
+        throws UnsupportedEncodingException {
+      messageDigest.update(ID_BYTES);
+    }
+}
+```
+
+尽管你的 ``Transformation`` 将几乎确定比这个示例更复杂，但它应该包含了相同的基本元素和复写方法。
+
+#### 必需的方法
+
+请特别注意，对于任何 ``Transformation`` 子类，包括 ``BitmapTransformation``，你都有三个方法你 **必须** 实现它们，以使得磁盘和内存缓存正确地工作：
+
+1. ``equals()``
+2. ``hashCode()``
+3. ``updateDiskCacheKey``
+
+如果你的 [``Transformation``][1] 没有参数，通常使用一个包含完整包限定名的 ``static`` ``final`` ``String`` 来作为一个 ID，它可以构成 ``hashCode()`` 的基础，并可用于更新 ``updateDiskCacheKey()`` 传入的 ``MessageDigest``。如果你的 [``Transformation``][1] 需要参数而且它会影响到 ``Bitmap`` 被变换的方式，它们也必须被包含到这三个方法中。
+
+例如，Glide 的 [``RoundedCorners``][21] 变换接受一个 ``int``，它决定了圆角的弧度。它的``equals()``, ``hashCode()`` 和 ``updateDiskCacheKey`` 实现看起来像这样：
+
+```java
+  @Override
+  public boolean equals(Object o) {
+    if (o instanceof RoundedCorners) {
+      RoundedCorners other = (RoundedCorners) o;
+      return roundingRadius == other.roundingRadius;
+    }
+    return false;
+  }
+
+  @Override
+  public int hashCode() {
+    return Util.hashCode(ID.hashCode(),
+        Util.hashCode(roundingRadius));
+  }
+
+  @Override
+  public void updateDiskCacheKey(MessageDigest messageDigest) {
+    messageDigest.update(ID_BYTES);
+
+    byte[] radiusData = ByteBuffer.allocate(4).putInt(roundingRadius).array();
+    messageDigest.update(radiusData);
+  }
+```
+
+原来的 ``String`` 仍然保留，但 ``roundingRadius`` 被包含到了三个方法中。这里，``updateDiskCacheKey`` 方法还演示了你可以如何使用 ``ByteBuffer`` 来包含基本参数到你的 ``updateDiskCacheKey`` 实现中。
+
+#### 不要忘记 equals() / hashCode()!
+
+值得重申的一点是，为了让内存缓存正常地工作你是否必须实现 ``equals()`` 和 ``hashCode()`` 方法。很不幸，即使你没有复写这两个方法，``BitmapTransformation`` 和 ``Transformation`` 也能通过编译，但这并不意味着它们能正常工作。我们正在探索一些方案，以使在 Glide 的未来版本中，使用默认的 ``equals()`` 和 ``hashCode`` 方法将抛出一个编译时错误。
+
 ### Glide中的特殊行为
 
 #### 重用变换
@@ -121,4 +208,8 @@ Glide可以将 ``Bitmap`` ``Transformation``应用到 ``BitmapDrawable`` , ``Gif
 [16]: {{ site.baseurl }}/doc/generatedapi.html
 [17]: {{ site.baseurl }}/javadocs/400/com/bumptech/glide/request/RequestOptions.html#transform-java.lang.Class-com.bumptech.glide.load.Transformation-
 [18]: {{ site.baseurl }}/javadocs/400/com/bumptech/glide/load/MultiTransformation.html
+[19]: {{ site.baseurl }}/javadocs/410/com/bumptech/glide/request/RequestOptions.html#transforms-com.bumptech.glide.load.Transformation...-
+[20]: {{ site.baseurl }}/javadocs/440/com/bumptech/glide/load/resource/bitmap/BitmapTransformation.html
+[21]: {{ site.baseurl }}/javadocs/440/com/bumptech/glide/load/resource/bitmap/RoundedCorners.html
+
 

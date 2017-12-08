@@ -6,6 +6,10 @@ date: 2017-05-20 12:37:05
 disqus: 1
 order: 1
 ---
+* TOC
+{:toc}
+
+Although Glide provides out of the box support for most common types of models (URLs, Uris, file paths etc), you may occasionally run into a type that Glide doesn't support. You may also run in to cases where you want to customize or tweak Glide's default behavior. You may even want to integrate a new way of fetching images or a new networking library beyond those available in Glide's [integration libraries][3].
 
 ## About Snapshots
 For users who don't want to wait for the next version of Glide and are willing to live on the bleeding edge, we deploy snapshot versions of the library to [Sonatype's snapshot repo][2].
@@ -38,8 +42,8 @@ And then change your dependencies to the snapshot version:
 
 ```gradle
 dependencies {
-  compile 'com.github.bumptech.glide:glide:4.4.0-SNAPSHOT'
-  compile 'com.github.bumptech.glide:okhttp-integration:4.4.0-SNAPSHOT'
+  compile 'com.github.bumptech.glide:glide:4.5.0-SNAPSHOT'
+  compile 'com.github.bumptech.glide:okhttp-integration:4.5.0-SNAPSHOT'
 }
 ```
 
@@ -71,12 +75,12 @@ Then change your dependencies to the snapshot version:
 <dependency>
   <groupId>com.github.bumptech.glide</groupId>
   <artifactId>glide</artifactId>
-  <version>4.4.0-SNAPSHOT</version>
+  <version>4.5.0-SNAPSHOT</version>
 </dependency>
 <dependency>
   <groupId>com.github.bumptech.glide</groupId>
   <artifactId>okhttp-integration</artifactId>
-  <version>4.4.0-SNAPSHOT</version>
+  <version>4.5.0-SNAPSHOT</version>
 </dependency>
 ```
 

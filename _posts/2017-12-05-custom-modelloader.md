@@ -1,6 +1,6 @@
 ---
 layout: page
-title: "Writing a custom ModelLoader"
+title: "编写定制的 ModelLoader"
 category: tut
 date: 2017-12-05 19:54:12
 disqus: 1

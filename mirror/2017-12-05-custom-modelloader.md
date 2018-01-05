@@ -13,7 +13,7 @@ Although Glide provides out of the box support for most common types of models (
 Fortunately Glide is extensible. To add support for a new type of model, you'll need to follow three steps:
 
 1. Implement a [``ModelLoader``][1]
-2. Implement a [``DataFetcher``][2] that can be returned by your [``ModelLoader``]
+2. Implement a [``DataFetcher``][2] that can be returned by your [``ModelLoader``][1]
 3. Register your new [``ModelLoader``][3] with Glide using an [``AppGlideModule``][4] (or [``LibraryGlideModule``][5] if you're working on a library rather than an application).
 
 So that we have something to follow along with, let's implement a custom ``ModelLoader`` that takes Base64 encoded image Strings and decodes them with Glide. Note that if you actually want to do this in your application, it would be better to retrieve the Base64 encoded Strings in your ``ModelLoader`` so that you can avoid the CPU and memory overhead of loading them into memory if Glide has previously cached your image. 
@@ -174,7 +174,7 @@ public class Base64DataFetcher implements DataFetcher<ByteBuffer> {
 Although there are a number of methods here, most of them are actually pretty easy to implement.
 
 #### getDataClass
-``getDataClass()`` is trivial, we're loading ``ByteBuffers``:
+``getDataClass()`` is trivial, we're loading ``ByteBuffer``:
 
 ```java
   @NonNull
@@ -211,7 +211,6 @@ In our case, [``Base64``][10] doesn't offer a cancellation API, so we can leave 
   }
 
 ```
-
 
 #### cleanup
 ``cleanup()`` is an interesting one. If you're loading an [``InputStream``][7] or opening any kind of I/O resources, you absolutely must close and clean up the ``InputStream`` or resource in the ``cleanup()`` method.
@@ -474,7 +473,7 @@ public class MyAppGlideModule extends AppGlideModule {
 
 And that's it! 
 
-Now we can just take any data uri with a base54 encoded image and load it with Glide and it just works:
+Now we can just take any data uri with a base64 encoded image and load it with Glide and it just works:
 
 ```java
 String dataUri = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYA..."

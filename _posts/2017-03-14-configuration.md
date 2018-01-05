@@ -15,28 +15,6 @@ disqus: 1
 ### 设置
 为了让 Glide 正常工作，库和应用程序需要做一些固定的步骤。不过，假如你的库不希望注册额外的组件，则这些初始化不是必须的。
 
-#### 程序库
-程序库(Libraries)需要：
-1. 添加一个或多个 [``LibraryGlideModule``][2] 实现。
-2. 为每一个 [``LibraryGlideModule``][2] 实现添加 [``@GlideModule``][5] 注解。
-3. 添加Glide的注解解析器的依赖。
-
-在Glide的 [OkHttp 集成库][7] 中有一个 [``LibraryGlideModule``][2] 的示例实现，它看起来长这样：
-```java
-@GlideModule
-public final class OkHttpLibraryGlideModule extends LibraryGlideModule {
-  @Override
-  public void registerComponents(Context context, Registry registry) {
-    registry.replace(GlideUrl.class, InputStream.class, new OkHttpUrlLoader.Factory());
-  }
-}
-```
-
-要使用 [``@GlideModule``][5] 注解，需要有对 Glide 注解的依赖：
-```groovy
-compile 'com.github.bumptech.glide:annotations:4.4.0'
-```
-
 #### 应用程序
 应用程序(Applications)需要：
 1. 恰当地添加一个 [``AppGlideModule``][1] 实现。
@@ -67,6 +45,41 @@ annotationProcessor 'com.github.bumptech.glide:compiler:4.4.0'
 -keep public class  extends com.bumptech.glide.module.AppGlideModule
 -keep class com.bumptech.glide.GeneratedAppGlideModuleImpl
 ```
+
+#### 程序库 (Libraries)
+程序库若不需要注册定制组件，则不需要做任何配置步骤，可以完全跳过这个章节。
+
+程序库如果需要注册定制组件，例如 `ModelLoader`，可按以下步骤执行：
+
+1. 添加一个或多个 [``LibraryGlideModule``][2] 实现，以注册新的组件。
+2. 为每个 [``LibraryGlideModule``][2] 实现，添加 [``@GlideModule``][5] 注解。
+3. 添加 Glide 的注解处理器的依赖。
+
+一个 [``LibraryGlideModule``] 的例子，在 Glide 的[OkHttp 集成库][7] 中：
+
+```java
+@GlideModule
+public final class OkHttpLibraryGlideModule extends LibraryGlideModule {
+  @Override
+  public void registerComponents(Context context, Glide glide, Registry registry) {
+    registry.replace(GlideUrl.class, InputStream.class, new OkHttpUrlLoader.Factory());
+  }
+}
+```
+
+使用 [``GlideModule``][5] 注解需要使用 Glide 注解的依赖：
+
+```groovy
+compile 'com.github.bumptech.glide:annotations:4.4.0'
+```
+
+##### 避免在程序库中使用 AppGlideModule
+程序库一定 **不要** 包含 ``AppGlideModule`` 实现。这么做将会阻止依赖该库的任何应用程序管理它们的依赖，或配置诸如 Glide 缓存大小和位置之类的选项。
+ 
+此外，如果两个程序库都包含 ``AppGlideModule``，应用程序将无法在同时依赖两个库的情况下通过编译，而不得不在二者之中做出取舍。
+
+这确实意味着程序库将无法使用 Glide 的 generated API，但是使用 ``RequestOptions`` 加载仍然有效（可以在 [选项][42] 页找到例子）。
+
 
 ### 应用程序选项
 Glide 允许应用通过 [``AppGlideModule``][1] 实现来完全控制 Glide 的内存和磁盘缓存使用。Glide 试图提供对大部分应用程序合理的默认选项，但对于部分应用，可能就需要定制这些值。在你做任何改变时，请注意测量其结果，避免出现性能的倒退。
@@ -451,4 +464,5 @@ public final class MyAppGlideModule extends AppGlideModule {
 [39]: {{ site.baseurl }}/javadocs/431/com/bumptech/glide/load/engine/bitmap_recycle/LruBitmapPool.html
 [40]: {{ site.baseurl }}/javadocs/431/com/bumptech/glide/load/engine/bitmap_recycle/BitmapPool.html
 [41]: https://developer.android.com/reference/android/app/ActivityManager.html#isLowRamDevice()
+[42]: {{ site.baseurl }}/doc/options.html
 

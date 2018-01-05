@@ -71,6 +71,18 @@ For a faster development cycle, you can also just run the unit tests for the mai
 
 ``./gradlew :library:testDebugUnitTest``
 
+###### Annotation Processor tests
+
+To test annotation processor changes run:
+
+``./gradlew :annotation:compiler:test:test``
+
+If you changed the output and the regression tests are failing, you can re-generate the test files by running:
+
+``./gradlew :annotation:compiler:test:regenerateTestResources``
+
+If you do run `regenerateTestResources`, double check and make sure that the resulting files are sane and that you only see the changes you expected.
+
 ###### Instrumentation tests.
 
 To run Glide's instrumentation tests, you need to either plug in a real device, or add an emulator using Android Studio. It's now quite easy to add an emulator in Android Studio and x86 emulators are quite fast to boot and run. As a result, I'd generally recommend running Glide's instrumentation tests on an emulator.

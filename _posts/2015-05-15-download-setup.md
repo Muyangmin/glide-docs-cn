@@ -14,9 +14,32 @@ translators: [Muyangmin, vincgao]
 {:toc}
 ### Android SDK 要求
 
-**Min Sdk Version** - 使用 Glide 需要 min SDK 版本 API 14 (Ice Cream Sandwich) 或更高。
+**Min Sdk Version** - 使用 Glide 需要 min SDK 版本 API **14** (Ice Cream Sandwich) 或更高。
 
-**Compile Sdk Version** - Glide 必须使用 API 26 (Oreo) 或更高版本的 SDK 来编译。
+**Compile Sdk Version** - Glide 必须使用 API **26** (Oreo) 或更高版本的 SDK 来编译。
+
+**Support Library Version** - Glide 使用的支持库版本为 **27**。
+
+如果你需要使用不同的支持库版本，你需要在你的 `build.gradle` 文件里去从 Glide 的依赖中去除 `"com.android.support"`。例如，假如你想使用 v26 的支持库： 
+
+```groovy
+depdendencies {
+  implementation ("com.github.bumptech.glide:glide:4.4.0") {
+    exclude group: "com.android.support"
+  }
+  implementation "com.android.support:support-fragment:26.1.0"
+}
+```
+使用与 Glide 依赖的支持库不同的版本可能会导致一些运行时异常 ，例如：
+
+```
+java.lang.NoSuchMethodError: No static method getFont(Landroid/content/Context;ILandroid/util/TypedValue;ILandroid/widget/TextView;)Landroid/graphics/Typeface; in class Landroid/support/v4/content/res/ResourcesCompat; or its super classes (declaration of 'android.support.v4.content.res.ResourcesCompat' 
+at android.support.v7.widget.TintTypedArray.getFont(TintTypedArray.java:119)
+```
+
+也可能造成 Glide 的 API 生成器失败，从而不能正确地生成 `GlideApp` 类.
+
+请参阅 [#2730][8] 获取这方面的更多信息。
 
 ### 下载
 
@@ -192,4 +215,6 @@ apply plugin: 'kotlin-kapt'
 [5]: https://developer.android.com/studio/write/java8-support.html
 [6]: {{ site.baseurl }}/doc/generatedapi.html#kotlin
 [7]: {{ site.baseurl }}/javadocs/431/com/bumptech/glide/load/engine/cache/ExternalPreferredCacheDiskCacheFactory.html
+[8]: https://github.com/bumptech/glide/issues/2730
+
 

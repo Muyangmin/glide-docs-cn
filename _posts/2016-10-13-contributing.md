@@ -71,6 +71,17 @@ Glide 的单元测试是作为 Glide 的构建过程的一部分来允许的，�
 
 ``./gradlew :library:testDebugUnitTest``
 
+##### 注解处理器测试
+如需测试注解处理器修改，请执行：
+
+``./gradlew :annotation:compiler:test:test``
+
+如果你修改了输出而回归测试失败了，你可以执行以下命令重新生成测试文件：
+
+``./gradlew :annotation:compiler:test:regenerateTestResources``
+
+如果你确实要执行 `regenerateTestResources`，请再次检查并确保生成的文件合理且只包含符合你预期的改动。
+
 ##### 仪器测试
 为了运行 Glide 的仪器测试，你需要插入一个真机，或使用 Android Studio 添加一个模拟器。现在在 Android Studio 中添加模拟器已经很容易，并且 x86 的模拟器启动和运行也相当快。因此，我通常推荐你在一个模拟器上执行 Glide 的仪器测试。
 

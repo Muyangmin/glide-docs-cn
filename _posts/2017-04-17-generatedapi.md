@@ -58,9 +58,12 @@ Generated API 目前仅可以在 Application 模块内使用。这一限制可�
    @GlideModule
    public final class MyAppGlideModule extends AppGlideModule {}
    ```
-   你不必去重写 `AppGlideModule` 中的任何一个方法。子类中完全可以不用写任何东西，它只需要继承 `AppGlideModule` 并且添加 `@GlideModule` 注解。
+   
+你不必去重写 `AppGlideModule` 中的任何一个方法。子类中完全可以不用写任何东西，它只需要继承 `AppGlideModule` 并且添加 `@GlideModule` 注解。
 
-   [``AppGlideModule``][4] 的实现必须使用 [``@GlideModule``][5] 注解标记。如果注解不存在，该 module 将不会被 Glide 发现，并且在日志中收到一条带有 ``Glide`` tag 的警告，表示 module 未找到。
+[``AppGlideModule``][4] 的实现必须使用 [``@GlideModule``][5] 注解标记。如果注解不存在，该 module 将不会被 Glide 发现，并且在日志中收到一条带有 ``Glide`` tag 的警告，表示 module 未找到。
+
+**注意：** 程序库 (Library) **不** 应该包含 [`AppGlideModule`][4] 实现，详见 [配置][15]。
 
 #### Kotlin
 
@@ -257,4 +260,6 @@ GlideApp.with(fragment)
 [12]: {{ site.baseurl }}/doc/download-setup.html
 [13]: {{ site.baseurl }}/javadocs/400/com/bumptech/glide/module/LibraryGlideModule.html
 [14]: https://kotlinlang.org/docs/reference/kapt.html
+[15]: {{ site.baseurl }}/doc/configuration.html#avoid-appglidemodule-in-libraries
+
 

@@ -405,7 +405,7 @@ public class MyAppGlideModule extends AppGlideModule { }
 不要忘了也给你的 build.gradle 文件里添加对 Glide 的注解解析器的依赖：
 
 ```groovy
-annotationProcessor 'com.github.bumptech.glide:compiler:4.4.0'
+annotationProcessor 'com.github.bumptech.glide:compiler:4.5.0'
 ```
 
 接下来我们要获取 Glide 的 [``Registry``][23]，因此我们将在我们的 ``AppGlideModule`` 中实现 [``registerComponents``][24] 方法：

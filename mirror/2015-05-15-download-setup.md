@@ -19,8 +19,8 @@ disqus: 1
 If you need or would prefer to use a different version of the support library you should exclude `"com.android.support"` from your Glide dependency in your `build.gradle` file. For example, if you'd like to use v26 of the support library:
 
 ```groovy
-depdendencies {
-  implementation ("com.github.bumptech.glide:glide:4.4.0") {
+dependencies {
+  implementation ("com.github.bumptech.glide:glide:4.5.0") {
     exclude group: "com.android.support"
   }
   implementation "com.android.support:support-fragment:26.1.0"
@@ -57,9 +57,37 @@ repositories {
 }
 
 dependencies {
-    compile 'com.github.bumptech.glide:glide:4.4.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.4.0'
+    compile 'com.github.bumptech.glide:glide:4.5.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.5.0'
 }
+```
+
+**Note:** Avoid using `@aar` in your dependencies whenever possible. If you must do so, add `transitive = true` to ensure that all necessary classes are included in your APK:
+
+```groovy
+dependencies {
+    implementation ("com.github.bumptech.glide:glide:4.5.0@aar") {
+        transitive = true
+    }
+}
+```
+
+`@aar` is Gradle's ["Artifact only"][9] notation that excludes dependencies by default. 
+
+Excluding Glide's dependencies by using `@aar` without `transitive = true `will result in runtime exceptions like:
+
+```
+java.lang.NoClassDefFoundError: com.bumptech.glide.load.resource.gif.GifBitmapProvider
+    at com.bumptech.glide.load.resource.gif.ByteBufferGifDecoder.<init>(ByteBufferGifDecoder.java:68)
+    at com.bumptech.glide.load.resource.gif.ByteBufferGifDecoder.<init>(ByteBufferGifDecoder.java:54)
+    at com.bumptech.glide.Glide.<init>(Glide.java:327)
+    at com.bumptech.glide.GlideBuilder.build(GlideBuilder.java:445)
+    at com.bumptech.glide.Glide.initializeGlide(Glide.java:257)
+    at com.bumptech.glide.Glide.initializeGlide(Glide.java:212)
+    at com.bumptech.glide.Glide.checkAndInitializeGlide(Glide.java:176)
+    at com.bumptech.glide.Glide.get(Glide.java:160)
+    at com.bumptech.glide.Glide.getRetriever(Glide.java:612)
+    at com.bumptech.glide.Glide.with(Glide.java:684)
 ```
 
 #### Maven
@@ -70,7 +98,7 @@ If you use Maven you can add a dependency on Glide as well. Again, you will also
 <dependency>
   <groupId>com.github.bumptech.glide</groupId>
   <artifactId>glide</artifactId>
-  <version>4.4.0</version>
+  <version>4.5.0</version>
   <type>aar</type>
 </dependency>
 <dependency>
@@ -81,7 +109,7 @@ If you use Maven you can add a dependency on Glide as well. Again, you will also
 <dependency>
   <groupId>com.github.bumptech.glide</groupId>
   <artifactId>compiler</artifactId>
-  <version>4.4.0</version>
+  <version>4.5.0</version>
   <optional>true</optional>
 </dependency>
 ```
@@ -176,9 +204,12 @@ If you use proguard, you may need to add the following lines to your ``proguard.
 -keep public class * implements com.bumptech.glide.module.GlideModule
 -keep public class * extends com.bumptech.glide.module.AppGlideModule
 -keep public enum com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$** {
-    **[] $VALUES;
-    public *;
+  **[] $VALUES;
+  public *;
 }
+
+# for DexGuard only
+-keepresourcexmlelements manifest/application/meta-data@value=GlideModule
 ```
 
 #### Jack
@@ -195,7 +226,7 @@ If you use Glide's annotations on classes implemented in Kotlin, you need to inc
 
 ```groovy
 dependencies {
-  kapt 'com.github.bumptech.glide:compiler:4.4.0'
+  kapt 'com.github.bumptech.glide:compiler:4.5.0'
 }
 ```
 Note that you must also include the ``kotlin-kapt`` plugin in your ``build.gradle`` file:
@@ -214,3 +245,4 @@ See the [generated API][6] page for details.
 [6]: {{ site.baseurl }}/doc/generatedapi.html#kotlin
 [7]: {{ site.baseurl }}/javadocs/431/com/bumptech/glide/load/engine/cache/ExternalPreferredCacheDiskCacheFactory.html
 [8]: https://github.com/bumptech/glide/issues/2730
+[9]: https://docs.gradle.org/current/userguide/dependency_management.html#ssub:artifact_dependencies

@@ -36,8 +36,8 @@ public class FlickrGlideModule extends AppGlideModule {
 
 请注意添加对 Glide 的注解和注解解析器的依赖：
 ```groovy
-compile 'com.github.bumptech.glide:annotations:4.4.0'
-annotationProcessor 'com.github.bumptech.glide:compiler:4.4.0'
+compile 'com.github.bumptech.glide:annotations:4.5.0'
+annotationProcessor 'com.github.bumptech.glide:compiler:4.5.0'
 ```
 
 最后，你应该在你的 ``proguard.cfg`` 中 keep 住你的 AppGlideModule 实现：
@@ -70,7 +70,7 @@ public final class OkHttpLibraryGlideModule extends LibraryGlideModule {
 使用 [``GlideModule``][5] 注解需要使用 Glide 注解的依赖：
 
 ```groovy
-compile 'com.github.bumptech.glide:annotations:4.4.0'
+compile 'com.github.bumptech.glide:annotations:4.5.0'
 ```
 
 ##### 避免在程序库中使用 AppGlideModule

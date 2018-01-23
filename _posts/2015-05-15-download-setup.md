@@ -23,8 +23,8 @@ translators: [Muyangmin, vincgao]
 如果你需要使用不同的支持库版本，你需要在你的 `build.gradle` 文件里去从 Glide 的依赖中去除 `"com.android.support"`。例如，假如你想使用 v26 的支持库： 
 
 ```groovy
-depdendencies {
-  implementation ("com.github.bumptech.glide:glide:4.4.0") {
+dependencies {
+  implementation ("com.github.bumptech.glide:glide:4.5.0") {
     exclude group: "com.android.support"
   }
   implementation "com.android.support:support-fragment:26.1.0"
@@ -60,10 +60,38 @@ repositories {
 }
 
 dependencies {
-    compile 'com.github.bumptech.glide:glide:4.4.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.4.0'
+    compile 'com.github.bumptech.glide:glide:4.5.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.5.0'
 }
 ```
+
+注意：如果可能，请尽量在你的依赖中避免使用 `@aar` 。如果你必须这么做，请添加 `transitive=true` 以确保所有必要的类都被包含到你的 API 中：
+
+```groovy
+dependencies {
+    implementation ("com.github.bumptech.glide:glide:4.5.0@aar") {
+        transitive = true
+    }
+}
+```
+在 Gradle 中，`@aar` 意味着 ["Artifact Only"][9]，默认情况下将排除所有依赖。
+
+使用 `@aar` 而不使用 `transitive=true` ,将会排除 Glide 的依赖，并导致运行时异常，例如：
+
+```
+java.lang.NoClassDefFoundError: com.bumptech.glide.load.resource.gif.GifBitmapProvider
+    at com.bumptech.glide.load.resource.gif.ByteBufferGifDecoder.<init>(ByteBufferGifDecoder.java:68)
+    at com.bumptech.glide.load.resource.gif.ByteBufferGifDecoder.<init>(ByteBufferGifDecoder.java:54)
+    at com.bumptech.glide.Glide.<init>(Glide.java:327)
+    at com.bumptech.glide.GlideBuilder.build(GlideBuilder.java:445)
+    at com.bumptech.glide.Glide.initializeGlide(Glide.java:257)
+    at com.bumptech.glide.Glide.initializeGlide(Glide.java:212)
+    at com.bumptech.glide.Glide.checkAndInitializeGlide(Glide.java:176)
+    at com.bumptech.glide.Glide.get(Glide.java:160)
+    at com.bumptech.glide.Glide.getRetriever(Glide.java:612)
+    at com.bumptech.glide.Glide.with(Glide.java:684)
+```
+
 
 #### Maven
 
@@ -73,7 +101,7 @@ dependencies {
 <dependency>
   <groupId>com.github.bumptech.glide</groupId>
   <artifactId>glide</artifactId>
-  <version>4.4.0</version>
+  <version>4.5.0</version>
   <type>aar</type>
 </dependency>
 <dependency>
@@ -84,7 +112,7 @@ dependencies {
 <dependency>
   <groupId>com.github.bumptech.glide</groupId>
   <artifactId>compiler</artifactId>
-  <version>4.4.0</version>
+  <version>4.5.0</version>
   <optional>true</optional>
 </dependency>
 ```
@@ -176,9 +204,12 @@ adb shell setprop log.tag.ConnectivityMonitor DEBUG
 -keep public class * implements com.bumptech.glide.module.GlideModule
 -keep public class * extends com.bumptech.glide.module.AppGlideModule
 -keep public enum com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$** {
-    **[] $VALUES;
-    public *;
+  **[] $VALUES;
+  public *;
 }
+
+# for DexGuard only
+-keepresourcexmlelements manifest/application/meta-data@value=GlideModule
 ```
 
 #### Jack
@@ -186,7 +217,7 @@ adb shell setprop log.tag.ConnectivityMonitor DEBUG
 Glide 的构建配置需要使用一些 [Jack][3] 目前还不能支持的特性。并且由于 Jack 最近已经被标记为 [deprecated][4]，Glide 需要使用的特性可能在未来也不会被加入了。如果你希望使用 Java 8 编译，请看下文。
 
 #### Java 8
-从 Android Studio 3.0 和 Android Gradle plugin 3.0 版本开始，你可以使用 Java 8 来编译你的项目和 Glide 。关于更多详细信息，请访问 Android 开发者网站的 [Use Java 8 Language Features][5] 。
+从 Android Studio 3.0 和 Android Gradle plugin 3.0 版本开始，你可以使用 Java 8 来编译你的项目和 Glide 。关于更多详细信息，请访问 Android 开发者网站的 [Use Java 8 LaAnguage Features][5] 。
 
 Glide 本身没有使用，也不要求你使用 Java 8 来编译或在你项目中使用 Glide。Glide 最终肯定也将需要使用 Java 8 来编译，但是我们将尽量为开发者们留出时间来先更新他们自己的应用，因此看起来 Java 8 在未来的几个月或数年内都不会成为一个需求（截止 11/2017）。
 
@@ -196,7 +227,7 @@ Glide 本身没有使用，也不要求你使用 Java 8 来编译或在你项目
 
 ```groovy
 dependencies {
-  kapt 'com.github.bumptech.glide:compiler:4.4.0'
+  kapt 'com.github.bumptech.glide:compiler:4.5.0'
 }
 ```
 
@@ -216,5 +247,6 @@ apply plugin: 'kotlin-kapt'
 [6]: {{ site.baseurl }}/doc/generatedapi.html#kotlin
 [7]: {{ site.baseurl }}/javadocs/431/com/bumptech/glide/load/engine/cache/ExternalPreferredCacheDiskCacheFactory.html
 [8]: https://github.com/bumptech/glide/issues/2730
+[9]: https://docs.gradle.org/current/userguide/dependency_management.html#ssub:artifact_dependencies
 
 

@@ -98,7 +98,7 @@ GlideApp.with(fragment)
 ```
 
 ### 解码格式
-在 Glide v3， 默认的 [``DecodeFormat``][30] 是 [``DecodeFormat.PREFER_RGB_565``][31]，它将使用 [``Bitmap.Config.RGB_565``]，除非图片包含或可能包含透明像素。对于给定的图片尺寸，``RGB_565`` 只使用 [``Bitmap.Config.ARGB_8888``] 一般的内存，但对于特定的图片有明显的画质问题，包括条纹(banding)和着色(tinting)。为了避免``RGB_565``的画质问题，Glide 现在默认使用 ``ARGB_8888``。结果是，图片质量变高了，但内存使用也增加了。
+在 Glide v3， 默认的 [``DecodeFormat``][30] 是 [``DecodeFormat.PREFER_RGB_565``][31]，它将使用 [``Bitmap.Config.RGB_565``]，除非图片包含或可能包含透明像素。对于给定的图片尺寸，``RGB_565`` 只使用 [``Bitmap.Config.ARGB_8888``] 一半的内存，但对于特定的图片有明显的画质问题，包括条纹(banding)和着色(tinting)。为了避免``RGB_565``的画质问题，Glide 现在默认使用 ``ARGB_8888``。结果是，图片质量变高了，但内存使用也增加了。
 
 要将 Glide v4 默认的 [``DecodeFormat``][30] 改回 [``DecodeFormat.PREFER_RGB_565``][31]，请在 [``AppGlideModule``][2] 中应用一个 ``RequestOption``：
 ```java

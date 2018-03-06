@@ -12,7 +12,7 @@ disqus: 1
 ### Android SDK Requirements
 **Minimum SDK Version** - Glide requires a minimum SDK version of **14** (Ice Cream Sandwich) or higher.
 
-**Compile SDK Version** - Glide must be compiled against SDK version **26** (Oreo) or higher.
+**Compile SDK Version** - Glide must be compiled against SDK version **27** (Oreo MR1) or higher.
 
 **Support Library Version** - Glide uses support library version **27**.
 
@@ -20,7 +20,7 @@ If you need or would prefer to use a different version of the support library yo
 
 ```groovy
 dependencies {
-  implementation ("com.github.bumptech.glide:glide:4.5.0") {
+  implementation ("com.github.bumptech.glide:glide:4.6.1") {
     exclude group: "com.android.support"
   }
   implementation "com.android.support:support-fragment:26.1.0"
@@ -57,8 +57,8 @@ repositories {
 }
 
 dependencies {
-    compile 'com.github.bumptech.glide:glide:4.5.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.5.0'
+    compile 'com.github.bumptech.glide:glide:4.6.1'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.6.1'
 }
 ```
 
@@ -66,7 +66,7 @@ dependencies {
 
 ```groovy
 dependencies {
-    implementation ("com.github.bumptech.glide:glide:4.5.0@aar") {
+    implementation ("com.github.bumptech.glide:glide:4.6.1@aar") {
         transitive = true
     }
 }
@@ -98,7 +98,7 @@ If you use Maven you can add a dependency on Glide as well. Again, you will also
 <dependency>
   <groupId>com.github.bumptech.glide</groupId>
   <artifactId>glide</artifactId>
-  <version>4.5.0</version>
+  <version>4.6.1</version>
   <type>aar</type>
 </dependency>
 <dependency>
@@ -109,7 +109,7 @@ If you use Maven you can add a dependency on Glide as well. Again, you will also
 <dependency>
   <groupId>com.github.bumptech.glide</groupId>
   <artifactId>compiler</artifactId>
-  <version>4.5.0</version>
+  <version>4.6.1</version>
   <optional>true</optional>
 </dependency>
 ```
@@ -203,11 +203,19 @@ If you use proguard, you may need to add the following lines to your ``proguard.
 ```
 -keep public class * implements com.bumptech.glide.module.GlideModule
 -keep public class * extends com.bumptech.glide.module.AppGlideModule
--keep public enum com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$** {
+-keep public enum com.bumptech.glide.load.ImageHeaderParser$** {
   **[] $VALUES;
   public *;
 }
 
+If you're targeting any API level less than Android API 27, also include:
+```pro
+-dontwarn com.bumptech.glide.load.resource.bitmap.VideoDecoder
+```
+VideoDecoder uses API 27 APIs which may cause proguard warnings even though the newer APIs won't be called on devices with older versions of Android.
+
+If you use DexGuard you may also want to include:
+```pro
 # for DexGuard only
 -keepresourcexmlelements manifest/application/meta-data@value=GlideModule
 ```
@@ -226,7 +234,7 @@ If you use Glide's annotations on classes implemented in Kotlin, you need to inc
 
 ```groovy
 dependencies {
-  kapt 'com.github.bumptech.glide:compiler:4.5.0'
+  kapt 'com.github.bumptech.glide:compiler:4.6.1'
 }
 ```
 Note that you must also include the ``kotlin-kapt`` plugin in your ``build.gradle`` file:

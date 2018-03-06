@@ -16,7 +16,7 @@ translators: [Muyangmin, vincgao]
 
 **Min Sdk Version** - 使用 Glide 需要 min SDK 版本 API **14** (Ice Cream Sandwich) 或更高。
 
-**Compile Sdk Version** - Glide 必须使用 API **26** (Oreo) 或更高版本的 SDK 来编译。
+**Compile Sdk Version** - Glide 必须使用 API **27** (Oreo MR1) 或更高版本的 SDK 来编译。
 
 **Support Library Version** - Glide 使用的支持库版本为 **27**。
 
@@ -24,7 +24,7 @@ translators: [Muyangmin, vincgao]
 
 ```groovy
 dependencies {
-  implementation ("com.github.bumptech.glide:glide:4.5.0") {
+  implementation ("com.github.bumptech.glide:glide:4.6.1") {
     exclude group: "com.android.support"
   }
   implementation "com.android.support:support-fragment:26.1.0"
@@ -60,8 +60,8 @@ repositories {
 }
 
 dependencies {
-    compile 'com.github.bumptech.glide:glide:4.5.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.5.0'
+    compile 'com.github.bumptech.glide:glide:4.6.1'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.6.1'
 }
 ```
 
@@ -69,7 +69,7 @@ dependencies {
 
 ```groovy
 dependencies {
-    implementation ("com.github.bumptech.glide:glide:4.5.0@aar") {
+    implementation ("com.github.bumptech.glide:glide:4.6.1@aar") {
         transitive = true
     }
 }
@@ -101,7 +101,7 @@ java.lang.NoClassDefFoundError: com.bumptech.glide.load.resource.gif.GifBitmapPr
 <dependency>
   <groupId>com.github.bumptech.glide</groupId>
   <artifactId>glide</artifactId>
-  <version>4.5.0</version>
+  <version>4.6.1</version>
   <type>aar</type>
 </dependency>
 <dependency>
@@ -112,7 +112,7 @@ java.lang.NoClassDefFoundError: com.bumptech.glide.load.resource.gif.GifBitmapPr
 <dependency>
   <groupId>com.github.bumptech.glide</groupId>
   <artifactId>compiler</artifactId>
-  <version>4.5.0</version>
+  <version>4.6.1</version>
   <optional>true</optional>
 </dependency>
 ```
@@ -203,11 +203,20 @@ adb shell setprop log.tag.ConnectivityMonitor DEBUG
 ```
 -keep public class * implements com.bumptech.glide.module.GlideModule
 -keep public class * extends com.bumptech.glide.module.AppGlideModule
--keep public enum com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$** {
+-keep public enum com.bumptech.glide.load.ImageHeaderParser$** {
   **[] $VALUES;
   public *;
 }
 
+如果你的 target API 低于 Android API 27，请添加：
+```pro
+-dontwarn com.bumptech.glide.load.resource.bitmap.VideoDecoder
+```
+
+VideoDecoder 使用 API 27 的一些接口，这可能导致 proguard 发出警告，尽管这些 API 在旧版 Android 设备上根本不会被调用。
+
+如果你使用 DexGuard 你可能还需要添加：
+```pro
 # for DexGuard only
 -keepresourcexmlelements manifest/application/meta-data@value=GlideModule
 ```
@@ -227,7 +236,7 @@ Glide 本身没有使用，也不要求你使用 Java 8 来编译或在你项目
 
 ```groovy
 dependencies {
-  kapt 'com.github.bumptech.glide:compiler:4.5.0'
+  kapt 'com.github.bumptech.glide:compiler:4.6.1'
 }
 ```
 

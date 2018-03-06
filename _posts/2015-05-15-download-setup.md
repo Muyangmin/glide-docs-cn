@@ -147,14 +147,14 @@ Glide 假定你要访问的数据都存储在你的应用中，不要求任何�
 从技术上讲，``ACCESS_NETWORK_STATE`` 对于 Glide 加载 URL 并不是必需的，但是它将帮助 Glide 处理 *片状网络(flaky network)* 和飞行模式。请继续阅读下面的连接监视章节以了解详情。
 
 ##### 连接监听 (Connectivity Monitoring)
-如果你正在从 URL 加载图片，Glide 可以自动帮助你处理片状网络连接：它可以监听用户的连接状态并在用户重新连接到网络时重启之前失败的请求。如果 Glide 检测到你的应用拥有 ``ACCESS_NETWORK_STATUS`` 权限，Glide 将自动监听连接状态而不需要额外的改动。
+如果你正在从 URL 加载图片，Glide 可以自动帮助你处理片状网络连接：它可以监听用户的连接状态并在用户重新连接到网络时重启之前失败的请求。如果 Glide 检测到你的应用拥有 ``ACCESS_NETWORK_STATE`` 权限，Glide 将自动监听连接状态而不需要额外的改动。
 
 你可以通过检查 ``ConnectivityMonitor`` 日志标签来验证 Glide 是否正在监听网络状态: 
 
 ```
 adb shell setprop log.tag.ConnectivityMonitor DEBUG
 ```
-如果你成功添加了 ``ACCESS_NETWORK_STATUS`` 权限，你将在 logcat 中看到类似这样的日志：
+如果你成功添加了 ``ACCESS_NETWORK_STATE`` 权限，你将在 logcat 中看到类似这样的日志：
 
 ```
 11-18 18:51:23.673 D/ConnectivityMonitor(16236): ACCESS_NETWORK_STATE permission granted, registering connectivity monitor

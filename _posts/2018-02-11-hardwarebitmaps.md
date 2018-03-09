@@ -52,7 +52,7 @@ Glide.with(fragment)
   * [Bitmap#getPixels](https://developer.android.com/reference/android/graphics/Bitmap.html#getPixels(int[], int, int, int, int, int, int))
   * [Bitmap#copyPixelsToBuffer](https://developer.android.com/reference/android/graphics/Bitmap.html#copyPixelsToBuffer(java.nio.Buffer))
   * [Bitmap#copyPixelsFromBuffer](https://developer.android.com/reference/android/graphics/Bitmap.html#copyPixelsFromBuffer(java.nio.Buffer))
-* 在本地 (native) 代码种读写像素数据
+* 在本地 (native) 代码中读写像素数据
 * 使用软件画布 (software Canvas) 渲染硬件位图:
 ```java
 Canvas canvas = new Canvas(normalBitmap)

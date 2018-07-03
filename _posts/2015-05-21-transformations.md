@@ -189,7 +189,7 @@ public class FillSpace extends BitmapTransformation {
 
 为了确保你添加到 ``RequestOptions`` 中的任何变换都会被使用，Glide将 ``Transformation`` 添加到一个Map中保存，其Key为你提供变换的资源类型。当资源被成功解码时，Glide使用这个Map来取回对应的 ``Transformation`` 。
 
-Glide可以将 ``Bitmap`` ``Transformation``应用到 ``BitmapDrawable`` , ``GifDrawable`` , 以及 ``Bitmap`` 资源上，因此通常你只需要编写和应用 ``Bitmap`` ``Transformation`` 。然而，如果你添加了额外的资源类型，你可能需要考虑派生 [``RequestOptions``][15] 类，并且，在内置的这些 ``Bitmap`` ``Transformations`` 之外，你还需要为你的资源类型提供一个 ``Transformation`` 。
+Glide可以将 ``Bitmap`` ``Transformation``应用到 ``BitmapDrawable`` , ``GifDrawable`` , 以及 ``Bitmap`` 资源上，因此通常你只需要编写和应用 ``Bitmap`` ``Transformation`` 。然而，如果你添加了额外的资源类型，你可能需要考虑派生 [``RequestOptions``][15] 类，并且，在内置的这些 ``Bitmap`` ``Transformations`` 之外，你还需要为你的自定义资源类型提供一个 ``Transformation`` 。
 
 [1]: {{ site.baseurl }}/javadocs/400/com/bumptech/glide/load/Transformation.html
 [2]: {{ site.baseurl }}/javadocs/400/com/bumptech/glide/load/resource/bitmap/FitCenter.html

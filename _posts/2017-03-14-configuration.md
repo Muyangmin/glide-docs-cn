@@ -2,7 +2,7 @@
 layout: page
 title: "配置"
 category: doc
-date: 2017-03-14 13:37:04
+date: 2018/7/9 16:51
 order: 9
 disqus: 1
 ---
@@ -36,8 +36,8 @@ public class FlickrGlideModule extends AppGlideModule {
 
 请注意添加对 Glide 的注解和注解解析器的依赖：
 ```groovy
-compile 'com.github.bumptech.glide:annotations:4.6.1'
-annotationProcessor 'com.github.bumptech.glide:compiler:4.6.1'
+compile 'com.github.bumptech.glide:annotations:4.7.1'
+annotationProcessor 'com.github.bumptech.glide:compiler:4.7.1'
 ```
 
 最后，你应该在你的 ``proguard.cfg`` 中 keep 住你的 AppGlideModule 实现：
@@ -70,7 +70,7 @@ public final class OkHttpLibraryGlideModule extends LibraryGlideModule {
 使用 [``GlideModule``][5] 注解需要使用 Glide 注解的依赖：
 
 ```groovy
-compile 'com.github.bumptech.glide:annotations:4.6.1'
+compile 'com.github.bumptech.glide:annotations:4.7.1'
 ```
 
 ##### 避免在程序库中使用 AppGlideModule

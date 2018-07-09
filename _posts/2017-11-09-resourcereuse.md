@@ -2,7 +2,7 @@
 layout: page
 title: "资源重用"
 category: doc
-date: 2017-11-09 08:04:26
+date: 2018/7/9 17:06
 order: 11
 disqus: 1
 ---
@@ -71,6 +71,20 @@ Glide.get(context).getBitmapPool();
 
 #### Cannot draw a recycled Bitmap
 Glide 的 ``BitmapPool`` 是固定大小的。当 ``Bitmap`` 从中被踢出而没有被重用时，Glide 将会调用 [``recycle()``][7]。如果应用在向 Glide 指出可以安全地回收之后 "不经意间" 继续持有 ``Bitmap``，则应用可能尝试绘制这个 ``Bitmap``，进而在 ``onDraw`` 方法中造成崩溃。
+
+一种可能的情况是，一个目标被用于两个``ImageView``，而其中一个在 ``Bitmap`` 被放到 ``BitmapPool`` 中后仍然试图访问被回收后的 ``Bitmap``。基于以下因素，要复现这种复用错误可能很困难：1）Bitmap 何时被放入池中，2）Bitmap 何时被回收，3）何种尺寸的 ``BitmapPool`` 和内存缓存会导致 ``Bitmap`` 的回收。可以在你的 ``GlideModule`` 中加入下面的代码片段，以使这个问题更容易复现：
+
+```java
+@Override
+public void applyOptions(Context context, GlideBuilder builder) {
+    int bitmapPoolSizeBytes = 1024 * 1024 * 0; // 0mb
+    int memoryCacheSizeBytes = 1024 * 1024 * 0; // 0mb
+    builder.setMemoryCache(new LruResourceCache(memoryCacheSizeBytes));
+    builder.setBitmapPool(new LruBitmapPool(bitmapPoolSizeBytes));
+}
+```
+
+上面的代码确保没有内存缓存，且 ``BitmapPool`` 的尺寸为0；因此 ``Bitmap`` 如果恰好没有被使用，它将立刻被回收。这是为了调试目的让它更快出现。
 
 #### Can't call reconfigure() on a recycled bitmap
 资源将在它们不再被使用时被返回到 Glide 的 ``BitmapPool`` 中。这里的内部实现基于 ``Request``(它控制着[``Resource``][8]) 的生命周期管理。如果在这些 Bitmap 上调用了 [``recycle()``][7]，但它们仍然在池中，就会使 Glide 无法重用它们而导致你的应用崩溃并抛出这个信息。这里的一个关键点是，这个崩溃很可能发生在未来的某个点，而不在这个违例代码的执行处！

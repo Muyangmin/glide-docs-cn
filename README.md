@@ -1,4 +1,4 @@
-## Glide 文档中文翻译项目  [![](https://img.shields.io/badge/最后同步时间-2018--03--06-brightgreen.svg)](https://github.com/Muyangmin/glide-docs-cn/issues/6)
+## Glide 文档中文翻译项目  [![](https://img.shields.io/badge/最后同步时间-2018--07--09-brightgreen.svg)](https://github.com/Muyangmin/glide-docs-cn/issues/6)
 
 这个项目专注于翻译 [Glide](https://github.com/bumptech/glide) v4 及以后版本的文档。网站访问地址：[glide-docs-cn](https://muyangmin.github.io/glide-docs-cn)
 

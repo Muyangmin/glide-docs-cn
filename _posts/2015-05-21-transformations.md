@@ -93,7 +93,7 @@ GlideApp.with(fragment)
 
 #### BitmapTransformation
 
-如果你只需要变换 ``Bitmap``，最好是从继承 [``BitmapTransformation``][20] 开始。``BitmapTransformation`` 处理了一些基础的东西，包括提取和回收原始的 Bitmap，如果你的变换返回了一个新修改的 Bitmap 的话。
+如果你只需要变换 ``Bitmap``，最好是从继承 [``BitmapTransformation``][20] 开始。``BitmapTransformation`` 为我们处理了一些基础的东西，例如，如果你的变换返回了一个新修改的 Bitmap ，``BitmapTransformation``将负责提取和回收原始的 Bitmap。
 
 一个简单的实现看起来可能像这样：
 
@@ -102,7 +102,7 @@ public class FillSpace extends BitmapTransformation {
     private static final String ID = "com.bumptech.glide.transformations.FillSpace";
     private static final String ID_BYTES = ID.getBytes(STRING_CHARSET_NAME);
 
-    {@literal @Override}
+    @Override
     public Bitmap transform(BitmapPool pool, Bitmap toTransform, int outWidth, int outHeight) {
         if (toTransform.getWidth() == outWidth && toTransform.getHeight() == outHeight) {
             return toTransform;
@@ -111,17 +111,17 @@ public class FillSpace extends BitmapTransformation {
         return Bitmap.createScaledBitmap(toTransform, outWidth, outHeight, /*filter=*/ true);
     }
 
-    {@literal @Override}
+    @Override
     public void equals(Object o) {
       return o instanceof FillSpace;
     }
 
-    {@literal @Override}
+    @Override
     public int hashCode() {
       return ID.hashCode();
     }
 
-    {@literal @Override}
+    @Override
     public void updateDiskCacheKey(MessageDigest messageDigest)
         throws UnsupportedEncodingException {
       messageDigest.update(ID_BYTES);
@@ -189,7 +189,7 @@ public class FillSpace extends BitmapTransformation {
 
 为了确保你添加到 ``RequestOptions`` 中的任何变换都会被使用，Glide将 ``Transformation`` 添加到一个Map中保存，其Key为你提供变换的资源类型。当资源被成功解码时，Glide使用这个Map来取回对应的 ``Transformation`` 。
 
-Glide可以将 ``Bitmap`` ``Transformation``应用到 ``BitmapDrawable`` , ``GifDrawable`` , 以及 ``Bitmap`` 资源上，因此通常你只需要编写和应用 ``Bitmap`` ``Transformation`` 。然而，如果你添加了额外的资源类型，你可能需要考虑派生 [``RequestOptions``][15] 类，并让你的资源类型能应用Glide内置的 ``Bitmap`` ``Transformation``。
+Glide可以将 ``Bitmap`` ``Transformation``应用到 ``BitmapDrawable`` , ``GifDrawable`` , 以及 ``Bitmap`` 资源上，因此通常你只需要编写和应用 ``Bitmap`` ``Transformation`` 。然而，如果你添加了额外的资源类型，你可能需要考虑派生 [``RequestOptions``][15] 类，并且，在内置的这些 ``Bitmap`` ``Transformations`` 之外，你还需要为你的自定义资源类型提供一个 ``Transformation`` 。
 
 [1]: {{ site.baseurl }}/javadocs/400/com/bumptech/glide/load/Transformation.html
 [2]: {{ site.baseurl }}/javadocs/400/com/bumptech/glide/load/resource/bitmap/FitCenter.html

@@ -442,7 +442,7 @@ public final class MyModelLoader implements ModelLoader<File, InputStream> {
 
 #### ``using()``
 
-``using`` API在 Glide v4 中被删除了，这是为了鼓励用户使用 [``AppGlideModule``][2] 一次性地 [注册][24] 所有组件，避免对象重用(re-use, 原文如此 --译者注)。你无需每次加载图片时都创建一个新的 ``ModelLoader`` ；你应该在 [``AppGlideModule``][2] 中注册一次，然后交给 Glide 在每次加载时检查 model (即你传入 [``load()``][25] 方法的对象)来决定什么时候使用你注册的 ``ModelLoader` 。
+``using`` API在 Glide v4 中被删除了，这是为了鼓励用户使用 [``AppGlideModule``][2] 一次性地 [注册][35] 所有组件，避免对象重用(re-use, 原文如此 --译者注)。你无需每次加载图片时都创建一个新的 ``ModelLoader`` ；你应该在 [``AppGlideModule``][2] 中注册一次，然后交给 Glide 在每次加载时检查 model (即你传入 [``load()``][25] 方法的对象)来决定什么时候使用你注册的 ``ModelLoader` 。
 
 为了确保你仅为特定的 model 使用你的 ``ModelLoader`` ，请像上面展示的那样实现 ``handles`` 方法：检查每个 model ，但仅在应当使用你的 ``ModelLoader`` 时才返回 true 。
 
@@ -480,3 +480,4 @@ public final class MyModelLoader implements ModelLoader<File, InputStream> {
 [32]: https://developer.android.com/reference/android/graphics/Bitmap.Config.html#RGB_565
 [33]: https://developer.android.com/reference/android/graphics/Bitmap.Config.html#ARGB_8888
 [34]: download-setup.html
+[35]: {{ site.baseurl }}/doc/configuration.html#registering-components

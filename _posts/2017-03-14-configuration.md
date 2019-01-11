@@ -172,13 +172,13 @@ public class YourAppGlideModule extends AppGlideModule {
 #### 磁盘缓存
 Glide 使用 [``DiskLruCacheWrapper``][13] 作为默认的 [``磁盘缓存``][14] 。 [``DiskLruCacheWrapper``][13] 是一个使用 LRU 算法的固定大小的磁盘缓存。默认磁盘大小为 [250 MB][15] ，位置是在应用的 [缓存文件夹][17] 中的一个 [特定目录][16] 。
 
-假如应用程序展示的媒体内容是公开的（从无授权机制的网站上加载，或搜索引擎等），那么应用可以将这个缓存位置改到外部存储：
+假如应用程序展示的媒体内容是公开的（例如从无授权机制的网站或搜索引擎上加载），那么应用可以将这个缓存位置改到外部存储：
 ```java
 @GlideModule
 public class YourAppGlideModule extends AppGlideModule {
   @Override
   public void applyOptions(Context context, GlideBuilder builder) {
-    builder.setDiskCache(new ExternalDiskCacheFactory(context));
+    builder.setDiskCache(new ExternalCacheDiskCacheFactory(context));
   }
 }
 ```
@@ -190,7 +190,7 @@ public class YourAppGlideModule extends AppGlideModule {
   @Override
   public void applyOptions(Context context, GlideBuilder builder) {
     int diskCacheSizeBytes = 1024  1024  100;  100 MB
-    builder.setDiskCache(new InternalDiskCacheFactory(context, diskCacheSizeBytes));
+    builder.setDiskCache(new InternalCacheDiskCacheFactory(context, diskCacheSizeBytes));
   }
 }
 ```
@@ -203,7 +203,7 @@ public class YourAppGlideModule extends AppGlideModule {
   public void applyOptions(Context context, GlideBuilder builder) {
     int diskCacheSizeBytes = 1024  1024  100;  100 MB
     builder.setDiskCache(
-        new InternalDiskCacheFactory(context, cacheFolderName, diskCacheSizeBytes));
+        new InternalCacheDiskCacheFactory(context, cacheFolderName, diskCacheSizeBytes));
   }
 }
 ```

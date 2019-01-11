@@ -21,7 +21,7 @@ disqus: 1
 
 你也可以通过手动调用 [``setLogLevel(int)``][1] 方法控制Glide标签的冗余度。``setLogLevel`` 允许你--举个栗子--在开发构建(developer builds)时启用更加冗余的日志，而在发布(release builds)构建时则关闭它们。
 
-#### 预料之外的缓存丢失
+#### 非预期的缓存丢失
 关于 Glide 缓存如何工作，请查阅 [缓存页][13]。
 
 ``Engine`` 标签会详细记录请求被填充的全过程，并包括用于存储相应资源的完整内存缓存键。如果你正在尝试调试“内存中明明有这个图片，为什么没在另一个地方用到”的问题，那么 ``Engine`` 标签可以让你直观地比较两者的缓存键的区别。
@@ -160,6 +160,26 @@ Glide.with(fragment)
   .into(imageView);
 ```
 
+#### "cannot resolve symbol 'GlideApp'"
+
+当使用 Generated API 时，你可能会遇到一些错误从而导致无法生成 Glide API。有时这些错误与你的 [设置][17] 有关，但有时可能完全无关。  
+不相关的错误经常会被大量的非 root cause 的错误消息掩盖。有可能因错误过多而使得你无法在构建日志中找出 root cause。如果遇到这种情况而且你正在使用 Gradle，可以尝试添加以下代码以增加 Gradle 打印的错误信息数量：
+
+```groovy
+allprojects {
+  gradle.projectsEvaluated {
+    tasks.withType(JavaCompile) {
+        options.compilerArgs << "-Xmaxerrs" << "1000"
+    }
+  }
+}
+```
+
+参见: 
+
+  *    [https://github.com/bumptech/glide/issues/1945](https://github.com/bumptech/glide/issues/1945)
+  *    [https://stackoverflow.com/questions/3115537/java-compilation-errors-limited-to-100/35707023#35707023](https://stackoverflow.com/questions/3115537/java-compilation-errors-limited-to-100/35707023#35707023)
+    
 [1]: {{ site.baseurl }}/javadocs/400/com/bumptech/glide/GlideBuilder.html#setLogLevel-int-  
 [2]: {{ site.baseurl }}/javadocs/400/com/bumptech/glide/RequestBuilder.html#into-android.widget.ImageView-  
 [3]: {{ site.baseurl }}/javadocs/400/com/bumptech/glide/RequestBuilder.html#submit-int-int-  
@@ -176,4 +196,4 @@ Glide.with(fragment)
 [14]: http://bumptech.github.io/glide/javadocs/430/com/bumptech/glide/RequestBuilder.html#error-com.bumptech.glide.RequestBuilder-  
 [15]: http://bumptech.github.io/glide/javadocs/430/com/bumptech/glide/RequestBuilder.html  
 [16]: https://developer.android.com/reference/android/os/Handler.html  
-
+[17]: {{ site.baseurl }}/doc/generatedapi.html

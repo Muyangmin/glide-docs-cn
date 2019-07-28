@@ -17,7 +17,7 @@ RecyclerView 集成库使你在你的应用中能够使用 [``RecyclerViewPreloa
 ### Gradle 依赖
 要使用 RecyclerView 集成库，在你的 ``build.gradle`` 文件中添加一个依赖：
 ```groovy
-compile ("com.github.bumptech.glide:recyclerview-integration:4.8.0") {
+compile ("com.github.bumptech.glide:recyclerview-integration:4.9.0") {
   // Excludes the support library because it's already included by Glide.
   transitive = false
 }
@@ -37,6 +37,10 @@ compile ("com.github.bumptech.glide:recyclerview-integration:4.8.0") {
 #### PreloadSizeProvider
 
 在添加完 gradle 依赖后，你接下来需要创建一个 [``PreloadSizeProvider``][3]。[``PreloadSizeProvider``][3] 负责保证你的 ``RecyclerViewPreloader`` 使用与你的适配器中 ``onBindViewHolder`` 方法一样的尺寸来加载图片。
+
+Glide 内置两个默认的 [``PreloadSizeProvider``][3] 实现：
+ 1. [``ViewPreloadSizeProvider``][4]
+ 2. [``FixedPreloadSizeProvider``][5]
 
 如果你的 ``RecyclerView`` 里有统一的 ``View`` 尺寸、你使用 ``into(ImageView)``来加载图片并且你没有使用 ``override()`` 方法来设置一个不同的尺寸，那么你可以使用 [``ViewPreloadSizeProvider``][4]。
 
@@ -71,7 +75,7 @@ public void onBindViewHolder(ViewHolder viewHolder, int position) {
   ImageView imageView = ((MyViewHolder) viewHolder).imageView;
   String currentUrl = myUrls.get(position);
 
-  GlideApp.with(fragment)
+  Glide.with(fragment)
     .load(currentUrl)
     .override(imageWidthPixels, imageHeightPixels)
     .into(imageView);
@@ -100,7 +104,7 @@ private class MyPreloadModelProvider implements PreloadModelProvider {
   @Nullable
   RequestBuilder getPreloadRequestBuilder(String url) {
     return 
-      GlideApp.with(fragment)
+      Glide.with(fragment)
         .load(url) 
         .override(imageWidthPixels, imageHeightPixels);
   }
@@ -202,7 +206,7 @@ public final class ImagesFragment extends Fragment {
     @Nullable
     public RequestBuilder getPreloadRequestBuilder(String url) {
       return 
-        GlideApp.with(fragment)
+        Glide.with(fragment)
           .load(url) 
           .override(imageWidthPixels, imageHeightPixels);
     }

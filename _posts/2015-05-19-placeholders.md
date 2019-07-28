@@ -23,10 +23,8 @@ Glide允许用户指定三种不同类型的占位符，分别在三种不同场
 
 占位符是当请求正在执行时被展示的 Drawable 。当请求成功完成时，占位符会被请求到的资源替换。如果被请求的资源是从内存中加载出来的，那么占位符可能根本不会被显示。如果请求失败并且没有设置 `error Drawable` ，则占位符将被持续展示。类似地，如果请求的url/model为 ``null`` ，并且 `error Drawable` 和 `fallback` 都没有设置，那么占位符也会继续显示。
 
-使用 [generated API][4] ：
-
 ```java
-GlideApp.with(fragment)
+Glide.with(fragment)
   .load(url)
   .placeholder(R.drawable.placeholder)
   .into(view);
@@ -35,7 +33,7 @@ GlideApp.with(fragment)
 Or:
 
 ```java
-GlideApp.with(fragment)
+Glide.with(fragment)
   .load(url)
   .placeholder(new ColorDrawable(Color.BLACK))
   .into(view);
@@ -45,10 +43,8 @@ GlideApp.with(fragment)
 
 `error Drawable` 在请求永久性失败时展示。`error Drawable` 同样也在请求的url/model为 ``null`` ，且并没有设置 `fallback Drawable` 时展示。
 
-With the [generated API][4]:
-
 ```java
-GlideApp.with(fragment)
+Glide.with(fragment)
   .load(url)
   .error(R.drawable.error)
   .into(view);
@@ -57,7 +53,7 @@ GlideApp.with(fragment)
 Or:
 
 ```java
-GlideApp.with(fragment)
+Glide.with(fragment)
   .load(url)
   .error(new ColorDrawable(Color.RED))
   .into(view);
@@ -70,7 +66,7 @@ GlideApp.with(fragment)
 使用 [generated API][4]：
 
 ```java
-GlideApp.with(fragment)
+Glide.with(fragment)
   .load(url)
   .fallback(R.drawable.fallback)
   .into(view);
@@ -79,7 +75,7 @@ GlideApp.with(fragment)
 Or:
 
 ```java
-GlideApp.with(fragment)
+Glide.with(fragment)
   .load(url)
   .fallback(new ColorDrawable(Color.GREY))
   .into(view);
@@ -101,4 +97,3 @@ No。Transformation仅被应用于被请求的资源，而不会对任何占位�
 [1]: {{ site.baseurl }}/javadocs/400/com/bumptech/glide/request/RequestOptions.html#placeholder-int-
 [2]: {{ site.baseurl }}/javadocs/400/com/bumptech/glide/request/RequestOptions.html#error-int-
 [3]: {{ site.baseurl }}/javadocs/400/com/bumptech/glide/request/RequestOptions.html#fallback-int-
-[4]: generatedapi.html

@@ -24,7 +24,7 @@ translators: [Muyangmin, vincgao]
 
 ```groovy
 dependencies {
-  implementation ("com.github.bumptech.glide:glide:4.8.0") {
+  implementation ("com.github.bumptech.glide:glide:4.9.0") {
     exclude group: "com.android.support"
   }
   implementation "com.android.support:support-fragment:26.1.0"
@@ -60,8 +60,8 @@ repositories {
 }
 
 dependencies {
-    compile 'com.github.bumptech.glide:glide:4.8.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
+    compile 'com.github.bumptech.glide:glide:4.9.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
 }
 ```
 
@@ -69,7 +69,7 @@ dependencies {
 
 ```groovy
 dependencies {
-    implementation ("com.github.bumptech.glide:glide:4.8.0@aar") {
+    implementation ("com.github.bumptech.glide:glide:4.9.0@aar") {
         transitive = true
     }
 }
@@ -101,7 +101,7 @@ java.lang.NoClassDefFoundError: com.bumptech.glide.load.resource.gif.GifBitmapPr
 <dependency>
   <groupId>com.github.bumptech.glide</groupId>
   <artifactId>glide</artifactId>
-  <version>4.8.0</version>
+  <version>4.9.0</version>
   <type>aar</type>
 </dependency>
 <dependency>
@@ -112,7 +112,7 @@ java.lang.NoClassDefFoundError: com.bumptech.glide.load.resource.gif.GifBitmapPr
 <dependency>
   <groupId>com.github.bumptech.glide</groupId>
   <artifactId>compiler</artifactId>
-  <version>4.8.0</version>
+  <version>4.9.0</version>
   <optional>true</optional>
 </dependency>
 ```
@@ -236,7 +236,7 @@ Glide 本身没有使用，也不要求你使用 Java 8 来编译或在你项目
 
 ```groovy
 dependencies {
-  kapt 'com.github.bumptech.glide:compiler:4.8.0'
+  kapt 'com.github.bumptech.glide:compiler:4.9.0'
 }
 ```
 

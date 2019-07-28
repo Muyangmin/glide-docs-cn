@@ -84,15 +84,6 @@ Glide v4 里的 [``Transformations``][28] 现在会替换之前设置的任何�
 ```java
 Glide.with(fragment)
   .load(url)
-  .apply(new RequestOptions().transforms(new CenterCrop(), new RoundedCorners(20)))
-  .into(target);
-```
-
-或使用 [generated API][24]:
-
-```java
-GlideApp.with(fragment)
-  .load(url)
   .transforms(new CenterCrop(), new RoundedCorners(20))
   .into(target);
 ```
@@ -167,32 +158,6 @@ Glide.with(fragment)
 ### Generated API
 
 为了让使用 Glide v4 更简单轻松，Glide 现在也提供了一套可以为应用定制化生成的 API。应用可以通过包含一个标记了 [``AppGlideModule``][[2] 的实现来访问生成的 API。如果你不了解这是怎么工作的，可以查看 [Generated API][11] 。
-
-Generated API添加了一个 ``GlideApp`` 类，该类提供了对 ``RequestBuilder`` 和 ``RequestOptions`` 子类的访问。``RequestOptions`` 的子类包含了所有 ``RequestOptions`` 中的方法，以及 [``GlideExtensions``][12] 中定义的方法。``RequestBuilder`` 的子类则提供了生成的 ``RequestOptions`` 中所有方法的访问，而不需要你再手动调用 ``apply`` 。举个例子：
-
-在没有使用 Generated API 时，请求大概长这样：
-
-```java
-Glide.with(fragment)
-    .load(url)
-    .apply(centerCropTransform()
-        .placeholder(R.drawable.placeholder)
-        .error(R.drawable.error)
-        .priority(Priority.HIGH))
-    .into(imageView);
-```
-
-使用 Generated API，``RequestOptions`` 的调用可以被内联：
-
-```java
-GlideApp.with(fragment)
-    .load(url)
-    .centerCrop()
-    .placeholder(R.drawable.placeholder)
-    .error(R.drawable.error)
-    .priority(Priority.HIGH)
-    .into(imageView);
-```
 
 你仍然可以使用生成的 ``RequestOptions`` 子类来应用相同的选项到多次加载中；但生成的 ``RequestBuilder`` 子类可能在多数情况下更为方便。
 

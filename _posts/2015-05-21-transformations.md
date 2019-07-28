@@ -31,6 +31,15 @@ Glide 提供了很多内置的变换，包括：
 #### 默认变换
 
 ```java
+Glide.with(fragment)
+  .load(url)
+  .fitCenter()
+  .into(imageView);
+```
+
+或使用 `RequestOptions` ：
+
+```java
 RequestOptions options = new RequestOptions();
 options.centerCrop();
 
@@ -40,35 +49,13 @@ Glide.with(fragment)
     .into(imageView);
 ```
 
-大多数内置的变换都有静态的 import ，这是为 API 的流畅性考虑的。例如，你可以通过静态方法应用一个 [FitCenter][2] 变换：
-
-```java
-import static com.bumptech.glide.request.RequestOptions.fitCenterTransform;
-
-Glide.with(fragment)
-    .load(url)
-    .apply(fitCenterTransform())
-    .into(imageView);
-```
-
-如果你正在使用 [Generated API][16] ，那么这些变换方法已经被内联了，所以使用起来甚至更为轻松：
-
-```java
-GlideApp.with(fragment)
-  .load(url)
-  .fitCenter()
-  .into(imageView);
-```
-
 可以查阅 [Options][3] 页来获得更多 `RequestOption` 的相关信息。
 
 #### 多重变换
 
 默认情况下，每个 [``transform()``][17] 调用，或任何特定转换方法(``fitCenter()``, ``centerCrop()``, ``bitmapTransform()`` etc)的调用都会替换掉之前的变换。
 
-如果你想在单次加载中应用多个变换，请使用 [``MultiTransformation``][18] 类。
-
-使用 [generated API][16]:
+如果你想在单次加载中应用多个变换，请使用 [``MultiTransformation``][18] 类，或其快捷方法  [``.transforms()``][19] 。
 
 ```java
 Glide.with(fragment)
@@ -76,12 +63,12 @@ Glide.with(fragment)
   .transform(new MultiTransformation(new FitCenter(), new YourCustomTransformation())
   .into(imageView);
 ```
-或结合使用快捷方法和 [generated API][16]：
+或使用快捷方法：
 
 ```java
-GlideApp.with(fragment)
+Glide.with(fragment)
   .load(url)
-  .transforms(new FitCenter(), new YourCustomTransformation())
+  .transform(new FitCenter(), new YourCustomTransformation())
   .into(imageView);
 ```
 

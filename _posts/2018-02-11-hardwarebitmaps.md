@@ -24,24 +24,12 @@ disqus: 1
 未来 Glide 将默认加载硬件位图而不需要额外的启用配置，只保留禁用的选项。
 
 ### 如何禁用硬件位图?
-如果你需要禁用硬件位图，你应当仅在以下的一些缓慢的或根本不可用 (broken) 的情况下才尝试去做。你可以使用 [`disallowHardwareConfig()`][5] 来为一个特定的请求禁用硬件位图。
-
-如果你在使用 generated API：
+如果你需要禁用硬件位图，你应当仅在以下的一些缓慢的或根本不可用 (broken) 的情况下才尝试去做。你可以使用 [`disallowHardwareConfig()`][5] 来为一个特定的请求禁用硬件位图：
 
 ```java
-GlideApp.with(fragment)
-  .load(url)
-  .disallowHardwareConfig()
-  .into(imageView);
-```
-
-或直接使用 `RequestOptions`:
-
-```java
-RequestOptions options = new RequestOptions().disallowHardwareConfig();
 Glide.with(fragment)
   .load(url)
-  .apply(options)
+  .disallowHardwareConfig()
   .into(imageView);
 ```
 

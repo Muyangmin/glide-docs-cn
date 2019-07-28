@@ -48,7 +48,21 @@ Glide 的默认交叉淡入(cross fade)效果使用了 [``TransitionDrawable``][
 
 在 Glide 中，我们默认禁用了交叉淡入，这样通常看起来要好看一些。实际的交叉淡入，如上所述对两个图片同时改变 alpha 值，通常会在过渡的中间造成一个短暂的白色闪屏，这个时候两个图片都是部分不透明的。
 
-不幸的是，虽然禁用交叉淡入通常是一个比较好的默认行为，当待加载的图片包含透明像素时仍然可能造成问题。当占位符比实际加载的图片要大，或者图片部分为透明时，禁用交叉淡入会导致动画完成后占位符在图片后面仍然可见。如果你在加载透明图片时使用了占位符，你可以启用交叉淡入，具体办法是调整 [``DrawableCrossFadeFactory``][10] 里的参数并将结果传到 [``transition()``][11] 中。
+不幸的是，虽然禁用交叉淡入通常是一个比较好的默认行为，当待加载的图片包含透明像素时仍然可能造成问题。当占位符比实际加载的图片要大，或者图片部分为透明时，禁用交叉淡入会导致动画完成后占位符在图片后面仍然可见。如果你在加载透明图片时使用了占位符，你可以启用交叉淡入，具体办法是调整 [``DrawableCrossFadeFactory``][10] 里的参数并将结果传到 [``transition()``][11] 中：
+
+```java
+DrawableCrossFadeFactory factory =
+        new DrawableCrossFadeFactory.Builder().setCrossFadeEnabled(true).build();
+
+GlideApp.with(context)
+        .load(url)
+        .transition(withCrossFade(factory))
+        .diskCacheStrategy(DiskCacheStrategy.ALL)
+        .placeholder(R.color.placeholder)
+        .into(imageView);
+```
+
+更多信息参见 [Issue #2017](https://github.com/bumptech/glide/issues/2017)。感谢 @minas90 编写以上的示例代码。
 
 #### 在多个请求间交叉淡入
 [``Transitions``][1] 并不能让你在不同请求中加载的两个图像之间做过渡。当新的加载被应用到 View 或 Target (查看 [Target的文档][19] )上时，Glide 默认会取消任何已经存在的请求。因此，如果你想加载连个个不同的图片并在它们之间做动画，你无法直接通过 Glide 来完成。等待第一个加载完成并在 View 外持有这个 Bitmap 或 Drawable ，然后开始新的加载并手动在这两者之间做动画，诸如此类的策略看起来有效，但是实际上不安全，并可能导致程序崩溃或图像错误。

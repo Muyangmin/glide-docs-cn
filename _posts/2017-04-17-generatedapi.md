@@ -15,7 +15,7 @@ translators: [Muyangmin, vincgao]
 
 ### 简介
 
-Glide v4 使用 [注解处理器 (Annotation Processor)][1] 来生成出一个 API，在 Application 模块中可使用该流式 API 一次性调用到 [``RequestBuilder``][2]， [``RequestOptions``][3] 和集成库中所有的选项。
+Glide v4 使用 [注解处理器 (Annotation Processor)][1] 来生成出一个 API，它允许应用扩展 Glide 的 API并包含各种集成库提供的组件。
 
 Generated API 模式的设计出于以下两个目的：
 1. 集成库可以为 Generated API 扩展自定义选项。
@@ -41,7 +41,7 @@ Generated API 目前仅可以在 Application 模块内使用。这一限制可�
    }
 
    dependencies {
-     annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
+     annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
    }
    ```
 
@@ -75,7 +75,7 @@ Generated API 目前仅可以在 Application 模块内使用。这一限制可�
 
    ```groovy
    dependencies {
-     kapt 'com.github.bumptech.glide:compiler:4.8.0'
+     kapt 'com.github.bumptech.glide:compiler:4.9.0'
    }
    ```
    注意，你还需要在你的 ``build.gradle`` 文件中包含 ``kotlin-kapt`` 插件：
@@ -89,7 +89,7 @@ Generated API 目前仅可以在 Application 模块内使用。这一限制可�
    ```groovy
    dependencies {
      kapt "android.arch.lifecycle:compiler:1.0.0"
-     kapt 'com.github.bumptech.glide:compiler:4.8.0'
+     kapt 'com.github.bumptech.glide:compiler:4.9.0'
    }
    ```
 
@@ -148,9 +148,10 @@ public class MyAppExtension {
 
   private MyAppExtension() { } // utility class
 
+  @NonNull
   @GlideOption
-  public static void miniThumb(RequestOptions options) {
-    options
+  public static BaseRequestOptions<?> miniThumb(BaseRequestOptions<?> options) {
+    return options
       .fitCenter()
       .override(MINI_THUMB_SIZE);
   }
@@ -162,7 +163,7 @@ public class MyAppExtension {
 public class GlideOptions extends RequestOptions {
   
   public GlideOptions miniThumb() {
-    MyAppExtension.miniThumb(this);
+    return (GlideOptions) MyAppExtension.miniThumb(this);
   }
 
   ...
@@ -173,8 +174,8 @@ public class GlideOptions extends RequestOptions {
 
 ```java
 @GlideOption
-public static void miniThumb(RequestOptions options, int size) {
-  options
+public static BaseRequestOptions<?> miniThumb(BaseRequestOptions<?> options, int size) {
+  return options
     .fitCenter()
     .override(size);
 }
@@ -184,7 +185,7 @@ public static void miniThumb(RequestOptions options, int size) {
 
 ```java
 public GlideOptions miniThumb(int size) {
-  MyAppExtension.miniThumb(this);
+  return (GlideOptions) MyAppExtension.miniThumb(this);
 }
 ```
 
@@ -197,7 +198,7 @@ GlideApp.with(fragment)
    .into(imageView);
 ```
 
-使用 ``@GlideOption`` 标记的方法应该为静态方法，并且返回值为空。请注意，这些生成的方法在一般的 ``Glide`` 和 ``RequestOptions`` 类里不可用。
+使用 ``@GlideOption`` 标记的方法应该为静态方法，并且返回值为 `BaseRequestOptions<?>`。请注意，这些生成的方法在标准的 ``Glide`` 和 ``RequestOptions`` 类里不可用，只存在于生成的等效类中。
 
 #### GlideType
 
@@ -210,9 +211,10 @@ GlideApp.with(fragment)
 public class MyAppExtension {
   private static final RequestOptions DECODE_TYPE_GIF = decodeTypeOf(GifDrawable.class).lock();
 
+  @NonNull
   @GlideType(GifDrawable.class)
-  public static void asGif(RequestBuilder<GifDrawable> requestBuilder) {
-    requestBuilder
+  public static RequestBuilder<GifDrwable> asGif(RequestBuilder<GifDrawable> requestBuilder) {
+    return requestBuilder
       .transition(new DrawableTransitionOptions())
       .apply(DECODE_TYPE_GIF);
   }
@@ -224,10 +226,8 @@ public class MyAppExtension {
 ```java
 public class GlideRequests extends RequesetManager {
 
-  public RequestBuilder<GifDrawable> asGif() {
-    RequestBuilder<GifDrawable> builder = as(GifDrawable.class);
-    MyAppExtension.asGif(builder);
-    return builder;
+  public GlideRequest<GifDrawable> asGif() {
+    return (GlideRequest<GifDrawable> MyAppExtension.asGif(this.as(GifDrawable.class));
   }
   
   ...
@@ -243,7 +243,7 @@ GlideApp.with(fragment)
   .into(imageView);
 ```
 
-被 ``@GlideType`` 标记的方法必须使用 [``RequestBuilder<T>``][2] 作为其第一个参数，这里的泛型 ``<T>`` 对应 [``@GlideType``][8] 注解中传入的类。该方法应为静态方法，且返回值为空。方法必须定义在一个被 [``@GlideExtension``][6] 注解标记的类中。
+被 ``@GlideType`` 标记的方法必须使用 [``RequestBuilder<T>``][2] 作为其第一个参数，这里的泛型 ``<T>`` 对应 [``@GlideType``][8] 注解中传入的类。该方法应为静态方法，且返回值为 `RequestBuilder<T>` 。方法必须定义在一个被 [``@GlideExtension``][6] 注解标记的类中。
 
 
 [1]: https://docs.oracle.com/javase/8/docs/api/javax/annotation/processing/Processor.html

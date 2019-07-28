@@ -10,9 +10,7 @@ order: 1
 原文链接：[点击查看](http://bumptech.github.io/glide/dev/snapshots.html){:target="_blank"}
 
 ## 关于快照(Snapshots)
-对于那些等不了 Glide 的下一个稳定版的用户【注】，我们在 [Sonatype's snapshot repo][2] 部署了 Glide 库的快照版本。  
-> 原文"willing to live on the bleeding edge" --译者注
-
+对于那些等不了 Glide 的下一个稳定版的用户，我们在 [Sonatype's snapshot repo][2] 部署了 Glide 库的快照版本。  
 
 在每次 push 到 GitHub 的 master 分支上后，Glide 会通过 [travis-ci][1] 构建。如果构建成功，我们将自动部署最新版本的库到 Sonatype 上。
 
@@ -42,8 +40,8 @@ repositories {
 
 ```gradle
 dependencies {
-  compile 'com.github.bumptech.glide:glide:4.9.0-SNAPSHOT'
-  compile 'com.github.bumptech.glide:okhttp-integration:4.9.0-SNAPSHOT'
+  compile 'com.github.bumptech.glide:glide:4.10.0-SNAPSHOT'
+  compile 'com.github.bumptech.glide:okhttp-integration:4.10.0-SNAPSHOT'
 }
 ```
 
@@ -75,12 +73,12 @@ dependencies {
 <dependency>
   <groupId>com.github.bumptech.glide</groupId>
   <artifactId>glide</artifactId>
-  <version>4.9.0-SNAPSHOT</version>
+  <version>4.10.0-SNAPSHOT</version>
 </dependency>
 <dependency>
   <groupId>com.github.bumptech.glide</groupId>
   <artifactId>okhttp-integration</artifactId>
-  <version>4.9.0-SNAPSHOT</version>
+  <version>4.10.0-SNAPSHOT</version>
 </dependency>
 ```
 

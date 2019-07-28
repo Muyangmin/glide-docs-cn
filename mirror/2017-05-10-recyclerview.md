@@ -21,7 +21,7 @@ Combined with the right image size and an effective disk cache strategy, this li
 To use the RecyclerView integration library, add a dependency on it in your ``build.gradle`` file:
 
 ```groovy
-compile ("com.github.bumptech.glide:recyclerview-integration:4.8.0") {
+compile ("com.github.bumptech.glide:recyclerview-integration:4.9.0") {
   // Excludes the support library because it's already included by Glide.
   transitive = false
 }
@@ -83,7 +83,7 @@ public void onBindViewHolder(ViewHolder viewHolder, int position) {
   ImageView imageView = ((MyViewHolder) viewHolder).imageView;
   String currentUrl = myUrls.get(position);
 
-  GlideApp.with(fragment)
+  Glide.with(fragment)
     .load(currentUrl)
     .override(imageWidthPixels, imageHeightPixels)
     .into(imageView);
@@ -112,7 +112,7 @@ private class MyPreloadModelProvider implements PreloadModelProvider {
   @Nullable
   RequestBuilder getPreloadRequestBuilder(String url) {
     return 
-      GlideApp.with(fragment)
+      Glide.with(fragment)
         .load(url) 
         .override(imageWidthPixels, imageHeightPixels);
   }
@@ -217,7 +217,7 @@ public final class ImagesFragment extends Fragment {
     @Nullable
     public RequestBuilder getPreloadRequestBuilder(String url) {
       return 
-        GlideApp.with(fragment)
+        Glide.with(fragment)
           .load(url) 
           .override(imageWidthPixels, imageHeightPixels);
     }

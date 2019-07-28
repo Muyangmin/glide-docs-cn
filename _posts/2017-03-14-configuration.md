@@ -13,10 +13,18 @@ disqus: 1
 {:toc}
 
 ### 设置
-为了让 Glide 正常工作，库和应用程序需要做一些固定的步骤。不过，假如你的库不希望注册额外的组件，则这些初始化不是必须的。
+从 Glide 4.9.0 开始，在某些情形下必须完成必要的设置 (`setup`)。
+
+对于应用程序（application），仅当以下情形时才需要做设置：
+
+* 使用一个或更多集成库
+* 修改 Glide 的配置(`configuration`)（磁盘缓存大小/位置，内存缓存大小等）
+* 扩展 Glide 的API。
+
+对于库（library），仅当库需要注册一个或多个组件时才需要做设置。
 
 #### 应用程序
-应用程序(Applications)需要：
+应用程序(Applications)如果希望使用集成库和/或 Glide 的 API 扩展，则需要：
 1. 恰当地添加一个 [``AppGlideModule``][1] 实现。
 2. (可选)添加一个或多个 [``LibraryGlideModule``][2] 实现。
 3. 给上述两种实现添加 [``@GlideModule``][5] 注解。
@@ -36,8 +44,8 @@ public class FlickrGlideModule extends AppGlideModule {
 
 请注意添加对 Glide 的注解和注解解析器的依赖：
 ```groovy
-compile 'com.github.bumptech.glide:annotations:4.8.0'
-annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
+compile 'com.github.bumptech.glide:annotations:4.9.0'
+annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
 ```
 
 最后，你应该在你的 ``proguard.cfg`` 中 keep 住你的 AppGlideModule 实现：
@@ -70,7 +78,7 @@ public final class OkHttpLibraryGlideModule extends LibraryGlideModule {
 使用 [``GlideModule``][5] 注解需要使用 Glide 注解的依赖：
 
 ```groovy
-compile 'com.github.bumptech.glide:annotations:4.8.0'
+compile 'com.github.bumptech.glide:annotations:4.9.0'
 ```
 
 ##### 避免在程序库中使用 AppGlideModule
@@ -78,7 +86,7 @@ compile 'com.github.bumptech.glide:annotations:4.8.0'
  
 此外，如果两个程序库都包含 ``AppGlideModule``，应用程序将无法在同时依赖两个库的情况下通过编译，而不得不在二者之中做出取舍。
 
-这确实意味着程序库将无法使用 Glide 的 generated API，但是使用 ``RequestOptions`` 加载仍然有效（可以在 [选项][42] 页找到例子）。
+这确实意味着程序库将无法使用 Glide 的 generated API，但是使标准的 `RequestBuilder` 和 `RequestOptions` 加载仍然有效（可以在 [选项][42] 页找到例子）。
 
 
 ### 应用程序选项
@@ -376,7 +384,7 @@ public class YourAppGlideModule extends AppGlideModule {
 Glide v4 依赖于两种类，[``AppGlideModule``][1] 与 [``LibraryGlideModule``][2] ，以配置 Glide 单例。这两种类都允许用于注册额外的组件，例如 [``ModelLoaders``][3] , [``ResourceDecoders``][4] 等。但只有 [``AppGlideModule``][1] 被允许配置应用特定的设置项，比如缓存实现和缓存大小。
 
 #### AppGlideModule
-所有应用都必须添加一个 [``AppGlideModule``][1] 实现，即使应用并没有改变任何附加设置项，也没有实现 [``AppGlideModule``][1] 中的任何方法。 [``AppGlideModule``][1] 实现是一个信号，它会让 Glide 的注解解析器生成一个单一的所有已发现的 [``LibraryGlideModules``][2] 的联合类。
+如果应用希望实现  [``AppGlideModule``][1]  的任意方法或使用集成库，则可以添加一个 [``AppGlideModule``][1] 实现。 [``AppGlideModule``][1] 实现是一个信号，它会让 Glide 的注解解析器生成一个单一的所有已发现的 [``LibraryGlideModules``][2] 的联合类。
  
 对于一个特定的应用，只能存在一个 [``AppGlideModule``][1] 实现（超过一个会在编译时报错）。因此，程序库不能提供 [``AppGlideModule``][1] 实现。
 

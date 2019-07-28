@@ -56,6 +56,41 @@ GlideApp.with(fragment)
 
 可以访问 Glide 的 [generated API][7] 页面来获得更多信息。 
 
+### 定制请求
+Glide 提供了许多可应用于单一请求的选项，包括变换、过渡、缓存选项等。
+
+默认选项可以直接应用于请求上：
+
+```java
+Glide.with(fragment)
+  .load(myUrl)
+  .placeholder(placeholder)
+  .fitCenter()
+  .into(imageView);
+```
+
+选项也可以通过 `RequestOptions` 类来在多个请求之间共享：
+
+```java
+RequestOptions sharedOptions = 
+    new RequestOptions()
+      .placeholder(placeholder)
+      .fitCenter();
+
+Glide.with(fragment)
+  .load(myUrl)
+  .apply(sharedOptions)
+  .into(imageView1);
+
+Glide.with(fragment)
+  .load(myUrl)
+  .apply(sharedOptions)
+  .into(imageView2);
+```
+
+对于更高级的使用场景，通过使用 Glide 的 [generated API][7]，Glide 的 API 还可以被更深度地定制以包含自定义的选项。
+
+
 ### 在 ListView 和 RecyclerView 中的使用
 
 在 ListView 或 RecyclerView 中加载图片的代码和在单独的 View 中加载完全一样。Glide 已经自动处理了 View 的复用和请求的取消：
@@ -99,10 +134,16 @@ public void onBindViewHolder(ViewHolder holder, int position) {
 ```java
 Glide.with(context
   .load(url)
-  .into(new SimpleTarget<Drawable>() {
+  .into(new CustomTarget<Drawable>() {
     @Override
     public void onResourceReady(Drawable resource, Transition<Drawable> transition) {
       // Do something with the Drawable here.
+    }
+
+    @Override
+    public void onLoadCleared(@Nullable Drawable placeholder) {
+      // Remove the Drawable provided in onResourceReady from any Views and ensure 
+      // no references to it remain.
     }
   });
 ```

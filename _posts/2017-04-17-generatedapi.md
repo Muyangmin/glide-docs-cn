@@ -41,7 +41,7 @@ Generated API 目前仅可以在 Application 模块内使用。这一限制可�
    }
 
    dependencies {
-     annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
+     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
    }
    ```
 
@@ -75,7 +75,7 @@ Generated API 目前仅可以在 Application 模块内使用。这一限制可�
 
    ```groovy
    dependencies {
-     kapt 'com.github.bumptech.glide:compiler:4.9.0'
+     kapt 'com.github.bumptech.glide:compiler:4.11.0'
    }
    ```
    注意，你还需要在你的 ``build.gradle`` 文件中包含 ``kotlin-kapt`` 插件：
@@ -89,7 +89,7 @@ Generated API 目前仅可以在 Application 模块内使用。这一限制可�
    ```groovy
    dependencies {
      kapt "android.arch.lifecycle:compiler:1.0.0"
-     kapt 'com.github.bumptech.glide:compiler:4.9.0'
+     kapt 'com.github.bumptech.glide:compiler:4.11.0'
    }
    ```
 

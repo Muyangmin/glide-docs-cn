@@ -17,7 +17,7 @@ RecyclerView 集成库使你在你的应用中能够使用 [``RecyclerViewPreloa
 ### Gradle 依赖
 要使用 RecyclerView 集成库，在你的 ``build.gradle`` 文件中添加一个依赖：
 ```groovy
-compile ("com.github.bumptech.glide:recyclerview-integration:4.9.0") {
+compile ("com.github.bumptech.glide:recyclerview-integration:4.11.0") {
   // Excludes the support library because it's already included by Glide.
   transitive = false
 }

@@ -40,8 +40,8 @@ repositories {
 
 ```gradle
 dependencies {
-  compile 'com.github.bumptech.glide:glide:4.10.0-SNAPSHOT'
-  compile 'com.github.bumptech.glide:okhttp-integration:4.10.0-SNAPSHOT'
+  compile 'com.github.bumptech.glide:glide:4.12.0-SNAPSHOT'
+  compile 'com.github.bumptech.glide:okhttp-integration:4.12.0-SNAPSHOT'
 }
 ```
 
@@ -73,12 +73,12 @@ dependencies {
 <dependency>
   <groupId>com.github.bumptech.glide</groupId>
   <artifactId>glide</artifactId>
-  <version>4.10.0-SNAPSHOT</version>
+  <version>4.12.0-SNAPSHOT</version>
 </dependency>
 <dependency>
   <groupId>com.github.bumptech.glide</groupId>
   <artifactId>okhttp-integration</artifactId>
-  <version>4.10.0-SNAPSHOT</version>
+  <version>4.12.0-SNAPSHOT</version>
 </dependency>
 ```
 

@@ -103,7 +103,7 @@ public void applyOptions(Context context, GlideBuilder builder) {
 对于绝对要求将多个资源加载到相同 [``View``][4] 的用户，可以使用两个单独的 [``Target``][2]。为确保每个加载都不会取消另一个，用户还需要避免使用 [``ViewTarget``][15] 子类，或使用一个自定义的 [``ViewTarget``] 子类并复写(override)其 [``setRequest()``][16] 和 [``getRequest()``][17] 以使得它们不使用 [``View``][4] 的 tag 来存储 [``Request``][18]。这属于高级用法，一般不推荐。
 
 #### 往Target中加载资源，清除或重用Target，并继续引用该资源
-最简单的比较这个错误的办法是确保所有对资源的引用都在 [``onLoadCleared()``][6] 调用时置空。通常，加载一个 ``Bitmap`` 然后对 ``Target`` 解引用，并且不要再次调用 [``into()``][1] 或 [``clear()``][3]，这样是安全的。然而，加载了一个 ``Bitmap``，清除这个 ``Target``，并在之后继续持有 ``Bitmap`` 引用是不安全的。类似地，加载资源到一个 ``View`` 上然后从 View 中获取这个资源 (通过 ``getImageDrawable()`` 或任何其他手段)，并在其他某个地方继续引用它，也是不安全的。
+最简单的避免这个错误的办法是确保所有对资源的引用都在 [``onLoadCleared()``][6] 调用时置空。通常，加载一个 ``Bitmap`` 然后对 ``Target`` 解引用，并且不要再次调用 [``into()``][1] 或 [``clear()``][3]，这样是安全的。然而，加载了一个 ``Bitmap``，清除这个 ``Target``，并在之后继续持有 ``Bitmap`` 引用是不安全的。类似地，加载资源到一个 ``View`` 上然后从 View 中获取这个资源 (通过 ``getImageDrawable()`` 或任何其他手段)，并在其他某个地方继续引用它，也是不安全的。
 
 
 #### 在 ``Transformation<Bitmap>`` 中回收原始Bitmap
